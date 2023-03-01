@@ -1,0 +1,29 @@
+abstract: A study dashboard for AI-READI projects
+authors:
+  - affiliation: OHSU Knight Cancer Institute
+    email: cordier@ohsu.edu
+    family-names: Cordier
+    given-names: Benjamin
+  - affiliation: OHSU Knight Cancer Institute
+    email: mcweeney@ohsu.edu
+    family-names: McWeeney
+    given-names: Shannon
+cff-version: 1.2.0
+date-released: "2022-02-28"
+identifiers:
+  - description: DOI for this software's record on Zenodo
+    type: doi
+    value:
+keywords:
+  - AI-READI
+  - dashboard
+  - analytics
+  - project
+license: MIT
+message: If you use this software, please cite it as below.
+repository-artifact: https://github.com/AI-READI/study-dashboard
+repository-code: https://github.com/AI-READI/study-dashboard
+title: AI-READI Study Dashboard
+type: software
+url: https://aireadi.org/
+version: 0.0.1

@@ -1,0 +1,71 @@
+{
+	"title": "Study Dashboard",
+	"api": {
+		"name": "REDCap",
+		"domain": "",
+		"version": "",
+		"query": ""
+	},
+	"modules": {
+		"overview": {
+			"subtitle": "Overview",
+			"visualization": {
+				"name": "overview",
+				"width": 1080,
+				"height": 600,
+				"simulate": true,
+				"simulation": {
+
+				}
+			}
+		},
+		"demographics": {
+			"subtitle": "Demographics",
+			"visualization": {
+				"name": "demographics",
+				"width": 1080,
+				"height": 600,
+				"simulate": true,
+				"simulation": {
+
+				}
+			}
+		},
+		"recruitment": {
+			"subtitle": "Recruitment",
+			"visualization": {
+				"name": "recruitment",
+				"width": 1080,
+				"height": 600,
+				"simulate": true,
+				"simulation": {
+
+				}
+			}
+		},
+		"participants": {
+			"subtitle": "Participants",
+			"visualization": {
+				"name": "participants",
+				"width": 1080,
+				"height": 600,
+				"simulate": true,
+				"simulation": {
+
+				}
+			}
+		},
+		"sites": {
+			"subtitle": "Sites",
+			"visualization": {
+				"name": "sites",
+				"width": 1080,
+				"height": 600,
+				"simulate": true,
+				"simulation": {
+
+				}
+			}
+		}
+	}
+}

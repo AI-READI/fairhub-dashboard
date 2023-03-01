@@ -1,0 +1,22 @@
+{
+	"fields": [
+		{
+			"name": "date",
+			"type": "datetime",
+			"args": {
+				"min": "",
+				"max": "",
+				"distribution": ""
+			}
+		},
+		{
+			"name": "gender",
+			"type": "numeric",
+			"args": {
+				"min": 0,
+				"max": 1,
+				"distribution": "binomial"
+			}
+		}
+	]
+}

@@ -1,0 +1,57 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "license": "https://spdx.org/licenses/MIT",
+    "codeRepository": "https://github.com/AI-READI/study-dashboard",
+    "dateCreated": "2023-02-28",
+    "dateModified": "2023-02-28",
+    "downloadUrl": "https://github.com/AI-READI/study-dashboard",
+    "issueTracker": "https://github.com/AI-READI/study-dashboard/issues",
+    "name": "AI-READI Study Dashboard",
+    "version": "0.0.1",
+    "identifier": "",
+    "description": "A study dashboard for AI-READI projects",
+    "applicationCategory": "Scientific",
+    "funding": "1OT2OD032644",
+    "developmentStatus": "active",
+    "isPartOf": "https://aireadi.org/",
+    "funder": {
+        "@type": "Organization",
+        "@name": "National Institutes of Health (NIH)"
+    },
+    "keywords": [
+        "AI-READI",
+        "analytics",
+        "dashboard",
+        "project"
+    ],
+    "programmingLanguage": [
+        "JavaScript",
+        "CSS"
+    ],
+    "relatedLink": [
+        "https://github.com/AI-READI"
+    ],
+    "author": [
+        {
+            "@type": "Person",
+            "givenName": "Benjamin",
+            "familyName": "Cordier",
+            "email": "cordier@ohsu.edu",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "OHSU Knight Cancer Institute"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Shannon",
+            "familyName": "McWeeney",
+            "email": "mcweeney@ohsu.edu",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "OHSU Knight Cancer Institute"
+            }
+        }
+    ]
+}
