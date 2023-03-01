@@ -26,15 +26,7 @@
 
 ## **Related Resources**
 
-* [Fairhub.io overview](https://docs.google.com/document/d/1q93FIk1Q_LEurr-tmNKj74puRAdAMnOzAg48Ox81IS4/edit)
-* [Fairhub.io API](https://github.com/AI-READI/api.fairhub.io) 
-* [Fairhub.io Development Stack](https://github.com/AI-READI/dev.fairhub.io/blob/6b90a11e30e3feaa7c8c308a4214e9bd2cc487e6/docs/fairhub/techstack.md)
-* [AI-READI GitHub](https://github.com/AI-READI)
-* [AI-READI Software Development Best Practices](https://github.com/AI-READI/software-development-best-practices)
-* [Variable List](https://docs.google.com/spreadsheets/d/1mGUzsnB0lIMVLGHPphf9uhNhMLbSR0Uk/edit#gid=1042135600)
-* [Data Dictionary](https://docs.google.com/spreadsheets/d/1mpYHXPpkNHHVIY5JSR8oa4XakTfNha9U/edit#gid=329802485)
-* [Lab assays and reference ranges](https://docs.google.com/document/d/1CB2y1uJ2DHF1Pka5vrSSxQv3yptsKoXrzghlqelyV9k/edit)
-
+See associated Google doc.
 
 ## **Functional Requirements**
 

@@ -13,17 +13,17 @@ A dashboard to provide insights around multi-site study recruitment, onboarding,
 <br />
 
 <p>
-  <a href="https://github.com/AI-READI/study-dashboard/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/AI-READI/study-dashboard.svg?style=flat-square" alt="contributors" />
+  <a href="https://github.com/AI-READI/fairhub.io-dashboard/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/AI-READI/fairhub.io-dashboard.svg?style=flat-square" alt="contributors" />
   </a>
-  <a href="https://github.com/AI-READI/study-dashboard/stargazers">
-    <img src="https://img.shields.io/github/stars/AI-READI/study-dashboard.svg?style=flat-square" alt="stars" />
+  <a href="https://github.com/AI-READI/fairhub.io-dashboard/stargazers">
+    <img src="https://img.shields.io/github/stars/AI-READI/fairhub.io-dashboard.svg?style=flat-square" alt="stars" />
   </a>
-  <a href="https://github.com/AI-READI/study-dashboard/issues/">
-    <img src="https://img.shields.io/github/issues/AI-READI/study-dashboard.svg?style=flat-square" alt="open issues" />
+  <a href="https://github.com/AI-READI/fairhub.io-dashboard/issues/">
+    <img src="https://img.shields.io/github/issues/AI-READI/fairhub.io-dashboard.svg?style=flat-square" alt="open issues" />
   </a>
-  <a href="https://github.com/AI-READI/study-dashboard/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/AI-READI/study-dashboard.svg?style=flat-square" alt="license" />
+  <a href="https://github.com/AI-READI/fairhub.io-dashboard/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/AI-READI/fairhub.io-dashboard.svg?style=flat-square" alt="license" />
   </a>
   <a href="https://doi.org/10.5281/zenodo.6407300">
     <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6407300.svg" alt="doi" />
@@ -40,7 +40,7 @@ A dashboard to provide insights around multi-site study recruitment, onboarding,
   <span> · </span>
     <a href="#">Changelog</a>
   <span> · </span>
-    <a href="https://github.com/AI-READI/study-dashboard/issues/">Report Bug</a>
+    <a href="https://github.com/AI-READI/fairhub.io-dashboard/issues/">Report Bug</a>
   <span> · </span>
     <a href="#">Request Feature</a>
   </h4>
@@ -52,7 +52,7 @@ A dashboard to provide insights around multi-site study recruitment, onboarding,
 
 ## Description
 
-This project centers on a dashboard to provide insights around multi-site study recruitment, onboarding, and participation. See [REQUIREMENTS.md](REQUIREMENTS.md) for an overview of the requirements and intended use cases. 
+A dashboard for Fairhub.io to provide insights around participant recruitment research studies. See [REQUIREMENTS.md](REQUIREMENTS.md) for an overview of the requirements and intended use cases.
 
 ## Getting started
 
@@ -70,8 +70,8 @@ This project centers on a dashboard to provide insights around multi-site study 
 
 ## Contributing
 
-<a href="https://github.com/AI-READI/study-dashboard/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=AI-READI/study-dashboard" />
+<a href="https://github.com/AI-READI/fairhub.io-dashboard/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AI-READI/fairhub.io-dashboard" />
 </a>
 
 Contributions are always welcome!
@@ -82,12 +82,12 @@ For any developmental standards to follow, add them directly to the [CONTRIBUTIN
 
 ## Issues and Feedback
 
-To report any issues with the software, suggest improvements, or request a new feature, please open a new issue via the [Issues](https://github.com/AI-READI/study-dashboard/issues) tab. Provide adequate information (operating system, steps leading to error, screenshots) so we can help you efficiently.
+To report any issues with the software, suggest improvements, or request a new feature, please open a new issue via the [Issues](https://github.com/AI-READI/fairhub.io-dashboard/issues) tab. Provide adequate information (operating system, steps leading to error, screenshots) so we can help you efficiently.
 
 ## License
 
 This work is licensed under
-[MIT](https://opensource.org/licenses/mit). See [LICENSE](https://github.com/AI-READI/study-dashboard/blob/main/LICENSE) for more information.
+[MIT](https://opensource.org/licenses/mit). See [LICENSE](https://github.com/AI-READI/fairhub.io-dashboard/blob/main/LICENSE) for more information.
 
 <a href="https://aireadi.org" >
   <img src="https://www.channelfutures.com/files/2017/04/3_0.png" height="30" />
