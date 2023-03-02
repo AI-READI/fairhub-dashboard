@@ -26,7 +26,7 @@ Setup
 
 <template>
   <h2>{{config.subtitle}}</h2>
-  <div class="visualization-container">
+  <div @click="OverviewModule.debug" class="visualization-container">
     <svg
       :id="config.visualization.name"
       :viewBox="`0 0 ${config.visualization.width} ${config.visualization.height}`"

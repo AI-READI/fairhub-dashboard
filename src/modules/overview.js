@@ -2,7 +2,8 @@
 Imports
 */
 
-import * as D3 from "d3";
+import * as d3 from "d3";
+import * as d3_sankey from "d3-sankey";
 import DataSimulator from "./data-simulator.js";
 
 /*
@@ -20,11 +21,73 @@ OverviewVisualization.prototype = {
   __init__ : function (config) {
     let self = this;
 
-    self.mode     = config.mode;
-    self.name     = config.name;
-    self.width    = config.width;
-    self.height   = config.height;
-    self.simulate = config.simulate;
+    self.name       = config.name;
+    self.width      = config.width;
+    self.height     = config.height;
+    self.simulate   = config.simulate;
+    self.simulation = config.simulation;
+
+    // Generate Sankey
+    self.data = {
+      edges: [
+        { id: "A1" },
+        { id: "A2" },
+        { id: "A3" },
+        { id: "A4" },
+        { id: "B1" },
+        { id: "B2" },
+        { id: "B3" },
+        { id: "C1" }
+      ],
+      links: [
+        { source: "A1", target: "B1", value: 27 },
+        { source: "A2", target: "B1", value: 19 },
+        { source: "A3", target: "B2", value: 18 },
+        { source: "A4", target: "B3", value: 3 },
+        { source: "B1", target: "C1", value: 46 },
+        { source: "B2", target: "C1", value: 17 },
+        { source: "B2", target: "B3", value: 1 }
+      ]
+    };
+
+    self.svg = d3.selectAll("#" + self.name);
+
+    self.graph = d3_sankey.sankey(self.data)
+      .size([self.width, self.height])
+      .nodeId(d => d.id)
+      .nodeWidth(20)
+      .nodePadding(10)
+      .nodeAlign(d3_sankey.sankeyCenter);
+
+    self.nodes = self.svg
+      .append("g")
+      .classed("nodes", true)
+      .selectAll("rect")
+      .data(self.graph.nodes)
+      .enter()
+      .append("rect")
+      .classed("node", true)
+      .attr("x", d => d.x0)
+      .attr("y", d => d.y0)
+      .attr("width", d => d.x1 - d.x0)
+      .attr("height", d => d.y1 - d.y0)
+      .attr("fill", "blue")
+      .attr("opacity", 0.8);
+
+    self.edges = self.svg
+      .append("g")
+      .classed("edges", true)
+      .selectAll("path")
+      .data(self.graph.edges)
+      .enter()
+      .append("path")
+      .classed("edge", true)
+      .attr("d", d3_sankey.sankeyLinkHorizontal())
+      .attr("fill", "none")
+      .attr("stroke", "#606060")
+      .attr("stroke-width", d => d.width)
+      .attr("stoke-opacity", 0.5);
+
     return self;
 
   },
@@ -40,65 +103,21 @@ OverviewVisualization.prototype = {
   },
 
   simulate_data : function () {
-
+    let self = this;
+    return self;
   },
 
   get_data : function () {
+    let self = this;
+    return self;
+  },
 
+  debug : function () {
+    let self = this;
+    console.log(self);
+    return self;
   }
 
 }
 
 export default OverviewVisualization;
-
-
-// let OverviewVisualization = {
-//   name: 'LineChart',
-//   props: {
-//     data: {
-//       required: true,
-//       type: Array,
-//     },
-//     width: {
-//       default: 500,
-//       type: Number,
-//     },
-//     height: {
-//       default: 270,
-//       type: Number,
-//     }
-//   },
-//   data() {
-//     return {
-//       padding: 60,
-//       data: data
-//     };
-//   },
-//   computed: {
-//     rangeX() {
-//       const width = this.width -this.padding;
-//       return [0, width];
-//     },
-//     rangeY() {
-//       const height = this.height - this.padding;
-//       return [0, height];
-//     },
-//     path() {
-//       const x = d3.scaleLinear().range(this.rangeX);
-//       const y = d3.scaleLinear().range(this.rangeY);
-//       d3.axisLeft().scale(x);
-//       d3.axisTop().scale(y);
-//       x.domain(d3.extent(this.data, (d, i) => i));
-//       y.domain([0, d3.max(this.data, d => d)]);
-//       return d3.line()
-//         .x((d, i) => x(i))
-//         .y(d => y(d));
-//     },
-//     line() {
-//       return this.path(this.data);
-//     },
-//     viewBox() {
-//       return `0 0 ${this.width} ${this.height}`;
-//     }
-//   },
-// };

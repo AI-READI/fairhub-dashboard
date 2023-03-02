@@ -282,7 +282,7 @@ The dashboard is intended to answer key questions from stakeholders monitoring s
 
 #### **Notes**
 
-* Likely variables to filter recruitment here are site, participant status, gender, race, ethnicity, and type II diabetes severity, and participant status. 
+* Likelys variables to filter recruitment here are site, participant status, gender, race, ethnicity, and type II diabetes severity, and participant status.
 * Age is not a key (i.e. required) variable but may be useful.
 * Core visualization is anticipated to be a stacked bar chart with recruitment count on the Y-axis, date on the X-axis, and binning by recruitment site.
 * Allowing a comparison of expected/anticipated recruitment to determine progress for goals

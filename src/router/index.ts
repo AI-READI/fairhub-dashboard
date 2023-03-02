@@ -3,8 +3,14 @@ import StudyDashboardView from "../views/StudyDashboardView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [{
+  routes: [
+    {
       path: "/",
+      name: "Study Dashboard",
+      component: StudyDashboardView,
+    },
+    {
+      path: "/dashboard",
       name: "Study Dashboard",
       component: StudyDashboardView,
     }
