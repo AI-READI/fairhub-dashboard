@@ -1,18 +1,21 @@
-
-<script setup lang="ts">
+<script lang="ts">
 
   import * as D3 from "d3";
   import SitesVisualization from "../../modules/sites.js";
 
-  // Define props
-  const sites = defineProps <{
-    config: object
-  }>();
+  // // Define props
+  // const sites = defineProps <{
+  //   config: object
+  // }>();
 
-  // Initialize module visualization
-  let SitesModule = new SitesVisualization(
-    sites.config.visualization
-  );
+  // // Initialize module visualization
+  // let SitesModule = new SitesVisualization(
+  //   sites.config.visualization
+  // );
+
+  export default {
+    props: ["config"]
+  }
 
 </script>
 

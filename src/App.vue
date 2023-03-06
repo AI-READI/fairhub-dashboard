@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
   import { RouterLink, RouterView } from "vue-router";
-  import StudyDashboardView from "./views/StudyDashboardView.vue";
+  import DashboardView from "./views/DashboardView.vue";
 
 </script>
 
 <template>
-  <StudyDashboardView />
+  <DashboardView />
 </template>
 
 <style scoped>

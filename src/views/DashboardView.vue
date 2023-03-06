@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import StudyDashboard from "../components/StudyDashboard.vue";
+  import Dashboard from "../components/Dashboard.vue";
   import config from "../config/dashboard-config.json";
 
 </script>
@@ -10,7 +10,7 @@
       <h1>{{config.title}}</h1>
     </header>
     <div id="wrapper">
-      <StudyDashboard :config="config" />
+      <Dashboard :config="config" />
     </div>
   </main>
 </template>

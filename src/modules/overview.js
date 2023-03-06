@@ -10,11 +10,6 @@ import DataSimulator from "./data-simulator.js";
 Overview Visualization Prototype
 */
 
-// Overview Visualization Entry Point
-var OverviewVisualization = function (config = {}) {
-  return this.__init__(config);
-};
-
 // Overview Visualization Methods
 OverviewVisualization.prototype = {
 
@@ -26,8 +21,10 @@ OverviewVisualization.prototype = {
     self.height     = config.height;
     self.simulate   = config.simulate;
     self.simulation = config.simulation;
+    self.did_interact = "No Interaction : (";
 
     // Generate Sankey
+    // sample data
     self.data = {
       edges: [
         { id: "A1" },
@@ -88,8 +85,16 @@ OverviewVisualization.prototype = {
       .attr("stroke-width", d => d.width)
       .attr("stoke-opacity", 0.5);
 
+      console.log(self);
+
     return self;
 
+  },
+
+  interaction: function () {
+    let self = this;
+      self.did_interact = "Interacted! :)"
+    return self;
   },
 
   __data__ : function () {
@@ -119,5 +124,10 @@ OverviewVisualization.prototype = {
   }
 
 }
+
+// Overview Visualization Entry Point
+export function OverviewVisualization (config = {}) {
+  return this.__init__(config);
+};
 
 export default OverviewVisualization;

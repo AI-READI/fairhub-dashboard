@@ -1,18 +1,22 @@
 
-<script setup lang="ts">
+<script lang="ts">
 
   import * as D3 from "d3";
   import DemographicsVisualization from "../../modules/demographics.js";
 
-  // Define props
-  const demographics = defineProps <{
-    config: object
-  }>();
+  // // Define props
+  // const demographics = defineProps <{
+  //   config: object
+  // }>();
 
-  // Initialize module visualization
-  let DemographicsModule = new DemographicsVisualization(
-    demographics.config.visualization
-  );
+  // // Initialize module visualization
+  // let DemographicsModule = new DemographicsVisualization(
+  //   demographics.config.visualization
+  // );
+
+  export default {
+    props: ["config"]
+  }
 
 </script>
 

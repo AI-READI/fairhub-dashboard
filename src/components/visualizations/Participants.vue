@@ -1,18 +1,21 @@
-
-<script setup lang="ts">
+<script lang="ts">
 
   import * as D3 from "d3";
   import ParticipantsVisualization from "../../modules/participants.js";
 
-  // Define props
-  const participants = defineProps <{
-    config: object
-  }>();
+  // // Define props
+  // const participants = defineProps <{
+  //   config: object
+  // }>();
 
-  // Initialize module visualization
-  let ParticipantsModule = new ParticipantsVisualization(
-    participants.config.visualization
-  );
+  // // Initialize module visualization
+  // let ParticipantsModule = new ParticipantsVisualization(
+  //   participants.config.visualization
+  // );
+
+  export default {
+    props: ["config"]
+  }
 
 </script>
 

@@ -1,71 +1,72 @@
 {
 	"title": "Study Dashboard",
+	"name": "Dashboard",
 	"api": {
 		"name": "REDCap",
 		"domain": "",
 		"version": "",
 		"query": ""
 	},
-	"modules": {
-		"overview": {
-			"subtitle": "Overview",
-			"visualization": {
-				"name": "overview",
-				"width": 1080,
-				"height": 600,
-				"simulate": true,
-				"simulation": {
+	"components": [{
+		"name": "Overview",
+		"subtitle": "Overview",
+		"module": {
+			"name": "overview",
+			"width": 996,
+			"height": 560,
+			"simulate": true,
+			"simulation": {
 
-				}
-			}
-		},
-		"demographics": {
-			"subtitle": "Demographics",
-			"visualization": {
-				"name": "demographics",
-				"width": 1080,
-				"height": 600,
-				"simulate": true,
-				"simulation": {
-
-				}
-			}
-		},
-		"recruitment": {
-			"subtitle": "Recruitment",
-			"visualization": {
-				"name": "recruitment",
-				"width": 1080,
-				"height": 600,
-				"simulate": true,
-				"simulation": {
-
-				}
-			}
-		},
-		"participants": {
-			"subtitle": "Participants",
-			"visualization": {
-				"name": "participants",
-				"width": 1080,
-				"height": 600,
-				"simulate": true,
-				"simulation": {
-
-				}
-			}
-		},
-		"sites": {
-			"subtitle": "Sites",
-			"visualization": {
-				"name": "sites",
-				"width": 1080,
-				"height": 600,
-				"simulate": true,
-				"simulation": {
-
-				}
 			}
 		}
-	}
+	}, {
+		"name": "Demographics",
+		"subtitle": "Demographics",
+		"module": {
+			"name": "demographics",
+			"width": 996,
+			"height": 560,
+			"simulate": true,
+			"simulation": {
+
+			}
+		}
+	}, {
+		"name": "Recruitment",
+		"subtitle": "Recruitment",
+		"module": {
+			"name": "recruitment",
+			"width": 996,
+			"height": 560,
+			"simulate": true,
+			"simulation": {
+
+			}
+		}
+	}, {
+		"name": "Participants",
+		"subtitle": "Participants",
+		"module": {
+			"name": "participants",
+			"width": 996,
+			"height": 560,
+			"simulate": true,
+			"simulation": {
+
+			}
+		}
+	}, {
+		"name": "Sites",
+		"subtitle": "Sites",
+		"module": {
+			"name": "sites",
+			"width": 996,
+			"height": 560,
+			"simulate": true,
+			"simulation": {
+
+			}
+		}
+	}]
+
 }

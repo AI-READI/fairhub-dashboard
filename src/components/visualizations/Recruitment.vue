@@ -1,18 +1,21 @@
-
-<script setup lang="ts">
+<script lang="ts">
 
   import * as D3 from "d3";
   import RecruitmentVisualization from "../../modules/recruitment.js";
 
-  // Define props
-  const recruitment = defineProps <{
-    config: object
-  }>();
+  // // Define props
+  // const recruitment = defineProps <{
+  //   config: object
+  // }>();
 
-  // Initialize module visualization
-  let RecruitmentModule = new RecruitmentVisualization(
-    recruitment.config.visualization
-  );
+  // // Initialize module visualization
+  // let RecruitmentModule = new RecruitmentVisualization(
+  //   recruitment.config.visualization
+  // );
+
+  export default {
+    props: ["config"]
+  }
 
 </script>
 
