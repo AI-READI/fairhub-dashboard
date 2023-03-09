@@ -6,6 +6,7 @@ Imports
 
   import { ref, reactive, computed } from 'vue'
   import { configStore } from '@/stores/configs'
+  import "./visualizations/Overview.vue"
   const visualizations = import.meta.glob('./visualizations/*.vue', {eager: true})
 
 /*
@@ -15,27 +16,24 @@ Component
   export default {
     name: "Dashboard",
     components: {},
-    setup () {
-      let dashboard = configStore().configs.dashboard;
-      let components = [];
-      console.log(dashboard.components);
-      for (let i = 0; i < dashboard.components.length; i++) {
-        let component = dashboard.components[i].name;
-        Object.entries(visualizations).forEach(([path, definition]) => {
-          if (component === path.split('/').pop().replace(/\.\w+$/, '')) {
-            components.push({
-              name: component,
-              path: definition.default
-            })
-          }
-        });
-      }
-      return { dashboard, components }
-    },
     // Dynamically import the required components, which
     // are identified in ../config/dashboard-config.json.
     // We import the child components once this parent
     // component has been created.
+    data () {
+      let dashboard = configStore().configs.dashboard;
+      let components = [];
+      for (let i = 0; i < dashboard.components.length; i++) {
+        let component = dashboard.components[i].name;
+        Object.entries(visualizations).forEach(([path, definition]) => {
+          if (component === path.split('/').pop().replace(/\.\w+$/, '')) {
+            components.push(definition.default)
+          }
+        });
+      }
+      this.$options.components = components;
+      return { dashboard, components }
+    },
     beforeCreate () {
       console.log("beforeCreate:", this.$options.components);
     },
@@ -45,8 +43,11 @@ Component
     beforeMount ()  {
       console.log("beforeMounted:", this.$options.components);
     },
+    mounted () {
+      console.log("mounted:", this.$options.components);
+    },
     updated () {
-
+      console.log("updated:", this.$options.components);
     }
   };
 
@@ -58,7 +59,7 @@ Component
   <div v-for="(component, index) in dashboard.components" :key="index">
       <h2>{{ component.name }}</h2>
       <h3>{{ component.subtitle }}</h3>
-      <component :id="component.id" :is="component.name" ></component>
+      <component :id="component.id" :is="component.name" />
   </div>
 </template>
 

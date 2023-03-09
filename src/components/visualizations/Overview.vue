@@ -14,7 +14,10 @@ Component
 
   export default {
     name: "Overview",
-    setup () {
+    config: {},
+    overview: OverviewVisualization,
+    data () {
+
       let dashboard = configStore().configs.dashboard;
       let config = null;
       let overview = null;
@@ -26,19 +29,28 @@ Component
         }
       }
 
-      config = reactive(config);
-      overview = reactive(OverviewVisualization);
-
-      console.log("Overview Setup!");
+      overview = new OverviewVisualization(config);
+      // Init Overview
+      this.$options.overview = overview;
 
       return {
-        config: config,
-        overview: overview
+        config, overview
       }
     },
+    beforeCreate () {
+      console.log("beforeCreate:", this.$options.overview);
+    },
+    created () {
+      console.log("created:", this.$options.overview);
+    },
+    beforeMount ()  {
+      console.log("beforeMounted:", this.$options.overview);
+    },
     mounted () {
-      this.overview = new OverviewVisualization(config);
-      console.log("Overview Mounted!");
+      console.log("mounted:", this.$options.overview);
+    },
+    updated () {
+      console.log("updated:", this.$options.overview);
     }
   }
 
@@ -47,10 +59,11 @@ Component
 <!-- Template -->
 
 <template>
-  <div class="container">
+  <h2>{{config.subtitle}}</h2>
+  <div class="visualization-container">
     <svg
-      :id="config.id"
-      :viewBox="`0 0 ${config.visualization.width} ${config.visualization.height}`"
+      :id="overfiew.id"
+      :viewBox="`0 0 ${overview.width} ${config.visualization.height}`"
       preserveAspectRatio="xMinYMid meet"
       xmlns="http://www.w3.org/2000/svg"
     />
