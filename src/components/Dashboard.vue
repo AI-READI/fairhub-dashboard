@@ -4,9 +4,10 @@
 Imports
 */
 
-  import { ref, reactive, computed } from 'vue'
   import { configStore } from '@/stores/configs'
-  import "./visualizations/Overview.vue"
+  import { shallowRef, reactive } from 'vue'
+  import dimport from "../modules/utilities.js"
+  // Import Child Components
   const visualizations = import.meta.glob('./visualizations/*.vue', {eager: true})
 
 /*
@@ -23,31 +24,23 @@ Component
     data () {
       let dashboard = configStore().configs.dashboard;
       let components = [];
+      let names = [];
+      let mapped = {}
       for (let i = 0; i < dashboard.components.length; i++) {
         let component = dashboard.components[i].name;
-        Object.entries(visualizations).forEach(([path, definition]) => {
-          if (component === path.split('/').pop().replace(/\.\w+$/, '')) {
-            components.push(definition.default)
+        for (const path in visualizations) {
+          let module = visualizations[path].default;
+          if (component === module.name) {
+            names.push(component)
+            components.push({
+              config: reactive(dashboard.components[i]),
+              view: shallowRef(module)
+            })
           }
-        });
+        }
       }
       this.$options.components = components;
-      return { dashboard, components }
-    },
-    beforeCreate () {
-      console.log("beforeCreate:", this.$options.components);
-    },
-    created () {
-      console.log("created:", this.$options.components);
-    },
-    beforeMount ()  {
-      console.log("beforeMounted:", this.$options.components);
-    },
-    mounted () {
-      console.log("mounted:", this.$options.components);
-    },
-    updated () {
-      console.log("updated:", this.$options.components);
+      return { names, dashboard, components }
     }
   };
 
@@ -56,23 +49,15 @@ Component
 <!-- Template -->
 
 <template>
-  <div v-for="(component, index) in dashboard.components" :key="index">
-      <h2>{{ component.name }}</h2>
-      <h3>{{ component.subtitle }}</h3>
-      <component :id="component.id" :is="component.name" />
+  <div v-for="(component, index) in components" :key="index">
+      <component :is="component.view" :key="component.config.name"/>
   </div>
 </template>
 
 <!-- Style -->
 
 <style scoped>
-  h2, h3 {
-    font-weight: 500;
-  }
-  h2 {
-    font-size: 2.0rem;
-  }
-  h3 {
-    font-size: 1.2rem;
+  .visualization-container {
+     max-height: 760px;
   }
 </style>

@@ -18,13 +18,14 @@
 			"simulation": {
 
 			},
-			"visualization": {
-				"name": "Study Flow",
-				"id": "#overview-chart",
-				"width": 996,
-				"height": 560,
-				"par": "xMinYMid meet"
-			}
+			"visualizations": [{
+				"type": "sankey",
+				"config": {
+					"id": "#overview-sankey",
+					"width": 996,
+					"height": 560
+				}
+			}]
 		}
 	}, {
 		"name": "Demographics",
@@ -37,13 +38,14 @@
 			"simulation": {
 
 			},
-			"visualization": {
-				"name": "",
-				"id": "#demographics-chart",
-				"width": 996,
-				"height": 560,
-				"par": "xMinYMid meet"
-			}
+			"visualizations": [{
+				"type": "stackedbar",
+				"config": {
+					"id": "#demographics-stacked-bar",
+					"width": 996,
+					"height": 560
+				}
+			}]
 		}
 	}, {
 		"name": "Recruitment",
@@ -56,13 +58,14 @@
 			"simulation": {
 
 			},
-			"visualization": {
-				"name": "",
-				"id": "#recruitment-chart",
-				"width": 996,
-				"height": 560,
-				"par": "xMinYMid meet"
-			}
+			"visualizations": [{
+				"type": "stackedbar",
+				"config": {
+					"id": "#recruitment-stacked-bar",
+					"width": 996,
+					"height": 560
+				}
+			}]
 		}
 	}, {
 		"name": "Participants",
@@ -75,13 +78,14 @@
 			"simulation": {
 
 			},
-			"visualization": {
-				"name": "",
-				"id": "#participants-chart",
-				"width": 996,
-				"height": 560,
-				"par": "xMinYMid meet"
-			}
+			"visualizations": [{
+				"type": "stackedbar",
+				"config": {
+					"id": "#participants-stacked-bar",
+					"width": 996,
+					"height": 560
+				}
+			}]
 		}
 	}, {
 		"name": "Sites",
@@ -94,13 +98,14 @@
 			"simulation": {
 
 			},
-			"visualization": {
-				"name": "",
-				"id": "#sites-chart",
-				"width": 996,
-				"height": 560,
-				"par": "xMinYMid meet"
-			}
+			"visualizations": [{
+				"type": "stackedbar",
+				"config": {
+					"id": "#sites-stacked-bar",
+					"width": 996,
+					"height": 560
+				}
+			}]
 		}
 	}]
 

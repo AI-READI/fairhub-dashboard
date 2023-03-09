@@ -10,22 +10,19 @@ Prototype
 */
 
 // Overview Visualization Entry Point
-var OverviewVisualization = function (config) {
-    let self = this;
-    return self.__init__(config);
+var Sankey = function (config) {
+    return this.__init__(config);
 };
 
 // Overview Visualization Methods
-OverviewVisualization.prototype = {
+Sankey.prototype = {
 
   __init__ : function (config) {
     let self = this;
 
-    self.name       = config.name;
     self.id         = config.id;
     self.width      = config.width;
     self.height     = config.height;
-    self.par        = config.par;
 
     // Generate sankey – sample data
     self.data = {
@@ -57,11 +54,14 @@ OverviewVisualization.prototype = {
       .nodePadding(10)
       .nodeAlign(d3_sankey.sankeyCenter);
 
-    self.svg = d3.select(self.id)
-      .append("svg")
-      .attr("viewBox", "0 0 " + self.width + " " + self.height)
-      .attr("id", self.id)
-      .attr("preserveAspectRatio", self.par)
+    return self;
+
+  },
+
+  update: function () {
+    let self = this;
+    console.log("Updated!")
+    self.svg = d3.select(self.id);
 
     self.nodes = self.svg
       .append("g")
@@ -92,14 +92,7 @@ OverviewVisualization.prototype = {
       .attr("stroke-width", d => d.width)
       .attr("stoke-opacity", 0.5);
 
-    return self;
-
-  },
-
-  interaction: function () {
-    let self = this;
-    console.log("Interacted!")
-    return self;
+      return self;
   },
 
   debug : function () {
@@ -114,4 +107,4 @@ OverviewVisualization.prototype = {
 Exports
 */
 
-export default OverviewVisualization;
+export default Sankey;

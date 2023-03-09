@@ -1,65 +1,95 @@
-
 <script lang="ts">
 
-  import * as D3 from "d3";
-  import DemographicsVisualization from "../../modules/demographics.js";
+/*
+Imports
+*/
 
-  // // Define props
-  // const demographics = defineProps <{
-  //   config: object
-  // }>();
+  import { configStore } from '@/stores/configs'
+  import { shallowRef, ref, reactive, computed } from 'vue'
+  const modules = import.meta.glob('../../modules/visualizations/*.js', {eager: true})
 
-  // // Initialize module visualization
-  // let DemographicsModule = new DemographicsVisualization(
-  //   demographics.config.visualization
-  // );
+/*
+Component
+*/
 
   export default {
     name: "Demographics",
-    data() {
+    config: {},
+    visualizations: [],
+    data () {
+
       let dashboard = configStore().configs.dashboard;
       let config = null;
+      let visualizations = [];
 
       // Set Config
       for (let i = 0; i < dashboard.components.length; i++) {
-        if (dashboard.components[i].name === this.name) {
-          config = components[i];
+        if (dashboard.components[i].name === this.$options.name) {
+          config = dashboard.components[i];
         }
       }
 
+      // Init Visualizations
+      for (let i = 0; i < config.module.visualizations.length; i++) {
+        let viz = config.module.visualizations[i];
+        for (const path in modules) {
+          let name = path.split('/').pop().replace(/\.\w+$/, '')
+          if (viz.type === name) {
+            let visualization = modules[path].default;
+            visualizations.push(
+              new visualization(
+                viz.config
+              )
+            )
+          }
+        }
+      }
+      this.$options.visualizations = visualizations;
       return {
-         config
+        config, visualizations
       }
     },
     beforeCreate () {
-      console.log("beforeCreate:", this);
+      // console.log("Demographics beforeCreate:", this.$options.visualizations);
     },
     created () {
-      console.log("created:", this);
+      // console.log("Demographics created:", this.$options.visualizations);
     },
     beforeMount ()  {
-      console.log("beforeMounted:", this);
+      // console.log("Demographics beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      console.log("mounted:", this);
+      console.log("Demographics mounted:", this.$options.visualizations);
+      for (let i = 0; i < this.$options.visualizations.length; i++) {
+        this.$options.visualizations[i].update();
+      }
     },
     updated () {
-      console.log("updated:", this);
+      console.log("Demographics updated:", this.$options.visualizations);
+      for (let i = 0; i < this.$options.visualizations.length; i++) {
+        this.$options.visualizations[i].update();
+      }
     }
   }
 
 </script>
 
+<!-- Template -->
+
 <template>
-  <h2>{{config.subtitle}}</h2>
-  <div class="visualization-container">
+  <h2>{{ config.name }}</h2>
+  <h3>{{ config.subtitle }}</h3>
+  <div v-for="visualization in visualizations" :id="config.id" class="visualization-container">
     <svg
-      :id="config.visualization.id"
-      :viewBox="`0 0 ${config.visualization.width} ${config.visualization.height}`"
+      :id="visualization.id"
+      :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
+      preserveAspectRatio="xMinYMid meet"
       xmlns="http://www.w3.org/2000/svg"
-    ></svg>
+    />
   </div>
 </template>
+
+<!-- Style -->
 
 <style scoped>
   h2, h3 {

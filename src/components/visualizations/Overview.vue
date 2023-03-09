@@ -5,8 +5,8 @@ Imports
 */
 
   import { configStore } from '@/stores/configs'
-  import { ref, reactive, computed } from 'vue'
-  import OverviewVisualization from "../../modules/overview.js";
+  import { shallowRef, ref, reactive, computed } from 'vue'
+  const modules = import.meta.glob('../../modules/visualizations/*.js', {eager: true})
 
 /*
 Component
@@ -15,42 +15,60 @@ Component
   export default {
     name: "Overview",
     config: {},
-    overview: OverviewVisualization,
+    visualizations: [],
     data () {
 
       let dashboard = configStore().configs.dashboard;
       let config = null;
-      let overview = null;
+      let visualizations = [];
 
       // Set Config
       for (let i = 0; i < dashboard.components.length; i++) {
-        if (dashboard.components[i].name === this.name) {
-          config = components[i];
+        if (dashboard.components[i].name === this.$options.name) {
+          config = dashboard.components[i];
         }
       }
 
-      overview = new OverviewVisualization(config);
-      // Init Overview
-      this.$options.overview = overview;
-
+      // Init Visualizations
+      for (let i = 0; i < config.module.visualizations.length; i++) {
+        let viz = config.module.visualizations[i];
+        for (const path in modules) {
+          let name = path.split('/').pop().replace(/\.\w+$/, '')
+          if (viz.type === name) {
+            let visualization = modules[path].default;
+            visualizations.push(
+              new visualization(
+                viz.config
+              )
+            )
+          }
+        }
+      }
+      this.$options.visualizations = visualizations;
       return {
-        config, overview
+        config, visualizations
       }
     },
     beforeCreate () {
-      console.log("beforeCreate:", this.$options.overview);
+      // console.log("Overview beforeCreate:", this.$options.visualizations);
     },
     created () {
-      console.log("created:", this.$options.overview);
+      // console.log("Overview created:", this.$options.visualizations);
     },
     beforeMount ()  {
-      console.log("beforeMounted:", this.$options.overview);
+      // console.log("Overview beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      console.log("mounted:", this.$options.overview);
+      console.log("Overview mounted:", this.$options.visualizations);
+      for (let i = 0; i < this.$options.visualizations.length; i++) {
+        this.$options.visualizations[i].update();
+      }
     },
     updated () {
-      console.log("updated:", this.$options.overview);
+      console.log("Overview updated:", this.$options.visualizations);
+      for (let i = 0; i < this.$options.visualizations.length; i++) {
+        this.$options.visualizations[i].update();
+      }
     }
   }
 
@@ -59,11 +77,12 @@ Component
 <!-- Template -->
 
 <template>
-  <h2>{{config.subtitle}}</h2>
-  <div class="visualization-container">
+  <h2>{{ config.name }}</h2>
+  <h3>{{ config.subtitle }}</h3>
+  <div v-for="visualization in visualizations" :id="config.id" class="visualization-container">
     <svg
-      :id="overfiew.id"
-      :viewBox="`0 0 ${overview.width} ${config.visualization.height}`"
+      :id="visualization.id"
+      :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
       preserveAspectRatio="xMinYMid meet"
       xmlns="http://www.w3.org/2000/svg"
     />
