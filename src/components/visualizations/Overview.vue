@@ -17,7 +17,7 @@ Component
     setup () {
       let dashboard = configStore().configs.dashboard;
       let config = null;
-      // let overview = null;
+      let overview = null;
 
       // Set Config
       for (let i = 0; i < dashboard.components.length; i++) {
@@ -26,27 +26,19 @@ Component
         }
       }
 
-      config = reactive(config)
+      config = reactive(config);
+      overview = reactive(OverviewVisualization);
 
-      return { config }
+      console.log("Overview Setup!");
 
-      // dashboard = reactive(dashboard);
-      // config = reactive(config);
-      // overview = reactive(OverviewVisualization);
-
-      // return {
-      //   dashboard: dashboard,
-      //   config: config,
-      //   overview: overview
-      // }
-      // console.log("Overview Setup!");
+      return {
+        config: config,
+        overview: overview
+      }
     },
     mounted () {
-      // this.overview = new OverviewVisualization(config);
+      this.overview = new OverviewVisualization(config);
       console.log("Overview Mounted!");
-    },
-    created () {
-      console.log("Overview Created!");
     }
   }
 
