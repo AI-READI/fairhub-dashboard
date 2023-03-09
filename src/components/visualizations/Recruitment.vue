@@ -20,8 +20,8 @@
 </script>
 
 <template>
-  <h2>{{config.subtitle}}</h2>
-  <div class="visualization-container">
+  <div v-if="config" class="visualization-container">
+    <h2>{{config.subtitle}}</h2>
     <svg
       :id="config.visualization.id"
       :viewBox="`0 0 ${config.visualization.width} ${config.visualization.height}`"

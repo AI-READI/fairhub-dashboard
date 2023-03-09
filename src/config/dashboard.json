@@ -1,0 +1,107 @@
+{
+	"title": "Fairhub.io – Dashboard",
+	"name": "Dashboard",
+	"api": {
+		"name": "REDCap",
+		"domain": "",
+		"version": "",
+		"query": ""
+	},
+	"components": [{
+		"name": "Overview",
+		"id": "overview",
+		"subtitle": "Screening, Consent, and Enrollment",
+		"module": {
+			"name": "overview",
+			"width": 1280,
+			"height": 720,
+			"simulation": {
+
+			},
+			"visualization": {
+				"name": "Study Flow",
+				"id": "#overview-chart",
+				"width": 996,
+				"height": 560,
+				"par": "xMinYMid meet"
+			}
+		}
+	}, {
+		"name": "Demographics",
+		"id": "demographics",
+		"subtitle": "Gender, Race, and Ethnicity",
+		"module": {
+			"name": "demographics",
+			"width": 1280,
+			"height": 720,
+			"simulation": {
+
+			},
+			"visualization": {
+				"name": "",
+				"id": "#demographics-chart",
+				"width": 996,
+				"height": 560,
+				"par": "xMinYMid meet"
+			}
+		}
+	}, {
+		"name": "Recruitment",
+		"id": "recruitment",
+		"subtitle": "Recruitment",
+		"module": {
+			"name": "recruitment",
+			"width": 1280,
+			"height": 720,
+			"simulation": {
+
+			},
+			"visualization": {
+				"name": "",
+				"id": "#recruitment-chart",
+				"width": 996,
+				"height": 560,
+				"par": "xMinYMid meet"
+			}
+		}
+	}, {
+		"name": "Participants",
+		"id": "participants",
+		"subtitle": "Participants",
+		"module": {
+			"name": "participants",
+			"width": 1280,
+			"height": 720,
+			"simulation": {
+
+			},
+			"visualization": {
+				"name": "",
+				"id": "#participants-chart",
+				"width": 996,
+				"height": 560,
+				"par": "xMinYMid meet"
+			}
+		}
+	}, {
+		"name": "Sites",
+		"id": "sites",
+		"subtitle": "Sites",
+		"module": {
+			"name": "sites",
+			"width": 1280,
+			"height": 720,
+			"simulation": {
+
+			},
+			"visualization": {
+				"name": "",
+				"id": "#sites-chart",
+				"width": 996,
+				"height": 560,
+				"par": "xMinYMid meet"
+			}
+		}
+	}]
+
+}

@@ -4,60 +4,78 @@
 Imports
 */
 
-  // import * from vue;
-  import D3 from "d3";
+  import { configStore } from '@/stores/configs'
+  import { ref, reactive, computed } from 'vue'
   import OverviewVisualization from "../../modules/overview.js";
 
 /*
-Setup
+Component
 */
 
   export default {
     name: "Overview",
-    props: {
-      moduleconfig: {
-        type: Object,
-        require: true
-      },
-      interactive: {
-        type: Function,
-        require: true
+    setup () {
+      let dashboard = configStore().configs.dashboard;
+      let config = null;
+      // let overview = null;
+
+      // Set Config
+      for (let i = 0; i < dashboard.components.length; i++) {
+        if (dashboard.components[i].name === this.name) {
+          config = components[i];
+        }
       }
+
+      config = reactive(config)
+
+      return { config }
+
+      // dashboard = reactive(dashboard);
+      // config = reactive(config);
+      // overview = reactive(OverviewVisualization);
+
+      // return {
+      //   dashboard: dashboard,
+      //   config: config,
+      //   overview: overview
+      // }
+      // console.log("Overview Setup!");
     },
-    created: () => {
-      this.props.config = config;
-      this.props.interactive = new OverviewVisualization(moduleconfig);
-      console.log(this.props);
+    mounted () {
+      // this.overview = new OverviewVisualization(config);
+      console.log("Overview Mounted!");
+    },
+    created () {
+      console.log("Overview Created!");
     }
   }
 
-  // console.log(moduleconfig);
-  // // // Initialize module visualization
-  // let OverviewModule = new OverviewVisualization(
-  //   overview.config.visualization
-  // );
-
-  // console.log(config);
 </script>
 
-<template>
-  <div v-if="config">
-    <h2>{{config.name}}</h2>
-    <div v-if="interactive">
-      <div @click="interactive.debug" class="visualization-container">
-        <svg
-          :id="this.props.config.module.name"
-          :viewBox="`0 0 ${this.props.config.module.width} ${this.props.config.module.height}`"
-          preserveAspectRatio="xMinYMid meet"
-          xmlns="http://www.w3.org/2000/svg"
-        ></svg>
-      </div>
-    </div>
-  </div>
+<!-- Template -->
 
+<template>
+  <div class="container">
+    <svg
+      :id="config.id"
+      :viewBox="`0 0 ${config.visualization.width} ${config.visualization.height}`"
+      preserveAspectRatio="xMinYMid meet"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </div>
 </template>
 
-<style scoped>
+<!-- Style -->
 
+<style scoped>
+  h2, h3 {
+    font-weight: 500;
+  }
+  h2 {
+    font-size: 2.0rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
 </style>
 

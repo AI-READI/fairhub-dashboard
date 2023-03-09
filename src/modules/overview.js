@@ -4,27 +4,32 @@ Imports
 
 import * as d3 from "d3";
 import * as d3_sankey from "d3-sankey";
-import DataSimulator from "./data-simulator.js";
 
 /*
-Overview Visualization Prototype
+Prototype
 */
+
+// Overview Visualization Entry Point
+let OverviewVisualization = function (config) {
+    console.log("overview.__init__!");
+    return this.__init__(config);
+};
 
 // Overview Visualization Methods
 OverviewVisualization.prototype = {
 
   __init__ : function (config) {
-    let self = this;
+    const self = this;
 
-    self.name       = config.name;
+    self.container  = container;
+    self.id         = config.id;
     self.width      = config.width;
     self.height     = config.height;
-    self.simulate   = config.simulate;
-    self.simulation = config.simulation;
-    self.did_interact = "No Interaction : (";
 
-    // Generate Sankey
-    // sample data
+    // Computed
+    self.par        = "0 0 " + self.width + " " + self.height;
+
+    // Generate sankey – sample data
     self.data = {
       edges: [
         { id: "A1" },
@@ -47,14 +52,17 @@ OverviewVisualization.prototype = {
       ]
     };
 
-    self.svg = d3.selectAll("#" + self.name);
-
     self.graph = d3_sankey.sankey(self.data)
       .size([self.width, self.height])
       .nodeId(d => d.id)
       .nodeWidth(20)
       .nodePadding(10)
       .nodeAlign(d3_sankey.sankeyCenter);
+
+    self.svg = d3.select(self.id)
+      .attr("viewBox", "0 0 " + self.width + " " + self.height)
+      .attr("id", self.id)
+      .attr("preserveAspectRatio", self.par)
 
     self.nodes = self.svg
       .append("g")
@@ -85,35 +93,21 @@ OverviewVisualization.prototype = {
       .attr("stroke-width", d => d.width)
       .attr("stoke-opacity", 0.5);
 
-      console.log(self);
+    console.log("OverviewVisualization.__init__()", self);
 
     return self;
 
+  },
+
+  setContainer: function (container) {
+    let self = this;
+    self.container = container;
+    return self;
   },
 
   interaction: function () {
     let self = this;
-      self.did_interact = "Interacted! :)"
-    return self;
-  },
-
-  __data__ : function () {
-    let self = this;
-      if (self.simulate) {
-        self.data = new DataSimulator()[self.name]();
-      } else {
-        self.data = self.get_data();
-      }
-    return self;
-  },
-
-  simulate_data : function () {
-    let self = this;
-    return self;
-  },
-
-  get_data : function () {
-    let self = this;
+    console.log("Interacted!")
     return self;
   },
 
@@ -123,11 +117,10 @@ OverviewVisualization.prototype = {
     return self;
   }
 
-}
-
-// Overview Visualization Entry Point
-export function OverviewVisualization (config = {}) {
-  return this.__init__(config);
 };
+
+/*
+Exports
+*/
 
 export default OverviewVisualization;
