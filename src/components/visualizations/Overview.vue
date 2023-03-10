@@ -59,6 +59,7 @@ Component
       // console.log("Overview beforeMounted:", this.$options.visualizations);
     },
     mounted () {
+      console.log(this);
       console.log("Overview mounted:", this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
@@ -81,7 +82,7 @@ Component
   <h3>{{ config.subtitle }}</h3>
   <div v-for="visualization in visualizations" :id="config.id" class="visualization-container">
     <svg
-      :id="visualization.id"
+      :id="visualization.id.replace('#','')"
       :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
       preserveAspectRatio="xMinYMid meet"
       xmlns="http://www.w3.org/2000/svg"

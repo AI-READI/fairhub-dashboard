@@ -17,10 +17,9 @@ Component
   export default {
     name: "Dashboard",
     components: {},
-    // Dynamically import the required components, which
-    // are identified in ../config/dashboard-config.json.
-    // We import the child components once this parent
-    // component has been created.
+    // Load required components from dynamic import.
+    // Required components are identified in
+    // ../config/dashboard-config.json.
     data () {
       let dashboard = configStore().configs.dashboard;
       let components = [];

@@ -26,7 +26,7 @@ Sankey.prototype = {
 
     // Generate sankey – sample data
     self.data = {
-      edges: [
+      nodes: [
         { id: "A1" },
         { id: "A2" },
         { id: "A3" },
@@ -34,25 +34,28 @@ Sankey.prototype = {
         { id: "B1" },
         { id: "B2" },
         { id: "B3" },
-        { id: "C1" }
+        { id: "C1" },
+        { id: "C2" }
       ],
       links: [
         { source: "A1", target: "B1", value: 27 },
         { source: "A2", target: "B1", value: 19 },
         { source: "A3", target: "B2", value: 18 },
-        { source: "A4", target: "B3", value: 3 },
+        { source: "A4", target: "C2", value: 3 },
         { source: "B1", target: "C1", value: 46 },
         { source: "B2", target: "C1", value: 17 },
-        { source: "B2", target: "B3", value: 1 }
+        { source: "B2", target: "C2", value: 1 }
       ]
     };
 
     self.graph = d3_sankey.sankey(self.data)
       .size([self.width, self.height])
       .nodeId(d => d.id)
+      .nodeAlign(d3_sankey.sankeyCenter)
+      .nodeSort(null)
       .nodeWidth(20)
       .nodePadding(10)
-      .nodeAlign(d3_sankey.sankeyCenter);
+      // .extent([[0, 5], [self.width, self.height - 5]])
 
     return self;
 
@@ -60,37 +63,39 @@ Sankey.prototype = {
 
   update: function () {
     let self = this;
-    console.log("Updated!")
+
+
+    self.graph = d3_sankey.sankey(self.data)
+      .size([self.width, self.height])
+      .nodeId(d => d.id)
+      .nodeAlign(d3_sankey.sankeyCenter)
+      .nodeSort(null)
+      .nodeWidth(20)
+      .nodePadding(10)
+      .nodes(self.data.nodes)
+      .links(self.data.links)\
+      .computeNodeLinks();
+
+    console.log(self.graph)
+
     self.svg = d3.select(self.id);
 
-    self.nodes = self.svg
-      .append("g")
-      .classed("nodes", true)
-      .selectAll("rect")
-      .data(self.graph.nodes)
-      .enter()
-      .append("rect")
-      .classed("node", true)
-      .attr("x", d => d.x0)
-      .attr("y", d => d.y0)
-      .attr("width", d => d.x1 - d.x0)
-      .attr("height", d => d.y1 - d.y0)
-      .attr("fill", "blue")
-      .attr("opacity", 0.8);
-
-    self.edges = self.svg
-      .append("g")
-      .classed("edges", true)
-      .selectAll("path")
-      .data(self.graph.edges)
+    self.links = self.svg.append("g")
+      .selectAll(".link")
+      .data(self.data.links)
       .enter()
       .append("path")
-      .classed("edge", true)
-      .attr("d", d3_sankey.sankeyLinkHorizontal())
-      .attr("fill", "none")
-      .attr("stroke", "#606060")
-      .attr("stroke-width", d => d.width)
-      .attr("stoke-opacity", 0.5);
+      .attr("class", "link")
+      .attr("d", self.graph.links() )
+      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
+      .sort(function(a, b) { return b.dy - a.dy; });
+
+    self.svg.append("g")
+      .selectAll(".node")
+      .data(self.data.nodes)
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
       return self;
   },
