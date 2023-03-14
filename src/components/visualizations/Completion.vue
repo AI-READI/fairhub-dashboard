@@ -13,7 +13,7 @@ Component
 */
 
   export default {
-    name: "Participants",
+    name: "Completion",
     config: {},
     visualizations: [],
     data () {
@@ -50,22 +50,22 @@ Component
       }
     },
     beforeCreate () {
-      // console.log("Participants beforeCreate:", this.$options.visualizations);
+      // console.log("Completion beforeCreate:", this.$options.visualizations);
     },
     created () {
-      // console.log("Participants created:", this.$options.visualizations);
+      // console.log("Completion created:", this.$options.visualizations);
     },
     beforeMount ()  {
-      // console.log("Participants beforeMounted:", this.$options.visualizations);
+      // console.log("Completion beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      console.log("Participants mounted:", this.$options.visualizations);
+      console.log("Completion mounted:", this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
     },
     updated () {
-      console.log("Participants updated:", this.$options.visualizations);
+      console.log("Completion updated:", this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
@@ -81,7 +81,7 @@ Component
   <h3>{{ config.subtitle }}</h3>
   <div v-for="visualization in visualizations" :id="config.id" class="visualization-container">
     <svg
-      :id="visualization.id"
+      :id="visualization.id.replace('#','')"
       :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
       preserveAspectRatio="xMinYMid meet"
       xmlns="http://www.w3.org/2000/svg"

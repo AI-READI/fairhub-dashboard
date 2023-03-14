@@ -1,112 +1,146 @@
 {
-	"title": "Fairhub.io – Dashboard",
-	"name": "Dashboard",
-	"api": {
-		"name": "REDCap",
-		"domain": "",
-		"version": "",
-		"query": ""
-	},
-	"components": [{
-		"name": "Overview",
-		"id": "overview",
-		"subtitle": "Screening, Consent, and Enrollment",
-		"module": {
-			"name": "overview",
-			"width": 1280,
-			"height": 720,
-			"simulation": {
+    "title": "Fairhub.io – Dashboard",
+    "name": "Dashboard",
+    "api": {
+        "name": "REDCap",
+        "domain": "",
+        "version": "",
+        "query": ""
+    },
+    "components": [{
+        "name": "Overview",
+        "id": "overview",
+        "subtitle": "What is the overall status of the study",
+        "module": {
+            "name": "overview",
+            "width": 1280,
+            "height": 720,
+            "simulation": {
 
-			},
-			"visualizations": [{
-				"type": "sankey",
-				"config": {
-					"id": "#overview-sankey",
-					"width": 996,
-					"height": 560
-				}
-			}]
-		}
-	}, {
-		"name": "Demographics",
-		"id": "demographics",
-		"subtitle": "Gender, Race, and Ethnicity",
-		"module": {
-			"name": "demographics",
-			"width": 1280,
-			"height": 720,
-			"simulation": {
+            },
+            "visualizations": [{
+                "type": "sankey",
+                "config": {
+                    "id": "#overview-sankey",
+                    "width": 996,
+                    "height": 560,
+                    "margin": {
+                        "top": 40,
+                        "left": 40,
+                        "right": 40,
+                        "bottom": 40
+                    },
+                    "node": {
+                        "width": 40,
+                        "padding": 20
+                    }
+                }
+            }]
+        }
+    }, {
+        "name": "Demographics",
+        "id": "demographics",
+        "subtitle": "What is the demographic breakdown of study participants?",
+        "module": {
+            "name": "demographics",
+            "width": 1280,
+            "height": 720,
+            "simulation": {
 
-			},
-			"visualizations": [{
-				"type": "stackedbar",
-				"config": {
-					"id": "#demographics-stacked-bar",
-					"width": 996,
-					"height": 560
-				}
-			}]
-		}
-	}, {
-		"name": "Recruitment",
-		"id": "recruitment",
-		"subtitle": "Recruitment",
-		"module": {
-			"name": "recruitment",
-			"width": 1280,
-			"height": 720,
-			"simulation": {
+            },
+            "visualizations": [{
+                "type": "stackedbar",
+                "config": {
+                    "id": "#demographics-stacked-bar",
+                    "width": 996,
+                    "height": 560,
+                    "margin": {
+                        "top": 40,
+                        "left": 40,
+                        "right": 40,
+                        "bottom": 40
+                    }
+                }
+            }]
+        }
+    }, {
+        "name": "Recruitment",
+        "id": "recruitment",
+        "subtitle": "What issues are challenging recruitment?",
+        "module": {
+            "name": "recruitment",
+            "width": 1280,
+            "height": 720,
+            "simulation": {
 
-			},
-			"visualizations": [{
-				"type": "stackedbar",
-				"config": {
-					"id": "#recruitment-stacked-bar",
-					"width": 996,
-					"height": 560
-				}
-			}]
-		}
-	}, {
-		"name": "Participants",
-		"id": "participants",
-		"subtitle": "Participants",
-		"module": {
-			"name": "participants",
-			"width": 1280,
-			"height": 720,
-			"simulation": {
+            },
+            "visualizations": [{
+                "type": "stackedbar",
+                "config": {
+                    "id": "#recruitment-stacked-bar",
+                    "width": 996,
+                    "height": 560,
+                    "margin": {
+                        "top": 40,
+                        "left": 40,
+                        "right": 40,
+                        "bottom": 40
+                    }
+                }
+            }]
+        }
+    }, {
+        "name": "Completion",
+        "id": "completion",
+        "subtitle": "When and where are participants exiting the study?",
+        "module": {
+            "name": "completion",
+            "width": 1280,
+            "height": 720,
+            "simulation": {
 
-			},
-			"visualizations": [{
-				"type": "stackedbar",
-				"config": {
-					"id": "#participants-stacked-bar",
-					"width": 996,
-					"height": 560
-				}
-			}]
-		}
-	}, {
-		"name": "Sites",
-		"id": "sites",
-		"subtitle": "Sites",
-		"module": {
-			"name": "sites",
-			"width": 1280,
-			"height": 720,
-			"simulation": {
+            },
+            "visualizations": [{
+                "type": "stackedbar",
+                "config": {
+                    "id": "#completion-stacked-bar",
+                    "width": 996,
+                    "height": 560,
+                    "margin": {
+                        "top": 40,
+                        "left": 40,
+                        "right": 40,
+                        "bottom": 40
+                    }
+                }
+            }]
+        }
+    }, {
+        "name": "Sites",
+        "id": "sites",
+        "subtitle": "What are the protocol study completion rates for participants at each site?",
+        "module": {
+            "name": "sites",
+            "width": 1280,
+            "height": 720,
+            "simulation": {
 
-			},
-			"visualizations": [{
-				"type": "stackedbar",
-				"config": {
-					"id": "#sites-stacked-bar",
-					"width": 996,
-					"height": 560
-				}
-			}]
-		}
-	}]
+            },
+            "visualizations": [{
+                "type": "stackedbar",
+                "config": {
+                    "id": "#sites-stacked-bar",
+                    "width": 996,
+                    "height": 560,
+                    "margin": {
+                        "top": 40,
+                        "left": 40,
+                        "right": 40,
+                        "bottom": 40
+                    }
+                }
+            }]
+        }
+    }]
 
 }

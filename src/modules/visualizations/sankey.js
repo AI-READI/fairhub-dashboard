@@ -2,15 +2,26 @@
 Imports
 */
 
-import * as d3 from "d3";
-import * as d3_sankey from "d3-sankey";
+import * as D3 from "d3";
+import * as D3Sankey from "d3-sankey";
 
 /*
 Prototype
 */
 
 // Overview Visualization Entry Point
-var Sankey = function (config) {
+var Sankey = function (
+  config = {
+    id: "sankey",
+    width: 1280,
+    height: 720,
+    margin: {
+      top: 20,
+      left: 20,
+      right: 20,
+      bottom: 20
+    }
+  }) {
     return this.__init__(config);
 };
 
@@ -23,81 +34,101 @@ Sankey.prototype = {
     self.id         = config.id;
     self.width      = config.width;
     self.height     = config.height;
+    self.margin     = config.margin;
+    self.node       = config.node;
+    self.nodeClass  = "node"
+    self.linkClass  = "link"
+    self.inner      = {
+      height: self.height - self.margin.top - self.margin.bottom,
+      width: self.width - self.margin.left - self.margin.right
+    };
 
     // Generate sankey – sample data
     self.data = {
       nodes: [
-        { id: "A1" },
-        { id: "A2" },
-        { id: "A3" },
-        { id: "A4" },
-        { id: "B1" },
-        { id: "B2" },
-        { id: "B3" },
-        { id: "C1" },
-        { id: "C2" }
+        { name: "A1" }, // value: 27
+        { name: "A2" }, // value: 19
+        { name: "A3" }, // value: 18
+        { name: "A4" }, // value: 3
+        { name: "B1" }, // value: 46
+        { name: "B2" }, // value: 14
+        { name: "B3" }, // value: 4
+        { name: "C1" }, // value: 63
+        { name: "C2" }  // value: 8
       ],
       links: [
         { source: "A1", target: "B1", value: 27 },
         { source: "A2", target: "B1", value: 19 },
         { source: "A3", target: "B2", value: 18 },
+        { source: "A3", target: "B3", value: 4  },
         { source: "A4", target: "C2", value: 3 },
         { source: "B1", target: "C1", value: 46 },
         { source: "B2", target: "C1", value: 17 },
-        { source: "B2", target: "C2", value: 1 }
+        { source: "B2", target: "C2", value: 1 },
+        { source: "B3", target: "C2", value: 4 }
       ]
     };
 
-    self.graph = d3_sankey.sankey(self.data)
-      .size([self.width, self.height])
-      .nodeId(d => d.id)
-      .nodeAlign(d3_sankey.sankeyCenter)
-      .nodeSort(null)
-      .nodeWidth(20)
-      .nodePadding(10)
-      // .extent([[0, 5], [self.width, self.height - 5]])
-
-    return self;
+    return self.update();
 
   },
 
   update: function () {
     let self = this;
 
+    self.svg = D3.select(self.id);
+    self.color = D3.scaleOrdinal(D3.schemeSet2);
 
-    self.graph = d3_sankey.sankey(self.data)
+    self.graph = D3Sankey.sankey(self.data)
+      .nodeId(function (d) { return d.name })
+      .nodeAlign(D3Sankey.sankeyCenter)
+      .nodeWidth(self.node.width)
+      .nodePadding(self.node.padding)
       .size([self.width, self.height])
-      .nodeId(d => d.id)
-      .nodeAlign(d3_sankey.sankeyCenter)
-      .nodeSort(null)
-      .nodeWidth(20)
-      .nodePadding(10)
+      .extent([[self.margin.left, self.margin.top], [self.width - self.margin.right, self.height - self.margin.bottom]])
       .nodes(self.data.nodes)
-      .links(self.data.links)\
-      .computeNodeLinks();
+      .links(self.data.links);
 
-    console.log(self.graph)
+    self.graph = self.graph(self.data);
 
-    self.svg = d3.select(self.id);
-
-    self.links = self.svg.append("g")
-      .selectAll(".link")
-      .data(self.data.links)
+    self.links = self.svg
+      .append("g")
+      .classed("links", true)
+      .selectAll("path")
+      .data(self.graph.links)
       .enter()
-      .append("path")
-      .attr("class", "link")
-      .attr("d", self.graph.links() )
-      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
-      .sort(function(a, b) { return b.dy - a.dy; });
+        .append("path")
+        .classed(self.linkClass, true)
+        .attr("d", function (d) { console.log(d); return D3Sankey.sankeyLinkHorizontal(d);})
+        .attr("stroke-opacity", 0.2)
+        .attr("fill", "none")
+        .attr("stroke-width", function (d) { return Math.max(1, d.width);})
+        .sort(function(a, b) { return b.dy - a.dy;});
 
-    self.svg.append("g")
-      .selectAll(".node")
-      .data(self.data.nodes)
-      .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    self.links.append("title")
+      .text(function(d) { return `${d.source.name} → ${d.target.name}\n${d.value}`;});
 
-      return self;
+    self.nodes = self.svg
+      .append("g")
+      .classed("nodes", true)
+      .selectAll("rect")
+      .data(self.graph.nodes)
+      .enter()
+        .append("rect")
+        .classed(self.nodeClass, true)
+        .attr("x", function (d) {return d.x0;})
+        .attr("y", function (d) {return d.y0;})
+        .attr("width", function (d) {return d.x1 - d.x0;})
+        .attr("height", function (d) {return d.y1 - d.y0;})
+        .attr("fill", function(d) {return d.color = self.color(d.name.replace(/ .*/, ""));})
+        .attr("stroke", function(d) {return D3.rgb(d.color).darker(2);})
+        .append("title")
+          .text(function(d) {console.log(`${d.name}\n${D3.format(",.0f")(d.value)} Participants`); return `${d.name}\n${D3.format(",.0f")(d.value)} Widgets`;});
+
+    self.nodes.append("title")
+      .text(function (d) { return `${d.id}\n${d.value}` });
+
+    return self;
   },
 
   debug : function () {
