@@ -36,8 +36,11 @@ Sankey.prototype = {
     self.height     = config.height;
     self.margin     = config.margin;
     self.node       = config.node;
-    self.nodeClass  = "node"
-    self.linkClass  = "link"
+    self.nodeClass  = "node";
+    self.nodeAlign  = D3Sankey.sankeyJustify;
+    self.linkClass  = "link";
+    self.linkMethod = D3Sankey.sankeyLinkHorizontal();
+    self.strokeWidth= 2;
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
@@ -46,26 +49,25 @@ Sankey.prototype = {
     // Generate sankey – sample data
     self.data = {
       nodes: [
-        { name: "A1" }, // value: 27
-        { name: "A2" }, // value: 19
-        { name: "A3" }, // value: 18
-        { name: "A4" }, // value: 3
-        { name: "B1" }, // value: 46
-        { name: "B2" }, // value: 14
-        { name: "B3" }, // value: 4
-        { name: "C1" }, // value: 63
-        { name: "C2" }  // value: 8
+        { name: "Screened In" }, // value: 27
+        { name: "Screened Out" }, // value: 19
+        { name: "did Consent" }, // value: 18
+        { name: "did not Consent" }, // value: 3
+        { name: "are Active" }, // value: 46
+        { name: "are Inactive" }, // value: 14
+        { name: "have Completed" }, // value: 4
+        { name: "have Exited" }  // value: 8
       ],
       links: [
-        { source: "A1", target: "B1", value: 27 },
-        { source: "A2", target: "B1", value: 19 },
-        { source: "A3", target: "B2", value: 18 },
-        { source: "A3", target: "B3", value: 4  },
-        { source: "A4", target: "C2", value: 3 },
-        { source: "B1", target: "C1", value: 46 },
-        { source: "B2", target: "C1", value: 17 },
-        { source: "B2", target: "C2", value: 1 },
-        { source: "B3", target: "C2", value: 4 }
+        { source: "Screened In", target: "did Consent", value: 128 },
+        { source: "Screened In", target: "did not Consent", value: 13 },
+        { source: "Screened Out", target: "have Exited", value: 221 },
+        { source: "did Consent", target: "are Active", value: 19 },
+        { source: "did Consent", target: "are Inactive", value: 5 },
+        { source: "did Consent", target: "have Completed", value: 98 },
+        { source: "did Consent", target: "have Exited", value: 6 },
+        { source: "did not Consent", target: "are Inactive", value: 4 },
+        { source: "did not Consent", target: "have Exited", value: 7 }
       ]
     };
 
@@ -77,11 +79,12 @@ Sankey.prototype = {
     let self = this;
 
     self.svg = D3.select(self.id);
+
     self.color = D3.scaleOrdinal(D3.schemeSet2);
 
     self.graph = D3Sankey.sankey(self.data)
       .nodeId(function (d) { return d.name })
-      .nodeAlign(D3Sankey.sankeyCenter)
+      .nodeAlign(self.nodeAlign)
       .nodeWidth(self.node.width)
       .nodePadding(self.node.padding)
       .size([self.width, self.height])
@@ -91,23 +94,6 @@ Sankey.prototype = {
 
     self.graph = self.graph(self.data);
 
-    self.links = self.svg
-      .append("g")
-      .classed("links", true)
-      .selectAll("path")
-      .data(self.graph.links)
-      .enter()
-        .append("path")
-        .classed(self.linkClass, true)
-        .attr("d", function (d) { console.log(d); return D3Sankey.sankeyLinkHorizontal(d);})
-        .attr("stroke-opacity", 0.2)
-        .attr("fill", "none")
-        .attr("stroke-width", function (d) { return Math.max(1, d.width);})
-        .sort(function(a, b) { return b.dy - a.dy;});
-
-    self.links.append("title")
-      .text(function(d) { return `${d.source.name} → ${d.target.name}\n${d.value}`;});
-
     self.nodes = self.svg
       .append("g")
       .classed("nodes", true)
@@ -116,18 +102,32 @@ Sankey.prototype = {
       .enter()
         .append("rect")
         .classed(self.nodeClass, true)
-        .attr("x", function (d) {return d.x0;})
-        .attr("y", function (d) {return d.y0;})
-        .attr("width", function (d) {return d.x1 - d.x0;})
-        .attr("height", function (d) {return d.y1 - d.y0;})
+        .attr("x", function (d) {return d.x0 + self.strokeWidth;})
+        .attr("y", function (d) {return d.y0 + self.strokeWidth;})
+        .attr("width", function (d) {return d.x1 - d.x0 - (2 * self.strokeWidth);})
+        .attr("height", function (d) {return d.y1 - d.y0  - (2 * self.strokeWidth);})
         .attr("fill", function(d) {return d.color = self.color(d.name.replace(/ .*/, ""));})
-        .attr("stroke", function(d) {return D3.rgb(d.color).darker(2);})
-        .append("title")
-          .text(function(d) {console.log(`${d.name}\n${D3.format(",.0f")(d.value)} Participants`); return `${d.name}\n${D3.format(",.0f")(d.value)} Widgets`;});
+        .attr("stroke", function(d) {return "transparent"})
+        .attr("stroke-width", self.strokeWidth)
+        .append("text")
+          .text(function(d) {return `${d.name}\n${d.value} Participants`;});
 
-    self.nodes.append("title")
-      .text(function (d) { return `${d.id}\n${d.value}` });
-
+    self.links = self.svg
+      .append("g")
+      .classed("links", true)
+      .selectAll("path")
+      .data(self.graph.links)
+      .enter()
+        .append("path")
+        .classed(self.linkClass, true)
+        .attr("d", function (d) { return self.linkMethod(d);})
+        .attr("fill", function(d) {return d.color = self.color(d.source.name.replace(/ .*/, ""));})
+        .attr("stroke", function(d) {return d.color; })
+        .attr("stroke-width", function (d) { console.log(d); return Math.max(1, d.width - (2 * self.strokeWidth));})
+        .sort(function(a, b) { return b.dy - a.dy;})
+        .append("text")
+          .text(function(d) { return `From ${d.source.name}, ${d.value} ${d.target.name}`;})
+          .attr("font-size", "24px");
     return self;
   },
 

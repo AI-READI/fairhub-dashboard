@@ -31,14 +31,15 @@ StackedBar.prototype = {
     }
 
     self.data       = [
-      {group: "meow", small: 12, medium: 1, large: 13},
-      {group: "mooo", small: 6, medium: 6, large: 33},
-      {group: "woof", small: 11, medium: 28, large: 12},
-      {group: "oink", small: 19, medium: 6, large: 1}
+      {group: "Screened In", healthy: 119, prediabetic: 30, diabetic: 81},
+      {group: "Did Consent", healthy: 72, prediabetic: 21, diabetic: 69},
+      {group: "Are Active", healthy: 31, prediabetic: 4, diabetic: 37},
+      {group: "Have Completed", healthy: 18, prediabetic: 12, diabetic: 19},
     ]
-    self.columns = ['group', 'small', 'medium', 'large'];
 
-    self.svg = D3.select(self.id)
+    self.columns = ['group', 'healthy', 'prediabetic', 'diabetic'];
+
+    self.svg = D3.select(self.id);
 
     return self;
 
@@ -58,7 +59,7 @@ StackedBar.prototype = {
       .padding([0.2]);
 
     self.y = D3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 250])
       .range([ self.inner.height, 0 ]);
 
     self.svg.append("g")
@@ -88,7 +89,8 @@ StackedBar.prototype = {
           .attr("x", function (d) { return self.x(d.data.group); })
           .attr("y", function (d) { return self.y(d[1]); })
           .attr("height", function (d) { return self.y(d[0]) - self.y(d[1]); })
-          .attr("width", self.x.bandwidth());
+          .attr("width", self.x.bandwidth())
+          .text(function (d) {console.log(d); return d.data.group; } );
 
     return self;
   },
