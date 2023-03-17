@@ -24,12 +24,14 @@ StackedBar.prototype = {
     self.padding    = config.padding;
     self.width      = config.width;
     self.height     = config.height;
+    self.palette    = config.palette;
 
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
     }
 
+    // Simulated data, will come from an API request
     self.data       = [
       {group: "Screened In", healthy: 119, prediabetic: 30, diabetic: 81},
       {group: "Did Consent", healthy: 72, prediabetic: 21, diabetic: 69},
@@ -37,10 +39,15 @@ StackedBar.prototype = {
       {group: "Have Completed", healthy: 18, prediabetic: 12, diabetic: 19},
     ]
 
+    // Need to compute this dynamically once data schema is specified
     self.columns = ['group', 'healthy', 'prediabetic', 'diabetic'];
 
-    self.svg = D3.select(self.id);
-
+    self.svg = null;
+    self.groups = null;
+    self.subgroups = null;
+    self.x = null;
+    self.y = null;
+    self.stacked = null;
     return self;
 
   },
@@ -50,8 +57,8 @@ StackedBar.prototype = {
 
     self.svg = D3.select(self.id);
 
-    self.subgroups = self.columns.slice(1);
     self.groups = D3.map(self.data, function (d) { return (d.group) })
+    self.subgroups = self.columns.slice(1);
 
     self.x = D3.scaleBand()
       .domain(self.groups)
@@ -61,6 +68,9 @@ StackedBar.prototype = {
     self.y = D3.scaleLinear()
       .domain([0, 250])
       .range([ self.inner.height, 0 ]);
+
+    self.stacked = D3.stack()
+      .keys(self.subgroups)(self.data)
 
     self.svg.append("g")
       .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
@@ -72,10 +82,7 @@ StackedBar.prototype = {
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)
-      .range(['#e41a1c','#377eb8','#4daf4a'])
-
-    self.stacked = D3.stack()
-      .keys(self.subgroups)(self.data)
+      .range(self.palette)
 
     self.svg.append("g")
       .selectAll("g")
@@ -90,7 +97,7 @@ StackedBar.prototype = {
           .attr("y", function (d) { return self.y(d[1]); })
           .attr("height", function (d) { return self.y(d[0]) - self.y(d[1]); })
           .attr("width", self.x.bandwidth())
-          .text(function (d) {console.log(d); return d.data.group; } );
+          .text(function (d) { return d.data.group; });
 
     return self;
   },

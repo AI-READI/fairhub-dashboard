@@ -5,6 +5,8 @@ Imports
 import * as D3 from "d3";
 import * as D3Sankey from "d3-sankey";
 
+
+
 /*
 Prototype
 */
@@ -28,20 +30,29 @@ var Sankey = function (
 // Overview Visualization Methods
 Sankey.prototype = {
 
+  node_alignment_map : {
+    "left": D3Sankey.sankeyLeft,
+    "right": D3Sankey.sankeyRight,
+    "center": D3Sankey.sankeyCenter,
+    "justify": D3Sankey.sankeyJustify
+  },
   __init__ : function (config) {
     let self = this;
 
-    self.id         = config.id;
-    self.width      = config.width;
-    self.height     = config.height;
-    self.margin     = config.margin;
-    self.node       = config.node;
-    self.nodeClass  = "node";
-    self.nodeAlign  = D3Sankey.sankeyJustify;
-    self.linkClass  = "link";
-    self.linkMethod = D3Sankey.sankeyLinkHorizontal();
-    self.strokeWidth= 2;
-    self.inner      = {
+    self.id           = config.id;
+    self.width        = config.width;
+    self.height       = config.height;
+    self.margin       = config.margin;
+    self.palette      = config.palette;
+    self.node         = config.node;
+    self.edge         = config.edge
+
+    self.nodeClass    = "node";
+    self.linkClass    = "link";
+    self.nodeAlign    = self.node_alignment_map[self.node.alignment];
+    self.linkMethod   = D3Sankey.sankeyLinkHorizontal();
+    self.strokeWidth  = 2;
+    self.inner        = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
     };
@@ -80,8 +91,8 @@ Sankey.prototype = {
 
     self.svg = D3.select(self.id);
 
-    self.color = D3.scaleOrdinal(D3.schemeSet2);
-
+    // self.color = D3.scaleOrdinal(D3.schemeSet2);
+    self.color = D3.scaleOrdinal(self.palette);
     self.graph = D3Sankey.sankey(self.data)
       .nodeId(function (d) { return d.name })
       .nodeAlign(self.nodeAlign)
@@ -96,7 +107,7 @@ Sankey.prototype = {
 
     self.nodes = self.svg
       .append("g")
-      .classed("nodes", true)
+      .classed(`${self.nodeClass}s`, true)
       .selectAll("rect")
       .data(self.graph.nodes)
       .enter()
@@ -107,14 +118,14 @@ Sankey.prototype = {
         .attr("width", function (d) {return d.x1 - d.x0 - (2 * self.strokeWidth);})
         .attr("height", function (d) {return d.y1 - d.y0  - (2 * self.strokeWidth);})
         .attr("fill", function(d) {return d.color = self.color(d.name.replace(/ .*/, ""));})
-        .attr("stroke", function(d) {return "transparent"})
+        .attr("stroke", function(d) {return self.node.stroke})
         .attr("stroke-width", self.strokeWidth)
         .append("text")
           .text(function(d) {return `${d.name}\n${d.value} Participants`;});
 
     self.links = self.svg
       .append("g")
-      .classed("links", true)
+      .classed(`${self.linkClass}s`, true)
       .selectAll("path")
       .data(self.graph.links)
       .enter()
@@ -123,7 +134,7 @@ Sankey.prototype = {
         .attr("d", function (d) { return self.linkMethod(d);})
         .attr("fill", function(d) {return d.color = self.color(d.source.name.replace(/ .*/, ""));})
         .attr("stroke", function(d) {return d.color; })
-        .attr("stroke-width", function (d) { console.log(d); return Math.max(1, d.width - (2 * self.strokeWidth));})
+        .attr("stroke-width", function (d) { return Math.max(1, d.width - (2 * self.strokeWidth));})
         .sort(function(a, b) { return b.dy - a.dy;})
         .append("text")
           .text(function(d) { return `From ${d.source.name}, ${d.value} ${d.target.name}`;})

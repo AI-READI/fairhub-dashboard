@@ -30,9 +30,22 @@
                         "right": 40,
                         "bottom": 40
                     },
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
                     "node": {
                         "width": 40,
-                        "padding": 20
+                        "padding": 20,
+                        "class": "node",
+                        "alignment": "justify",
+                        "stroke": "transparent"
+                    },
+                    "edge": {
+                        "class": "edge"
                     }
                 }
             }]
@@ -49,9 +62,9 @@
 
             },
             "visualizations": [{
-                "type": "stackedbar",
+                "type": "doughnut",
                 "config": {
-                    "id": "#demographics-stacked-bar",
+                    "id": "#demographics-doughnut",
                     "width": 996,
                     "height": 560,
                     "margin": {
@@ -59,7 +72,15 @@
                         "left": 40,
                         "right": 40,
                         "bottom": 40
-                    }
+                    },
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
+                    "radius": 240
                 }
             }]
         }
@@ -85,7 +106,14 @@
                         "left": 40,
                         "right": 40,
                         "bottom": 40
-                    }
+                    },
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ]
                 }
             }]
         }
@@ -111,7 +139,14 @@
                         "left": 40,
                         "right": 40,
                         "bottom": 40
-                    }
+                    },
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ]
                 }
             }]
         }
@@ -137,7 +172,14 @@
                         "left": 40,
                         "right": 40,
                         "bottom": 40
-                    }
+                    },
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ]
                 }
             }]
         }
