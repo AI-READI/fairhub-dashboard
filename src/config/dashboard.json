@@ -20,6 +20,7 @@
             },
             "visualizations": [{
                 "type": "sankey",
+                "cols": 12,
                 "config": {
                     "id": "#overview-sankey",
                     "width": 996,
@@ -44,8 +45,8 @@
                         "alignment": "justify",
                         "stroke": "transparent"
                     },
-                    "edge": {
-                        "class": "edge"
+                    "link": {
+                        "class": "link"
                     }
                 }
             }]

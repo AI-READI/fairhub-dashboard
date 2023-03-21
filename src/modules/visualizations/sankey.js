@@ -5,37 +5,60 @@ Imports
 import * as D3 from "d3";
 import * as D3Sankey from "d3-sankey";
 
+/*
+Defaults
+*/
 
+const _defaults = {
+  id: "#overview-sankey",
+  width: 996,
+  height: 560,
+  margin: {
+    top: 40,
+    left: 40,
+    right: 40,
+    bottom: 40
+  },
+  palette: [
+    "#540d6e",
+    "#ee4266",
+    "#ffd23f",
+    "#3bceac",
+    "#0ead69"
+  ],
+  node: {
+    width: 40,
+    padding: 20,
+    class: "node",
+    alignment: "justify",
+    stroke: "transparent"
+  },
+    edge: {
+    class: "edge"
+  }
+}
 
 /*
 Prototype
 */
 
 // Overview Visualization Entry Point
-var Sankey = function (
-  config = {
-    id: "sankey",
-    width: 1280,
-    height: 720,
-    margin: {
-      top: 20,
-      left: 20,
-      right: 20,
-      bottom: 20
-    }
-  }) {
+var Sankey = function (config = _defaults) {
     return this.__init__(config);
 };
 
 // Overview Visualization Methods
 Sankey.prototype = {
 
-  node_alignment_map : {
+  _node_alignment_map : {
     "left": D3Sankey.sankeyLeft,
     "right": D3Sankey.sankeyRight,
     "center": D3Sankey.sankeyCenter,
     "justify": D3Sankey.sankeyJustify
   },
+
+  // Default config
+
   __init__ : function (config) {
     let self = this;
 
@@ -45,11 +68,9 @@ Sankey.prototype = {
     self.margin       = config.margin;
     self.palette      = config.palette;
     self.node         = config.node;
-    self.edge         = config.edge
+    self.link         = config.link;
 
-    self.nodeClass    = "node";
-    self.linkClass    = "link";
-    self.nodeAlign    = self.node_alignment_map[self.node.alignment];
+    self.nodeAlign    = self._node_alignment_map[self.node.alignment];
     self.linkMethod   = D3Sankey.sankeyLinkHorizontal();
     self.strokeWidth  = 2;
     self.inner        = {
@@ -89,9 +110,11 @@ Sankey.prototype = {
   update: function () {
     let self = this;
 
-    self.svg = D3.select(self.id);
+    /*
+    Graph Setup
+    */
 
-    // self.color = D3.scaleOrdinal(D3.schemeSet2);
+    self.svg = D3.select(self.id);
     self.color = D3.scaleOrdinal(self.palette);
     self.graph = D3Sankey.sankey(self.data)
       .nodeId(function (d) { return d.name })
@@ -105,14 +128,18 @@ Sankey.prototype = {
 
     self.graph = self.graph(self.data);
 
+    /*
+    Generate Data Elements
+    */
+
     self.nodes = self.svg
       .append("g")
-      .classed(`${self.nodeClass}s`, true)
+      .classed(`${self.node.class}s`, true)
       .selectAll("rect")
       .data(self.graph.nodes)
       .enter()
         .append("rect")
-        .classed(self.nodeClass, true)
+        .classed(self.node.class, true)
         .attr("x", function (d) {return d.x0 + self.strokeWidth;})
         .attr("y", function (d) {return d.y0 + self.strokeWidth;})
         .attr("width", function (d) {return d.x1 - d.x0 - (2 * self.strokeWidth);})
@@ -120,25 +147,41 @@ Sankey.prototype = {
         .attr("fill", function(d) {return d.color = self.color(d.name.replace(/ .*/, ""));})
         .attr("stroke", function(d) {return self.node.stroke})
         .attr("stroke-width", self.strokeWidth)
-        .append("text")
-          .text(function(d) {return `${d.name}\n${d.value} Participants`;});
 
     self.links = self.svg
       .append("g")
-      .classed(`${self.linkClass}s`, true)
+      .classed(`${self.link.class}s`, true)
       .selectAll("path")
       .data(self.graph.links)
       .enter()
         .append("path")
-        .classed(self.linkClass, true)
-        .attr("d", function (d) { return self.linkMethod(d);})
+        .classed(self.link.class, true)
+        .attr("d", function (d) { console.log(self.linkMethod(d)); return self.linkMethod(d);})
         .attr("fill", function(d) {return d.color = self.color(d.source.name.replace(/ .*/, ""));})
         .attr("stroke", function(d) {return d.color; })
         .attr("stroke-width", function (d) { return Math.max(1, d.width - (2 * self.strokeWidth));})
+        .attr("opacity", 0.7)
         .sort(function(a, b) { return b.dy - a.dy;})
-        .append("text")
-          .text(function(d) { return `From ${d.source.name}, ${d.value} ${d.target.name}`;})
-          .attr("font-size", "24px");
+
+
+    /*
+    Generate Labels
+    */
+
+    self.nodelabels = self.svg
+      .append("g")
+      .classed(`${self.node.class}-labels`, true)
+      .selectAll("text")
+      .data(self.graph.nodes)
+      .join("text")
+        .classed(`${self.node.class}-label`, true)
+        .attr("x", function (d) {return d.x0 < self.inner.width / 2 ? d.x1 + 6 : d.x0 - 6;})
+        .attr("y", function (d) {return (d.y1 + d.y0) / 2;})
+        // .style("transform", "rotate(90deg)")
+        .attr("dy", "0.35em")
+        .attr("text-anchor", function (d) { return d.x0 < self.inner.width / 2 ? "start" : "end"})
+        .text(function(d) {return `${d.value.toLocaleString()} ${d.name} `;})
+
     return self;
   },
 

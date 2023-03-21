@@ -26,6 +26,8 @@ StackedBar.prototype = {
     self.height     = config.height;
     self.palette    = config.palette;
 
+    self.barClass   = "bar";
+
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
@@ -60,43 +62,59 @@ StackedBar.prototype = {
     self.groups = D3.map(self.data, function (d) { return (d.group) })
     self.subgroups = self.columns.slice(1);
 
+    self.stacked = D3.stack()
+      .keys(self.subgroups)(self.data);
+
     self.x = D3.scaleBand()
       .domain(self.groups)
       .range([0, self.inner.width])
-      .padding([0.2]);
+      .padding([0.05]);
 
     self.y = D3.scaleLinear()
-      .domain([0, 250])
-      .range([ self.inner.height, 0 ]);
+      .domain([0, 260])
+      .range([self.inner.height, 0]);
 
-    self.stacked = D3.stack()
-      .keys(self.subgroups)(self.data)
-
-    self.svg.append("g")
+    self.xAxis = self.svg.append("g")
+      .classed("x-axis", true)
       .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
-      .call(D3.axisBottom(self.x).tickSizeOuter(5));
+      .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
+      .selectAll(".tick")
+      // .attr("transform", function (d) { console.log(d); return `translate(${(self.margin.left + (self.x.bandwidth(d) / 2))}, 0)`})
+      .selectAll("text")
+      .classed("label", true)
+      .style("text-anchor", "start");
 
-    self.svg.append("g")
+    self.yAxis = self.svg.append("g")
+      .classed("y-axis", true)
       .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
-      .call(D3.axisLeft(self.y));
+      .call(D3.axisLeft(self.y))
+      .selectAll("text")
+      .classed("label", true)
+      .style("text-anchor", "end");
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)
-      .range(self.palette)
+      .range(self.palette);
 
-    self.svg.append("g")
+    self.bars = self.svg.append("g")
+      .classed(`${self.barClass}s`, true)
       .selectAll("g")
       .data(self.stacked)
-      .enter().append("g")
+      .enter()
+        .append("g")
+        .classed(`bar-group`, true)
         .attr("fill", function (d) { return self.color(d.key); })
         .selectAll("rect")
         .data(function (d) { return d; })
-        .enter().append("rect")
+        .enter()
+          .append("rect")
+          .classed(`${self.barClass}`, true)
           .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
-          .attr("x", function (d) { return self.x(d.data.group); })
+          .attr("x", function (d) { console.log(d); return self.x(d.data.group); })
           .attr("y", function (d) { return self.y(d[1]); })
           .attr("height", function (d) { return self.y(d[0]) - self.y(d[1]); })
           .attr("width", self.x.bandwidth())
+          .attr("opacity", 0.7)
           .text(function (d) { return d.data.group; });
 
     return self;
