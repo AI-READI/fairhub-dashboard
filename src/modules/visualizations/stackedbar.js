@@ -68,7 +68,9 @@ StackedBar.prototype = {
     self.x = D3.scaleBand()
       .domain(self.groups)
       .range([0, self.inner.width])
-      .padding([0.05]);
+      .paddingInner(0.05)
+      .paddingOuter(0)
+      .align(0);
 
     self.y = D3.scaleLinear()
       .domain([0, 260])
@@ -79,10 +81,11 @@ StackedBar.prototype = {
       .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
       .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
       .selectAll(".tick")
-      // .attr("transform", function (d) { console.log(d); return `translate(${(self.margin.left + (self.x.bandwidth(d) / 2))}, 0)`})
-      .selectAll("text")
-      .classed("label", true)
-      .style("text-anchor", "start");
+      .data(self.data)
+        .attr("transform", function (d) { return `translate(${self.x(d.group)}, 0)`})
+        .selectAll("text")
+        .classed("label", true)
+        .style("text-anchor", "start");
 
     self.yAxis = self.svg.append("g")
       .classed("y-axis", true)

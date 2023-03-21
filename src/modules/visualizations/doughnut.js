@@ -33,7 +33,7 @@ Doughnut.prototype = {
     }
 
     self.data       = {
-      healthy: 119, prediabetic: 30, diabetic: 81
+      healthy: 119, prediabetic: 30, diabetic: 81, severe: 7
     }
     self.columns = Object.keys(self.data);
 
@@ -68,12 +68,12 @@ Doughnut.prototype = {
       .range(self.palette );
 
     self.dataArcs = D3.arc()
-      .innerRadius(self.radius * 0.3)
-      .outerRadius(self.radius * 0.7);
+      .innerRadius(self.radius * 0.6)
+      .outerRadius(self.radius * 0.85);
 
     self.labelArcs = D3.arc()
-      .innerRadius(self.radius * 0.9)
-      .outerRadius(self.radius * 0.9);
+      .innerRadius(self.radius * 0.85)
+      .outerRadius(self.radius * 0.85);
 
     self.arcs = self.svg
       .selectAll('.arcs')
@@ -81,7 +81,6 @@ Doughnut.prototype = {
         .join("path")
           .attr("d", self.dataArcs)
           .attr('fill', function (d) { return(self.color(d.label)) })
-          .attr("stroke", "black")
           .style("stroke-width", "2px")
           .style("opacity", 0.7)
 
@@ -98,7 +97,7 @@ Doughnut.prototype = {
           var y = self.labelArcs.centroid(d); // line break: we use the other arc generator that has been built only for that
           var z = self.labelArcs.centroid(d); // Label position = almost the same as posB
           var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-          z[0] = self.radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+          z[0] = self.radius * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
           return [x, y, z]
         })
 
@@ -111,7 +110,7 @@ Doughnut.prototype = {
         .text( function (d) { return d.label } )
         .attr('transform', function (d) {
             let position = self.labelArcs.centroid(d);
-            position[0] = self.radius * 0.99 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1);
+            position[0] = self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1);
             return 'translate(' + position + ')';
         })
         .style('text-anchor', function(d) {

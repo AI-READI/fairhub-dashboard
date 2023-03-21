@@ -147,6 +147,7 @@ Sankey.prototype = {
         .attr("fill", function(d) {return d.color = self.color(d.name.replace(/ .*/, ""));})
         .attr("stroke", function(d) {return self.node.stroke})
         .attr("stroke-width", self.strokeWidth)
+        .attr("opacity", 0.7)
 
     self.links = self.svg
       .append("g")
@@ -160,7 +161,7 @@ Sankey.prototype = {
         .attr("fill", function(d) {return d.color = self.color(d.source.name.replace(/ .*/, ""));})
         .attr("stroke", function(d) {return d.color; })
         .attr("stroke-width", function (d) { return Math.max(1, d.width - (2 * self.strokeWidth));})
-        .attr("opacity", 0.7)
+        .attr("opacity", 0.5)
         .sort(function(a, b) { return b.dy - a.dy;})
 
 
