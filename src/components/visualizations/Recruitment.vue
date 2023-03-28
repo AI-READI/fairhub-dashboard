@@ -101,5 +101,8 @@ Component
   h3 {
     font-size: 1.2rem;
   }
+  svg {
+    shape-rendering: geometricPrecision;
+  }
 </style>
 

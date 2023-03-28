@@ -20,17 +20,17 @@
             },
             "visualizations": [{
                 "type": "sankey",
-                "cols": 12,
                 "config": {
                     "id": "#overview-sankey",
-                    "width": 996,
-                    "height": 560,
+                    "width": 1200,
+                    "height": 540,
                     "margin": {
                         "top": 40,
                         "left": 40,
                         "right": 40,
                         "bottom": 40
                     },
+                    "ncols": "twelve",
                     "palette": [
                         "#540d6e",
                         "#ee4266",
@@ -39,15 +39,109 @@
                         "#0ead69"
                     ],
                     "node": {
-                        "width": 40,
-                        "padding": 20,
+                        "width": 240,
+                        "padding": 60,
                         "class": "node",
-                        "alignment": "justify",
-                        "stroke": "transparent"
+                        "alignment": "left",
+                        "opacity": 1,
+                        "sort": "descending",
+                        "fontsize": 16
                     },
                     "link": {
-                        "class": "link"
+                        "minWidth": 20,
+                        "class": "link",
+                        "opacity": 0.95,
+                        "sort": "ascending",
+                        "fontsize": 8
                     }
+                }
+            }, {
+                "type": "doughnut",
+                "config": {
+                    "id": "#overview-doughnut-1",
+                    "width": 996,
+                    "height": 540,
+                    "margin": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "ncols": "three",
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
+                    "radius": 340
+                }
+            }, {
+                "type": "doughnut",
+                "config": {
+                    "id": "#overview-doughnut-2",
+                    "width": 996,
+                    "height": 540,
+                    "margin": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "ncols": "three",
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
+                    "radius": 340
+                }
+            }, {
+                "type": "doughnut",
+                "config": {
+                    "id": "#overview-doughnut-3",
+                    "width": 996,
+                    "height": 540,
+                    "margin": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "ncols": "three",
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
+                    "radius": 340
+                }
+            }, {
+                "type": "doughnut",
+                "config": {
+                    "id": "#overview-doughnut-4",
+                    "width": 996,
+                    "height": 540,
+                    "margin": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "ncols": "three",
+                    "palette": [
+                        "#540d6e",
+                        "#ee4266",
+                        "#ffd23f",
+                        "#3bceac",
+                        "#0ead69"
+                    ],
+                    "radius": 340
                 }
             }]
         }
@@ -63,25 +157,25 @@
 
             },
             "visualizations": [{
-                "type": "doughnut",
+                "type": "stackedbar",
                 "config": {
-                    "id": "#demographics-doughnut",
-                    "width": 996,
-                    "height": 560,
+                    "id": "#demographics-stacked-bar",
+                    "width": 1200,
+                    "height": 540,
                     "margin": {
                         "top": 40,
                         "left": 40,
                         "right": 40,
                         "bottom": 40
                     },
+                    "ncols": "twelve",
                     "palette": [
                         "#540d6e",
                         "#ee4266",
                         "#ffd23f",
                         "#3bceac",
                         "#0ead69"
-                    ],
-                    "radius": 240
+                    ]
                 }
             }]
         }
@@ -100,14 +194,15 @@
                 "type": "stackedbar",
                 "config": {
                     "id": "#recruitment-stacked-bar",
-                    "width": 996,
-                    "height": 560,
+                    "width": 1200,
+                    "height": 540,
                     "margin": {
                         "top": 40,
                         "left": 40,
                         "right": 40,
                         "bottom": 40
                     },
+                    "ncols": "twelve",
                     "palette": [
                         "#540d6e",
                         "#ee4266",
@@ -133,14 +228,15 @@
                 "type": "stackedbar",
                 "config": {
                     "id": "#completion-stacked-bar",
-                    "width": 996,
-                    "height": 560,
+                    "width": 1200,
+                    "height": 540,
                     "margin": {
                         "top": 40,
                         "left": 40,
                         "right": 40,
                         "bottom": 40
                     },
+                    "ncols": "twelve",
                     "palette": [
                         "#540d6e",
                         "#ee4266",
@@ -166,14 +262,15 @@
                 "type": "stackedbar",
                 "config": {
                     "id": "#sites-stacked-bar",
-                    "width": 996,
-                    "height": 560,
+                    "width": 1200,
+                    "height": 540,
                     "margin": {
                         "top": 40,
                         "left": 40,
                         "right": 40,
                         "bottom": 40
                     },
+                    "ncols": "twelve",
                     "palette": [
                         "#540d6e",
                         "#ee4266",

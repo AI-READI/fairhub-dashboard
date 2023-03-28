@@ -101,5 +101,11 @@ Component
   h3 {
     font-size: 1.2rem;
   }
+  svg {
+    shape-rendering: geometricPrecision;
+  }
+  path, rect, line, text {
+    cursor: pointer;
+  }
 </style>
 

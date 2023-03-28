@@ -17,7 +17,7 @@ var StackedBar = function (config) {
 StackedBar.prototype = {
 
   __init__ : function (config) {
-    let self = this;
+    var self = this;
 
     self.id         = config.id;
     self.margin     = config.margin;
@@ -25,6 +25,7 @@ StackedBar.prototype = {
     self.width      = config.width;
     self.height     = config.height;
     self.palette    = config.palette;
+    self.ncols      = config.ncols;
 
     self.barClass   = "bar";
 
@@ -55,7 +56,11 @@ StackedBar.prototype = {
   },
 
   update: function () {
-    let self = this;
+    var self = this;
+
+    /*
+    Setup
+    */
 
     self.svg = D3.select(self.id);
 
@@ -64,6 +69,14 @@ StackedBar.prototype = {
 
     self.stacked = D3.stack()
       .keys(self.subgroups)(self.data);
+
+    self.color = D3.scaleOrdinal()
+      .domain(self.groups)
+      .range(self.palette);
+
+    /*
+    Generate Axes
+    */
 
     self.x = D3.scaleBand()
       .domain(self.groups)
@@ -82,7 +95,7 @@ StackedBar.prototype = {
       .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
       .selectAll(".tick")
       .data(self.data)
-        .attr("transform", function (d) { return `translate(${self.x(d.group)}, 0)`})
+        .attr("transform", d => `translate(${self.x(d.group)}, 0)`)
         .selectAll("text")
         .classed("label", true)
         .style("text-anchor", "start");
@@ -95,9 +108,9 @@ StackedBar.prototype = {
       .classed("label", true)
       .style("text-anchor", "end");
 
-    self.color = D3.scaleOrdinal()
-      .domain(self.groups)
-      .range(self.palette);
+    /*
+    Generate Data Elements
+    */
 
     self.bars = self.svg.append("g")
       .classed(`${self.barClass}s`, true)
@@ -106,25 +119,25 @@ StackedBar.prototype = {
       .enter()
         .append("g")
         .classed(`bar-group`, true)
-        .attr("fill", function (d) { return self.color(d.key); })
+        .attr("fill", d => self.color(d.key))
         .selectAll("rect")
-        .data(function (d) { return d; })
+        .data(d => d)
         .enter()
           .append("rect")
           .classed(`${self.barClass}`, true)
           .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
-          .attr("x", function (d) { console.log(d); return self.x(d.data.group); })
-          .attr("y", function (d) { return self.y(d[1]); })
-          .attr("height", function (d) { return self.y(d[0]) - self.y(d[1]); })
+          .attr("x", d => self.x(d.data.group))
+          .attr("y", d =>  self.y(d[1]))
+          .attr("height", d =>  self.y(d[0]) - self.y(d[1]))
           .attr("width", self.x.bandwidth())
           .attr("opacity", 0.7)
-          .text(function (d) { return d.data.group; });
+          .text(d =>  d.data.group);
 
     return self;
   },
 
   debug : function () {
-    let self = this;
+    var self = this;
     console.log(self);
     return self;
   }
