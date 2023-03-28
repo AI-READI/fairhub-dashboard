@@ -79,13 +79,15 @@ Component
 <template>
   <h2>{{ config.name }}</h2>
   <h3>{{ config.subtitle }}</h3>
-  <div v-for="visualization in visualizations" :id="config.id" class="visualization-container">
-    <svg
-      :id="visualization.id.replace('#','')"
-      :viewBox="`0 0 ${visualization.width + visualization.margin.left + visualization.margin.right} ${visualization.height + visualization.margin.top + visualization.margin.bottom}`"
-      preserveAspectRatio="xMinYMid meet"
-      xmlns="http://www.w3.org/2000/svg"
-    />
+  <div :id="config.id">
+    <div v-for="visualization in visualizations" class="visualization-container">
+      <svg
+        :id="visualization.id.replace('#','')"
+        :viewBox="`0 0 ${visualization.width + visualization.margin.left + visualization.margin.right} ${visualization.height + visualization.margin.top + visualization.margin.bottom}`"
+        preserveAspectRatio="xMinYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+      />
+    </div>
   </div>
 </template>
 
@@ -101,11 +103,13 @@ Component
   h3 {
     font-size: 1.2rem;
   }
-  svg {
-    shape-rendering: geometricPrecision;
+  .doughnut-chart {
+    float: left;
+    display: inline-flex;
+    width: 240px;
   }
-  path, rect, line, text {
-    cursor: pointer;
+  .doughnut-chart:first-of-type {
+    margin-left: 20px;
   }
 </style>
 

@@ -2,19 +2,19 @@
 Imports
 */
 
-import * as D3 from "d3";
+import * as D3 from "D3";
 
 /*
 Prototype
 */
 
 // Overview Visualization Entry Point
-var StackedBar = function (config) {
+var LineChart = function (config) {
     return this.__init__(config);
 };
 
 // Overview Visualization Methods
-StackedBar.prototype = {
+LineChart.prototype = {
 
   __init__ : function (config) {
     var self = this;
@@ -68,13 +68,7 @@ StackedBar.prototype = {
     */
 
     self.svg = D3.select(self.id)
-      .classed("stacked-bar-chart", true);
-
-    self.groups = D3.map(self.data, function (d) { return (d.group) })
-    self.subgroups = self.columns.slice(1);
-
-    self.stacked = D3.stack()
-      .keys(self.subgroups)(self.data);
+      .classed("line-chart", true);
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)
@@ -84,62 +78,37 @@ StackedBar.prototype = {
     Generate Axes
     */
 
-    self.x = D3.scaleBand()
-      .domain(self.groups)
-      .range([0, self.inner.width])
-      .paddingInner(0.05)
-      .paddingOuter(0)
-      .align(0);
+    self.x = D3.scaleTime()
+      .domain(D3.extent(self.data, function (d) { return d.date; }))
+      .range([0, self.inner.width]);
 
     self.y = D3.scaleLinear()
-      .domain([0, 750])
+      .domain([0, D3.max(self.data, function (d) { return +d.value; })])
       .range([self.inner.height, 0]);
 
     self.xAxis = self.svg.append("g")
       .classed("x-axis", true)
       .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
       .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
-      .selectAll(".tick")
-      .data(self.data)
-        .attr("transform", d => `translate(${self.x(d.group)}, 0)`)
-        .selectAll("text")
-        .classed("label", true)
-        .style("text-anchor", "start")
-        .style("text-transform", "capitalize");
 
     self.yAxis = self.svg.append("g")
       .classed("y-axis", true)
       .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
       .call(D3.axisLeft(self.y))
-      .selectAll("text")
-      .classed("label", true)
-      .style("text-anchor", "end")
-      .style("text-transform", "capitalize");
 
     /*
     Generate Data Elements
     */
 
-    self.bars = self.svg.append("g")
-      .classed(`${self.barClass}s`, true)
-      .selectAll("g")
-      .data(self.stacked)
-      .enter()
-        .append("g")
-        .classed(`bar-group`, true)
-        .attr("fill", d => self.color(d.key))
-        .selectAll("rect")
-        .data(d => d)
-        .enter()
-          .append("rect")
-          .classed(`${self.barClass}`, true)
-          .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
-          .attr("x", d => self.x(d.data.group))
-          .attr("y", d =>  self.y(d[1]))
-          .attr("height", d =>  self.y(d[0]) - self.y(d[1]))
-          .attr("width", self.x.bandwidth())
-          .attr("opacity", self.opacity)
-          .text(d =>  d.data.group);
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", D3.line()
+        .x(function(d) { return x(d.date) })
+        .y(function(d) { return y(d.value) })
+        )
 
     return self;
   },
@@ -156,4 +125,4 @@ StackedBar.prototype = {
 Exports
 */
 
-export default StackedBar;
+export default LineChart;

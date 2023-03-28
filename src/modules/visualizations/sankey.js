@@ -116,7 +116,8 @@ Sankey.prototype = {
     Graph Setup
     */
 
-    self.svg = D3.select(self.id);
+    self.svg = D3.select(self.id)
+      .classed("sankey-chart", true);
     self.color = D3.scaleOrdinal(self.palette);
     self.graph = D3Sankey.sankey(self.data)
       .nodeId(d => d.name)

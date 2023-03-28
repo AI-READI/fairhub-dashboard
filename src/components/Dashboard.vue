@@ -24,7 +24,6 @@ Component
       let dashboard = configStore().configs.dashboard;
       let components = [];
       let names = [];
-      let mapped = {}
       for (let i = 0; i < dashboard.components.length; i++) {
         let component = dashboard.components[i].name;
         for (const path in visualizations) {
@@ -58,5 +57,8 @@ Component
 <style scoped>
   .visualization-container {
      max-height: 760px;
+  }
+  svg:path, svg:rect, svg:circle {
+    cursor: pointer !important;
   }
 </style>

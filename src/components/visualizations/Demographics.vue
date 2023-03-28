@@ -79,8 +79,8 @@ Component
 <template>
   <h2>{{ config.name }}</h2>
   <h3>{{ config.subtitle }}</h3>
-  <div>
-    <div v-for="visualization in visualizations" :id="config.id">
+  <div :id="config.id">
+    <div v-for="visualization in visualizations" class="visualization-container">
       <svg
         :id="visualization.id.replace('#','')"
         :viewBox="`0 0 ${visualization.width} ${visualization.height}`"

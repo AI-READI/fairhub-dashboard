@@ -25,6 +25,7 @@ Doughnut.prototype = {
     self.width      = config.width;
     self.height     = config.height;
     self.palette    = config.palette;
+    self.opacity    = config.opacity;
     self.ncols      = config.ncols;
 
     self.inner      = {
@@ -53,6 +54,7 @@ Doughnut.prototype = {
     var self = this;
 
     self.svg = D3.select(self.id)
+      .classed("doughnut-chart", true)
       .append("g")
       .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`);
 
@@ -79,7 +81,7 @@ Doughnut.prototype = {
           .attr("d", self.dataArcs)
           .attr('fill', d => self.color(d.label))
           .attr("stroke-width", "2px")
-          .attr("opacity", 0.7)
+          .attr("opacity", self.opacity)
 
     /*
     Generate Text Labels
@@ -113,8 +115,9 @@ Doughnut.prototype = {
       .append('text')
         .text(d => d.label)
         .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArcs.centroid(d)[1]})`)
-        .attr('font-size', "4rem")
+        .attr('font-size', "1rem")
         .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
+        .style("text-transform", "capitalize");
 
     return self;
   },

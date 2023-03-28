@@ -28,7 +28,7 @@
                         "top": 40,
                         "left": 40,
                         "right": 40,
-                        "bottom": 40
+                        "bottom": 0
                     },
                     "ncols": "twelve",
                     "palette": [
@@ -59,8 +59,8 @@
                 "type": "doughnut",
                 "config": {
                     "id": "#overview-doughnut-1",
-                    "width": 996,
-                    "height": 540,
+                    "width": 320,
+                    "height": 120,
                     "margin": {
                         "top": 0,
                         "left": 0,
@@ -75,14 +75,15 @@
                         "#3bceac",
                         "#0ead69"
                     ],
-                    "radius": 340
+                    "opacity": 0.8,
+                    "radius": 50
                 }
             }, {
                 "type": "doughnut",
                 "config": {
                     "id": "#overview-doughnut-2",
-                    "width": 996,
-                    "height": 540,
+                    "width": 320,
+                    "height": 120,
                     "margin": {
                         "top": 0,
                         "left": 0,
@@ -97,14 +98,15 @@
                         "#3bceac",
                         "#0ead69"
                     ],
-                    "radius": 340
+                    "opacity": 0.8,
+                    "radius": 50
                 }
             }, {
                 "type": "doughnut",
                 "config": {
                     "id": "#overview-doughnut-3",
-                    "width": 996,
-                    "height": 540,
+                    "width": 320,
+                    "height": 120,
                     "margin": {
                         "top": 0,
                         "left": 0,
@@ -119,14 +121,15 @@
                         "#3bceac",
                         "#0ead69"
                     ],
-                    "radius": 340
+                    "opacity": 0.8,
+                    "radius": 50
                 }
             }, {
                 "type": "doughnut",
                 "config": {
                     "id": "#overview-doughnut-4",
-                    "width": 996,
-                    "height": 540,
+                    "width": 320,
+                    "height": 120,
                     "margin": {
                         "top": 0,
                         "left": 0,
@@ -141,7 +144,8 @@
                         "#3bceac",
                         "#0ead69"
                     ],
-                    "radius": 340
+                    "opacity": 0.8,
+                    "radius": 50
                 }
             }]
         }
@@ -175,7 +179,8 @@
                         "#ffd23f",
                         "#3bceac",
                         "#0ead69"
-                    ]
+                    ],
+                    "opacity": 0.8
                 }
             }]
         }
@@ -209,7 +214,8 @@
                         "#ffd23f",
                         "#3bceac",
                         "#0ead69"
-                    ]
+                    ],
+                    "opacity": 0.8
                 }
             }]
         }
@@ -243,7 +249,8 @@
                         "#ffd23f",
                         "#3bceac",
                         "#0ead69"
-                    ]
+                    ],
+                    "opacity": 0.8
                 }
             }]
         }
@@ -277,7 +284,8 @@
                         "#ffd23f",
                         "#3bceac",
                         "#0ead69"
-                    ]
+                    ],
+                    "opacity": 0.8
                 }
             }]
         }
