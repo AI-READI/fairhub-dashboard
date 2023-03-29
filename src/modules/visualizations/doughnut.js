@@ -27,17 +27,13 @@ Doughnut.prototype = {
     self.palette    = config.palette;
     self.opacity    = config.opacity;
     self.ncols      = config.ncols;
+    self.data       = config.data;
 
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right,
     }
 
-    self.data       = [
-      {group: "healthy", value: 119},
-      {group: "prediabetic", value: 60},
-      {group: "diabetic", value: 81}
-    ]
     self.columns = self.data.map(d => d.group);
     self.radius = (Math.min(self.inner.width, self.inner.height) / 2);
     self.svg = null;
@@ -88,10 +84,10 @@ Doughnut.prototype = {
     */
 
     self.labelArcs = D3.arc()
-      .innerRadius(self.radius * 0.9)
-      .outerRadius(self.radius * 0.9);
+      .innerRadius(self.radius * 0.85)
+      .outerRadius(self.radius * 0.90);
 
-    self.labellines = self.svg
+    self.labelLines = self.svg
       .selectAll('.label-lines')
       .data(self.doughnut)
       .enter()
@@ -115,7 +111,7 @@ Doughnut.prototype = {
       .append('text')
         .text(d => d.label)
         .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArcs.centroid(d)[1]})`)
-        .attr('font-size', "1rem")
+        .attr('font-size', "0.6rem")
         .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
         .style("text-transform", "capitalize");
 

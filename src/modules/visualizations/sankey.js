@@ -71,6 +71,7 @@ Sankey.prototype = {
     self.node         = config.node;
     self.link         = config.link;
     self.ncols        = config.ncols;
+    self.data         = config.data;
 
     self.uid          = `O-${Math.random().toString(16).slice(2)}`
     self.nodeAlign    = self._node_alignment_map[self.node.alignment];
@@ -78,31 +79,6 @@ Sankey.prototype = {
     self.inner        = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
-    };
-
-    // Generate sankey – sample data
-    self.data = {
-      nodes: [
-        { name: "Screened In" }, // value: 27
-        { name: "Screened Out" }, // value: 19
-        { name: "Consented" }, // value: 18
-        { name: "Did Not Consent" }, // value: 3
-        { name: "Active" }, // value: 46
-        { name: "Completed" }, // value: 4
-        { name: "Inactive" }, // value: 14
-        { name: "Exited" }  // value: 8
-      ],
-      links: [
-        { source: "Screened In", target: "Consented", value: 128 },
-        { source: "Screened In", target: "Did Not Consent", value: 13 },
-        { source: "Screened Out", target: "Exited", value: 221 },
-        { source: "Consented", target: "Active", value: 19 },
-        { source: "Consented", target: "Inactive", value: 5 },
-        { source: "Consented", target: "Completed", value: 98 },
-        { source: "Consented", target: "Exited", value: 6 },
-        { source: "Did Not Consent", target: "Inactive", value: 6 },
-        { source: "Did Not Consent", target: "Exited", value: 7 }
-      ]
     };
 
     return self.update();

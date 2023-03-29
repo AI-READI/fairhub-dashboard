@@ -27,35 +27,26 @@ LineChart.prototype = {
     self.palette    = config.palette;
     self.opacity    = config.opacity;
     self.ncols      = config.ncols;
-
-    self.barClass   = "bar";
+    self.data       = config.data;
 
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right
     }
 
-    // Simulated data, will come from an API request
-    self.data       = [
-      {group: "Screened In", healthy: 119, prediabetic: 30, diabetic: 81},
-      {group: "Screened Out", healthy: 381, prediabetic: 144, diabetic: 201},
-      {group: "Did Consent", healthy: 72, prediabetic: 21, diabetic: 69},
-      {group: "Did Not Consent", healthy: 13, prediabetic: 8, diabetic: 10},
-      {group: "Active", healthy: 31, prediabetic: 4, diabetic: 37},
-      {group: "Inctive", healthy: 3, prediabetic: 2, diabetic: 7},
-      {group: "Completed", healthy: 91, prediabetic: 53, diabetic: 71},
-      {group: "Exited", healthy: 18, prediabetic: 12, diabetic: 19}
-    ];
-
-    // Need to compute this dynamically once data schema is specified
-    self.columns = ['group', 'healthy', 'prediabetic', 'diabetic'];
-
     self.svg = null;
     self.groups = null;
-    self.subgroups = null;
+    self.series = null;
+    self.color = null;
     self.x = null;
     self.y = null;
-    self.stacked = null;
+    self.xAxis = null;
+    self.yAxis = null;
+    self.line = null;
+    self.series = null;
+    self.points = null;
+    self.pointradius = 5;
+
     return self;
 
   },
@@ -71,7 +62,7 @@ LineChart.prototype = {
       .classed("line-chart", true);
 
     self.color = D3.scaleOrdinal()
-      .domain(self.groups)
+      .domain(self.series)
       .range(self.palette);
 
     /*
@@ -100,15 +91,31 @@ LineChart.prototype = {
     Generate Data Elements
     */
 
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", D3.line()
-        .x(function(d) { return x(d.date) })
-        .y(function(d) { return y(d.value) })
-        )
+    self.line = D3.line()
+        .x(d => self.x(d.x))
+        .y(d => self.y(d.y))
+
+    self.series = self.svg.append("path")
+      .data(self.data)
+      .join("path")
+        .attr("d", self.line)
+        .attr("stroke",  d => self.color(d.key))
+        .attr("stroke-width", 1.5)
+        .attr("fill", d => self.color(d.key))
+        .attr("fill-opacity", 0.7);
+
+    self.points = self.svg
+      .selectAll("dots")
+        .data(self.data)
+        .join('g')
+          .style("fill", d => self.color(d.key))
+      .selectAll("points")
+        .data(d => d.values)
+        .join("circle")
+          .attr("cx", d => x(d.x))
+          .attr("cy", d => y(d.y))
+          .attr("r", self.pointradius)
+          .attr("stroke", "transparent")
 
     return self;
   },

@@ -27,6 +27,7 @@ StackedBar.prototype = {
     self.palette    = config.palette;
     self.opacity    = config.opacity;
     self.ncols      = config.ncols;
+    self.data       = config.data;
 
     self.barClass   = "bar";
 
@@ -112,9 +113,9 @@ StackedBar.prototype = {
       .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
       .call(D3.axisLeft(self.y))
       .selectAll("text")
-      .classed("label", true)
-      .style("text-anchor", "end")
-      .style("text-transform", "capitalize");
+        .classed("label", true)
+        .style("text-anchor", "end")
+        .style("text-transform", "capitalize");
 
     /*
     Generate Data Elements
