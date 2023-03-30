@@ -29,11 +29,12 @@ Doughnut.prototype = {
     self.ncols      = config.ncols;
     self.data       = config.data;
 
+    // References
+    self.uid          = `O-${Math.random().toString(16).slice(2)}`;
     self.inner      = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right,
-    }
-
+    };
     self.columns = self.data.map(d => d.group);
     self.radius = (Math.min(self.inner.width, self.inner.height) / 2);
     self.svg = null;
@@ -122,6 +123,14 @@ Doughnut.prototype = {
     var self = this;
     console.log(self);
     return self;
+  },
+
+  _uid: function () {
+    return `O-${Math.random().toString(16).slice(2, 8)}`
+  },
+
+  _rename: function (name) {
+    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

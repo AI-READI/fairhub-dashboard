@@ -111,5 +111,8 @@ Component
   .doughnut-chart:first-of-type {
     margin-left: 20px;
   }
+  svg {
+    shape-rendering: geometricPrecision;
+  }
 </style>
 

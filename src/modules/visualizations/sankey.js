@@ -33,9 +33,8 @@ const _defaults = {
     alignment: "justify",
     stroke: "transparent"
   },
-    edge: {
-    class: "edge",
-    jitter: 40
+  link: {
+    class: "link"
   }
 }
 
@@ -73,7 +72,7 @@ Sankey.prototype = {
     self.ncols        = config.ncols;
     self.data         = config.data;
 
-    self.uid          = `O-${Math.random().toString(16).slice(2)}`
+    self.uid          = self._uid();
     self.nodeAlign    = self._node_alignment_map[self.node.alignment];
     self.linkMethod   = D3Sankey.sankeyLinkHorizontal();
     self.inner        = {
@@ -123,8 +122,7 @@ Sankey.prototype = {
         .data(self.graph.links)
         .enter()
           .append("linearGradient")
-            .attr("id", function (d) { console.log(d); return `${self.uid}_${self._rename(d.source.name)}_${self._rename(d.target.name)}_gradient`})
-            .attr("id", d => `${self.uid}_${self._rename(d.source.name)}_${self._rename(d.target.name)}_gradient`)
+            .attr("id", d => `${self.uid}_gradient_${self._rename(d.source.name)}_${self._rename(d.target.name)}`)
             .attr("gradientUnits", "userSpaceOnUse")
             .attr("x1", d => d.source.x1)
             .attr("y1", d => Math.max(d.source.y0, d.target.y0, d.source.y1, d.target.y1))
@@ -173,7 +171,7 @@ Sankey.prototype = {
             .classed(self.link.class, true)
             .attr("d", d => d.path = self.linkMethod(d))
             .attr("fill", "none")
-            .attr("stroke", d => `url(#${self.uid}_${self._rename(d.source.name)}_${self._rename(d.target.name)}_gradient)`)
+            .attr("stroke", d => `url(#${self.uid}_gradient_${self._rename(d.source.name)}_${self._rename(d.target.name)})`)
             .attr("stroke-width", d => d.width)
             .attr("stroke-linecap", "square")
             .attr("opacity", self.link.opacity)
@@ -192,7 +190,7 @@ Sankey.prototype = {
         .join("text")
           .text(d => `${d.name} (${d.value})`)
             .classed(`${self.node.class}-label`, true)
-            .attr("id", d => `${self.uid}_node_${self._rename(d.name)}`)
+            .attr("id", d =>  `${self.uid}_node-label_${self._rename(d.name)}`)
             .attr("font-size", self.node.fontsize)
             .attr("x", d => d.x0)
             .attr("y", d => d.y0 - (self.node.fontsize / 2));
@@ -207,8 +205,12 @@ Sankey.prototype = {
     return self;
   },
 
+  _uid: function () {
+    return `O-${Math.random().toString(16).slice(2, 8)}`
+  },
+
   _rename: function (name) {
-    return name.replace(/\s/g, "-");
+    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

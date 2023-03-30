@@ -124,6 +124,14 @@ LineChart.prototype = {
     var self = this;
     console.log(self);
     return self;
+  },
+
+  _uid: function () {
+    return `O-${Math.random().toString(16).slice(2, 8)}`
+  },
+
+  _rename: function (name) {
+    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

@@ -3,6 +3,7 @@ Imports
 */
 
 import * as D3 from "d3";
+import Legend from "./legend.js";
 
 /*
 Prototype
@@ -19,44 +20,32 @@ StackedBar.prototype = {
   __init__ : function (config) {
     var self = this;
 
-    self.id         = config.id;
-    self.margin     = config.margin;
-    self.padding    = config.padding;
-    self.width      = config.width;
-    self.height     = config.height;
-    self.palette    = config.palette;
-    self.opacity    = config.opacity;
-    self.ncols      = config.ncols;
-    self.data       = config.data;
+    self.id           = config.id;
+    self.margin       = config.margin;
+    self.padding      = config.padding;
+    self.width        = config.width;
+    self.height       = config.height;
+    self.palette      = config.palette;
+    self.opacity      = config.opacity;
+    self.ncols        = config.ncols;
+    self.data         = config.data;
+    self.legend       = config.legend;
 
-    self.barClass   = "bar";
-
-    self.inner      = {
+    // References
+    self.uid          = `O-${Math.random().toString(16).slice(2)}`;
+    self.inner        = {
       height: self.height - self.margin.top - self.margin.bottom,
-      width: self.width - self.margin.left - self.margin.right
-    }
-
-    // Simulated data, will come from an API request
-    self.data       = [
-      {group: "Screened In", healthy: 119, prediabetic: 30, diabetic: 81},
-      {group: "Screened Out", healthy: 381, prediabetic: 144, diabetic: 201},
-      {group: "Did Consent", healthy: 72, prediabetic: 21, diabetic: 69},
-      {group: "Did Not Consent", healthy: 13, prediabetic: 8, diabetic: 10},
-      {group: "Active", healthy: 31, prediabetic: 4, diabetic: 37},
-      {group: "Inctive", healthy: 3, prediabetic: 2, diabetic: 7},
-      {group: "Completed", healthy: 91, prediabetic: 53, diabetic: 71},
-      {group: "Exited", healthy: 18, prediabetic: 12, diabetic: 19}
-    ];
-
+      width: self.width - self.margin.left - self.margin.right,
+    };
     // Need to compute this dynamically once data schema is specified
-    self.columns = ['group', 'healthy', 'prediabetic', 'diabetic'];
+    self.columns      = ['group', 'healthy', 'prediabetic', 'diabetic'];
+    self.svg          = null;
+    self.groups       = null;
+    self.subgroups    = null;
+    self.x            = null;
+    self.y            = null;
+    self.stacked      = null;
 
-    self.svg = null;
-    self.groups = null;
-    self.subgroups = null;
-    self.x = null;
-    self.y = null;
-    self.stacked = null;
     return self;
 
   },
@@ -101,12 +90,13 @@ StackedBar.prototype = {
       .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
       .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
       .selectAll(".tick")
-      .data(self.data)
+        .data(self.data)
         .attr("transform", d => `translate(${self.x(d.group)}, 0)`)
         .selectAll("text")
-        .classed("label", true)
-        .style("text-anchor", "start")
-        .style("text-transform", "capitalize");
+          .attr("id", d => `label_${self.uid}_${self._rename(d.group)}`)
+          .classed("label", true)
+          .style("text-anchor", "start")
+          .style("text-transform", "capitalize");
 
     self.yAxis = self.svg.append("g")
       .classed("y-axis", true)
@@ -122,18 +112,20 @@ StackedBar.prototype = {
     */
 
     self.bars = self.svg.append("g")
-      .classed(`${self.barClass}s`, true)
+      .classed(`bars`, true)
       .selectAll("g")
       .data(self.stacked)
       .enter()
         .append("g")
-        .classed(`bar-group`, true)
+        .attr("id", d => `bar-group_${self.uid}_${self._rename(d.group)}`)
+        .classed("bar-group", true)
         .attr("fill", d => self.color(d.key))
         .selectAll("rect")
         .data(d => d)
         .enter()
           .append("rect")
-          .classed(`${self.barClass}`, true)
+          .attr("id", d => `bar_${self.uid}_${self._rename(d.data.group)}_${self._rename(d.subgroup)}`)
+          .classed("bar", true)
           .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
           .attr("x", d => self.x(d.data.group))
           .attr("y", d =>  self.y(d[1]))
@@ -142,6 +134,25 @@ StackedBar.prototype = {
           .attr("opacity", self.opacity)
           .text(d =>  d.data.group);
 
+    /*
+    Annotation
+    */
+
+    self.annotation = new Legend({
+      uid: self.uid,
+      parent: self.svg,
+      container: self.inner,
+      data: self.stacked,
+      color: self.color,
+      width: self.legend.width,
+      height: self.legend.height,
+      itemsize: self.legend.itemsize,
+      fontsize: self.legend.fontsize,
+      vposition: self.legend.vposition,
+      hposition: self.legend.hposition,
+      accessor: "key"
+    });
+
     return self;
   },
 
@@ -149,6 +160,14 @@ StackedBar.prototype = {
     var self = this;
     console.log(self);
     return self;
+  },
+
+  _uid: function () {
+    return `O-${Math.random().toString(16).slice(2, 8)}`
+  },
+
+  _rename: function (name) {
+    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

@@ -23,7 +23,7 @@
                 "config": {
                     "id": "#overview-sankey",
                     "width": 1200,
-                    "height": 540,
+                    "height": 420,
                     "margin": {
                         "top": 40,
                         "left": 40,
@@ -50,11 +50,11 @@
                         "fontsize": 16
                     },
                     "link": {
-                        "minWidth": 20,
+                        "minWidth": 80,
                         "class": "link",
                         "opacity": 0.95,
                         "sort": "ascending",
-                        "fontsize": 8
+                        "fontsize": 12
                     },
                     "data": {
                         "nodes": [
@@ -94,13 +94,8 @@
                     },
                     "ncols": "three",
                     "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
                         "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
+                        "#82C5E6"
                     ],
                     "opacity": 0.8,
                     "radius": 50,
@@ -124,12 +119,7 @@
                     "ncols": "three",
                     "palette": [
                         "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
+                        "#C79F38"
                     ],
                     "opacity": 0.8,
                     "radius": 50,
@@ -152,13 +142,8 @@
                     },
                     "ncols": "three",
                     "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
+                        "#727272",
+                        "#999EEB"
                     ],
                     "opacity": 0.8,
                     "radius": 50,
@@ -182,12 +167,7 @@
                     "ncols": "three",
                     "palette": [
                         "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
+                        "#7F8C9F"
                     ],
                     "opacity": 0.8,
                     "radius": 50,
@@ -241,7 +221,15 @@
                         {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
                         {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
                         {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ]
+                    ],
+                    "legend": {
+                        "width": 240,
+                        "height": 240,
+                        "itemsize": 20,
+                        "fontsize": 12,
+                        "vposition": "top",
+                        "hposition": "right"
+                    }
                 }
             }]
         }
@@ -288,7 +276,15 @@
                         {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
                         {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
                         {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ]
+                    ],
+                    "legend": {
+                        "width": 240,
+                        "height": 240,
+                        "itemsize": 20,
+                        "fontsize": 12,
+                        "vposition": "top",
+                        "hposition": "right"
+                    }
                 }
             }]
         }
@@ -335,7 +331,15 @@
                         {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
                         {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
                         {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ]
+                    ],
+                    "legend": {
+                        "width": 240,
+                        "height": 240,
+                        "itemsize": 20,
+                        "fontsize": 12,
+                        "vposition": "top",
+                        "hposition": "right"
+                    }
                 }
             }]
         }
@@ -382,7 +386,15 @@
                         {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
                         {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
                         {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ]
+                    ],
+                    "legend": {
+                        "width": 240,
+                        "height": 240,
+                        "itemsize": 20,
+                        "fontsize": 12,
+                        "vposition": "top",
+                        "hposition": "right"
+                    }
                 }
             }]
         }
