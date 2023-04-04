@@ -80,7 +80,7 @@ Component
   <h2>{{ config.name }}</h2>
   <h3>{{ config.subtitle }}</h3>
   <div :id="config.id">
-    <div v-for="visualization in visualizations" class="visualization-container">
+    <div v-for="visualization in visualizations" class="container">
       <svg
         :id="visualization.id.replace('#','')"
         :viewBox="`0 0 ${visualization.width + visualization.margin.left + visualization.margin.right} ${visualization.height + visualization.margin.top + visualization.margin.bottom}`"

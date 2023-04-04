@@ -31,20 +31,31 @@ StackedBar.prototype = {
     self.data         = config.data;
     self.legend       = config.legend;
 
-    // References
-    self.uid          = `O-${Math.random().toString(16).slice(2)}`;
+    // Ref Declarations
+    self.svg          = null;
+    self.groups       = null;
+    self.subgroups    = null;
+    self.stacked      = null;
+    self.color        = null;
+    self.x            = null;
+    self.y            = null;
+    self.xAxis        = null;
+    self.yAxis        = null;
+    self.bars         = null;
+    self.annotation   = null;
+
+    // Computed Refs
+    self.uid          = self._uid();
     self.inner        = {
       height: self.height - self.margin.top - self.margin.bottom,
       width: self.width - self.margin.left - self.margin.right,
     };
-    // Need to compute this dynamically once data schema is specified
-    self.columns      = ['group', 'healthy', 'prediabetic', 'diabetic'];
-    self.svg          = null;
-    self.groups       = null;
-    self.subgroups    = null;
-    self.x            = null;
-    self.y            = null;
-    self.stacked      = null;
+    self.padding      = {
+      top: 0,
+      left: 20,
+      bottom: 0,
+      right: 20
+    };
 
     return self;
 
@@ -60,11 +71,13 @@ StackedBar.prototype = {
     self.svg = D3.select(self.id)
       .classed("stacked-bar-chart", true);
 
-    self.groups = D3.map(self.data, function (d) { return (d.group) })
-    self.subgroups = self.columns.slice(1);
+    self.groups = self.data.map(d => d.group);
+
+    self.subgroups = ['healthy', 'prediabetic', 'diabetic'];
 
     self.stacked = D3.stack()
-      .keys(self.subgroups)(self.data);
+      .keys(self.subgroups)
+      .value((d, key) => d.values[key])(self.data);
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)
@@ -113,12 +126,11 @@ StackedBar.prototype = {
 
     self.bars = self.svg.append("g")
       .classed(`bars`, true)
-      .selectAll("g")
+      .selectAll(".bar-group")
       .data(self.stacked)
-      .enter()
-        .append("g")
-        .attr("id", d => `bar-group_${self.uid}_${self._rename(d.group)}`)
+      .join("g")
         .classed("bar-group", true)
+        .attr("id", d => `bar-group_${self.uid}_${self._rename(d.group)}`)
         .attr("fill", d => self.color(d.key))
         .selectAll("rect")
         .data(d => d)
@@ -146,6 +158,8 @@ StackedBar.prototype = {
       color: self.color,
       width: self.legend.width,
       height: self.legend.height,
+      margin: self.margin,
+      padding: self.padding,
       itemsize: self.legend.itemsize,
       fontsize: self.legend.fontsize,
       vposition: self.legend.vposition,
@@ -167,7 +181,7 @@ StackedBar.prototype = {
   },
 
   _rename: function (name) {
-    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
+    return (typeof(name) === "string") ? name.trim().replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

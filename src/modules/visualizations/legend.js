@@ -10,7 +10,6 @@ Prototype
 
 // Overview Visualization Entry Point
 var Legend = function (config) {
-    console.log(config);
     return this.__init__(config);
 };
 
@@ -28,21 +27,36 @@ Legend.prototype = {
     self.color      = config.color;
     self.width      = config.width;
     self.height     = config.height;
+    self.margin     = config.margin;
+    self.padding    = config.padding;
     self.itemsize   = config.itemsize;
     self.fontsize   = config.fontsize;
     self.accessor   = config.accessor;
     self.vposition  = config.vposition;
     self.hposition  = config.hposition;
+
+    // Computed Refs
     self.position   = {
-      top: 0,
-      left: 0,
-      bottom: self.container.height - self.height,
-      right: self.container.width - self.width,
+      top: self.margin.top + self.padding.top,
+      left: self.margin.left + self.padding.left,
+      bottom: self.container.height - self.height - self.padding.bottom,
+      right: self.container.width - self.width - self.padding.right,
       center: {
         vertical: (self.container.height - self.height) / 2,
         horizontal: (self.container.height - self.height) / 2
       }
-    }
+    };
+
+    return self.update();
+
+  },
+
+  update: function () {
+    var self = this;
+
+    /*
+    Generate Legend
+    */
 
     self.legend = self.parent.append("g")
       .classed("legend", true)
@@ -60,8 +74,8 @@ Legend.prototype = {
         .append("rect")
         .classed("legend-color", true)
         .attr("id", d => `legend-color_${self.uid}_${d[self.accessor]}`)
-        .attr("x", self.container.width - 100)
-        .attr("y", (d, i) => 10 + i * (self.itemsize + 5))
+        .attr("x", self.position[self.hposition])
+        .attr("y", (d, i) => self.position[self.vposition] + 10 + i * (self.itemsize + 5))
         .attr("width", self.itemsize)
         .attr("height", self.itemsize)
         .style("fill", d => self.color(d[self.accessor]));
@@ -74,17 +88,14 @@ Legend.prototype = {
       .append("text")
         .classed("legend-label", true)
         .attr("id", `legend-label_${self.uid}`)
-        .attr("x", self.container.width - 100 + self.itemsize * 1.2)
-        .attr("y", (d, i) => 10 + i * (self.itemsize + 5) + (self.itemsize / 2))
+        .attr("x", self.position[self.hposition] + self.itemsize * 1.2)
+        .attr("y", (d, i) => self.position[self.vposition] + 10 + i * (self.itemsize + 5) + (self.itemsize / 2))
         .attr("text-anchor", "right")
         .text(d => d[self.accessor])
         .style("alignment-baseline", "middle");
 
     return self;
-  },
 
-  _rename: function (name) {
-    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
 };

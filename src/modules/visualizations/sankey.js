@@ -93,7 +93,9 @@ Sankey.prototype = {
 
     self.svg = D3.select(self.id)
       .classed("sankey-chart", true);
+
     self.color = D3.scaleOrdinal(self.palette);
+
     self.graph = D3Sankey.sankey(self.data)
       .nodeId(d => d.name)
       .nodeAlign(self.nodeAlign)
@@ -103,9 +105,9 @@ Sankey.prototype = {
       .extent([[self.margin.left, self.margin.top], [self.width - self.margin.right, self.height - self.margin.bottom]])
       .nodes(self.data.nodes)
       .links(self.data.links)
-      .nodeSort(null);
+      .nodeSort(null)(self.data);
 
-    self.graph = self.graph(self.data);
+    // self.graph = self.graph(self.data);
 
     // Layout sorting
     self.nodeSort = self.node.sort !== null ? self.graph.nodes.sort((a, b) => D3[self.node.sort](a.value, b.value)) : null;

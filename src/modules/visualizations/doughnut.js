@@ -53,7 +53,7 @@ Doughnut.prototype = {
     self.svg = D3.select(self.id)
       .classed("doughnut-chart", true)
       .append("g")
-      .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`);
+        .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`);
 
     self.doughnut = D3.pie()
       .value(d => d.value)(self.data)

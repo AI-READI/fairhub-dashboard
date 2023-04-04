@@ -1,403 +1,676 @@
 {
-    "title": "Fairhub.io – Dashboard",
-    "name": "Dashboard",
-    "api": {
-        "name": "REDCap",
-        "domain": "",
-        "version": "",
-        "query": ""
-    },
-    "components": [{
-        "name": "Overview",
-        "id": "overview",
-        "subtitle": "What is the overall status of the study",
-        "module": {
-            "name": "overview",
-            "width": 1280,
-            "height": 720,
-            "simulation": {
+  "title": "Fairhub.io – Dashboard",
+  "name": "Dashboard",
+  "api": {
+    "name": "REDCap",
+    "domain": "",
+    "version": "",
+    "query": ""
+  },
+  "components": [{
+    "name": "Overview",
+    "id": "overview",
+    "subtitle": "What is the overall status of the study",
+    "module": {
+      "name": "overview",
+      "width": 1280,
+      "height": 720,
+      "simulation": {
 
-            },
-            "visualizations": [{
-                "type": "sankey",
-                "config": {
-                    "id": "#overview-sankey",
-                    "width": 1200,
-                    "height": 420,
-                    "margin": {
-                        "top": 40,
-                        "left": 40,
-                        "right": 40,
-                        "bottom": 0
-                    },
-                    "ncols": "twelve",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
-                    ],
-                    "node": {
-                        "width": 240,
-                        "padding": 60,
-                        "class": "node",
-                        "alignment": "left",
-                        "opacity": 1,
-                        "sort": "descending",
-                        "fontsize": 16
-                    },
-                    "link": {
-                        "minWidth": 80,
-                        "class": "link",
-                        "opacity": 0.95,
-                        "sort": "ascending",
-                        "fontsize": 12
-                    },
-                    "data": {
-                        "nodes": [
-                            { "name": "Screened In" },
-                            { "name": "Screened Out" },
-                            { "name": "Consented" },
-                            { "name": "Did Not Consent" },
-                            { "name": "Active" },
-                            { "name": "Completed" },
-                            { "name": "Inactive" },
-                            { "name": "Exited" }
-                      ],
-                      "links": [
-                            { "source": "Screened In", "target": "Consented", "value": 128 },
-                            { "source": "Screened In", "target": "Did Not Consent", "value": 13 },
-                            { "source": "Screened Out", "target": "Exited", "value": 221 },
-                            { "source": "Consented", "target": "Active", "value": 19 },
-                            { "source": "Consented", "target": "Inactive", "value": 5 },
-                            { "source": "Consented", "target": "Completed", "value": 98 },
-                            { "source": "Consented", "target": "Exited", "value": 6 },
-                            { "source": "Did Not Consent", "target": "Inactive", "value": 6 },
-                            { "source": "Did Not Consent", "target": "Exited", "value": 7 }
-                        ]
-                    }
-                }
-            }, {
-                "type": "doughnut",
-                "config": {
-                    "id": "#overview-doughnut-screening",
-                    "width": 320,
-                    "height": 160,
-                    "margin": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "ncols": "three",
-                    "palette": [
-                        "#5DD462",
-                        "#82C5E6"
-                    ],
-                    "opacity": 0.8,
-                    "radius": 50,
-                    "data": [
-                        {"group": "screened in", "value": 141},
-                        {"group": "screened out", "value": 221}
-                    ]
-                }
-            }, {
-                "type": "doughnut",
-                "config": {
-                    "id": "#overview-doughnut-consent",
-                    "width": 320,
-                    "height": 160,
-                    "margin": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "ncols": "three",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38"
-                    ],
-                    "opacity": 0.8,
-                    "radius": 50,
-                    "data": [
-                        {"group": "consented", "value": 128},
-                        {"group": "did not consent", "value": 13}
-                    ]
-                }
-            }, {
-                "type": "doughnut",
-                "config": {
-                    "id": "#overview-doughnut-active",
-                    "width": 320,
-                    "height": 160,
-                    "margin": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "ncols": "three",
-                    "palette": [
-                        "#727272",
-                        "#999EEB"
-                    ],
-                    "opacity": 0.8,
-                    "radius": 50,
-                    "data": [
-                        {"group": "active", "value": 19},
-                        {"group": "inactive", "value": 11}
-                    ]
-                }
-            }, {
-                "type": "doughnut",
-                "config": {
-                    "id": "#overview-doughnut-completion",
-                    "width": 320,
-                    "height": 160,
-                    "margin": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "ncols": "three",
-                    "palette": [
-                        "#FE7E6D",
-                        "#7F8C9F"
-                    ],
-                    "opacity": 0.8,
-                    "radius": 50,
-                    "data": [
-                        {"group": "completed", "value": 98},
-                        {"group": "exited", "value": 234}
-                    ]
-                }
-            }]
+      },
+      "visualizations": [{
+        "type": "sankey",
+        "config": {
+          "id": "#overview-sankey",
+          "width": 1200,
+          "height": 420,
+          "margin": {
+            "top": 40,
+            "left": 40,
+            "right": 40,
+            "bottom": 0
+          },
+          "ncols": "twelve",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38",
+            "#5DD462",
+            "#82C5E6",
+            "#999EEB",
+            "#7F8C9F",
+            "#727272"
+          ],
+          "node": {
+            "width": 240,
+            "padding": 60,
+            "class": "node",
+            "alignment": "left",
+            "opacity": 1,
+            "sort": "descending",
+            "fontsize": 16
+          },
+          "link": {
+            "minWidth": 80,
+            "class": "link",
+            "opacity": 0.95,
+            "sort": "ascending",
+            "fontsize": 12
+          },
+          "data": {
+            "nodes": [{
+                "name": "Screened In"
+              },
+              {
+                "name": "Screened Out"
+              },
+              {
+                "name": "Consented"
+              },
+              {
+                "name": "Did Not Consent"
+              },
+              {
+                "name": "Active"
+              },
+              {
+                "name": "Completed"
+              },
+              {
+                "name": "Inactive"
+              },
+              {
+                "name": "Exited"
+              }
+            ],
+            "links": [{
+                "source": "Screened In",
+                "target": "Consented",
+                "value": 128
+              },
+              {
+                "source": "Screened In",
+                "target": "Did Not Consent",
+                "value": 13
+              },
+              {
+                "source": "Screened Out",
+                "target": "Exited",
+                "value": 221
+              },
+              {
+                "source": "Consented",
+                "target": "Active",
+                "value": 19
+              },
+              {
+                "source": "Consented",
+                "target": "Inactive",
+                "value": 5
+              },
+              {
+                "source": "Consented",
+                "target": "Completed",
+                "value": 98
+              },
+              {
+                "source": "Consented",
+                "target": "Exited",
+                "value": 6
+              },
+              {
+                "source": "Did Not Consent",
+                "target": "Inactive",
+                "value": 6
+              },
+              {
+                "source": "Did Not Consent",
+                "target": "Exited",
+                "value": 7
+              }
+            ]
+          }
         }
-    }, {
-        "name": "Demographics",
-        "id": "demographics",
-        "subtitle": "What is the demographic breakdown of study participants?",
-        "module": {
-            "name": "demographics",
-            "width": 1280,
-            "height": 720,
-            "simulation": {
+      }, {
+        "type": "doughnut",
+        "config": {
+          "id": "#overview-doughnut-screening",
+          "width": 320,
+          "height": 160,
+          "margin": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "ncols": "three",
+          "palette": [
+            "#5DD462",
+            "#82C5E6"
+          ],
+          "opacity": 0.8,
+          "radius": 50,
+          "data": [{
+              "group": "screened in",
+              "value": 141
+            },
+            {
+              "group": "screened out",
+              "value": 221
+            }
+          ]
+        }
+      }, {
+        "type": "doughnut",
+        "config": {
+          "id": "#overview-doughnut-consent",
+          "width": 320,
+          "height": 160,
+          "margin": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "ncols": "three",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38"
+          ],
+          "opacity": 0.8,
+          "radius": 50,
+          "data": [{
+              "group": "consented",
+              "value": 128
+            },
+            {
+              "group": "did not consent",
+              "value": 13
+            }
+          ]
+        }
+      }, {
+        "type": "doughnut",
+        "config": {
+          "id": "#overview-doughnut-active",
+          "width": 320,
+          "height": 160,
+          "margin": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "ncols": "three",
+          "palette": [
+            "#727272",
+            "#999EEB"
+          ],
+          "opacity": 0.8,
+          "radius": 50,
+          "data": [{
+              "group": "active",
+              "value": 19
+            },
+            {
+              "group": "inactive",
+              "value": 11
+            }
+          ]
+        }
+      }, {
+        "type": "doughnut",
+        "config": {
+          "id": "#overview-doughnut-completion",
+          "width": 320,
+          "height": 160,
+          "margin": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "ncols": "three",
+          "palette": [
+            "#FE7E6D",
+            "#7F8C9F"
+          ],
+          "opacity": 0.8,
+          "radius": 50,
+          "data": [{
+              "group": "completed",
+              "value": 98
+            },
+            {
+              "group": "exited",
+              "value": 234
+            }
+          ]
+        }
+      }]
+    }
+  }, {
+    "name": "Demographics",
+    "id": "demographics",
+    "subtitle": "What is the demographic breakdown of study participants?",
+    "module": {
+      "name": "demographics",
+      "width": 1280,
+      "height": 720,
+      "simulation": {
 
+      },
+      "visualizations": [{
+        "type": "stackedbar",
+        "config": {
+          "id": "#demographics-stacked-bar",
+          "width": 1200,
+          "height": 540,
+          "margin": {
+            "top": 40,
+            "left": 40,
+            "right": 40,
+            "bottom": 40
+          },
+          "ncols": "twelve",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38",
+            "#5DD462",
+            "#82C5E6",
+            "#999EEB",
+            "#7F8C9F",
+            "#727272"
+          ],
+          "opacity": 0.8,
+          "data": [{
+              "group": "Screened In",
+              "values": {
+                "healthy": 119,
+                "prediabetic": 30,
+                "diabetic": 81
+              }
             },
-            "visualizations": [{
-                "type": "stackedbar",
-                "config": {
-                    "id": "#demographics-stacked-bar",
-                    "width": 1200,
-                    "height": 540,
-                    "margin": {
-                        "top": 40,
-                        "left": 40,
-                        "right": 40,
-                        "bottom": 40
-                    },
-                    "ncols": "twelve",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
-                    ],
-                    "opacity": 0.8,
-                    "data": [
-                        {"group": "Screened In", "healthy": 119, "prediabetic": 30,"diabetic": 81},
-                        {"group": "Screened Out", "healthy": 381, "prediabetic": 144,"diabetic": 201},
-                        {"group": "Did Consent", "healthy": 72, "prediabetic": 21,"diabetic": 69},
-                        {"group": "Did Not Consent", "healthy": 13, "prediabetic": 8,"diabetic": 10},
-                        {"group": "Active", "healthy": 31, "prediabetic": 4,"diabetic": 37},
-                        {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
-                        {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
-                        {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ],
-                    "legend": {
-                        "width": 240,
-                        "height": 240,
-                        "itemsize": 20,
-                        "fontsize": 12,
-                        "vposition": "top",
-                        "hposition": "right"
-                    }
-                }
-            }]
+            {
+              "group": "Screened Out",
+              "values": {
+                "healthy": 381,
+                "prediabetic": 144,
+                "diabetic": 201
+              }
+            },
+            {
+              "group": "Did Consent",
+              "values": {
+                "healthy": 72,
+                "prediabetic": 21,
+                "diabetic": 69
+              }
+            },
+            {
+              "group": "Did Not Consent",
+              "values": {
+                "healthy": 13,
+                "prediabetic": 8,
+                "diabetic": 10
+              }
+            },
+            {
+              "group": "Active",
+              "values": {
+                "healthy": 31,
+                "prediabetic": 4,
+                "diabetic": 37
+              }
+            },
+            {
+              "group": "Inctive",
+              "values": {
+                "healthy": 3,
+                "prediabetic": 2,
+                "diabetic": 7
+              }
+            },
+            {
+              "group": "Completed",
+              "values": {
+                "healthy": 91,
+                "prediabetic": 53,
+                "diabetic": 71
+              }
+            },
+            {
+              "group": "Exited",
+              "values": {
+                "healthy": 18,
+                "prediabetic": 12,
+                "diabetic": 19
+              }
+            }
+          ],
+          "legend": {
+            "width": 240,
+            "height": 240,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "top",
+            "hposition": "right"
+          }
         }
-    }, {
-        "name": "Recruitment",
-        "id": "recruitment",
-        "subtitle": "What issues are challenging recruitment?",
-        "module": {
-            "name": "recruitment",
-            "width": 1280,
-            "height": 720,
-            "simulation": {
+      }]
+    }
+  }, {
+    "name": "Recruitment",
+    "id": "recruitment",
+    "subtitle": "What issues are challenging recruitment?",
+    "module": {
+      "name": "recruitment",
+      "width": 1280,
+      "height": 720,
+      "simulation": {
 
-            },
-            "visualizations": [{
-                "type": "stackedbar",
-                "config": {
-                    "id": "#recruitment-stacked-bar",
-                    "width": 1200,
-                    "height": 540,
-                    "margin": {
-                        "top": 40,
-                        "left": 40,
-                        "right": 40,
-                        "bottom": 40
-                    },
-                    "ncols": "twelve",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
-                    ],
-                    "opacity": 0.8,
-                    "data": [
-                        {"group": "Screened In", "healthy": 119, "prediabetic": 30,"diabetic": 81},
-                        {"group": "Screened Out", "healthy": 381, "prediabetic": 144,"diabetic": 201},
-                        {"group": "Did Consent", "healthy": 72, "prediabetic": 21,"diabetic": 69},
-                        {"group": "Did Not Consent", "healthy": 13, "prediabetic": 8,"diabetic": 10},
-                        {"group": "Active", "healthy": 31, "prediabetic": 4,"diabetic": 37},
-                        {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
-                        {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
-                        {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ],
-                    "legend": {
-                        "width": 240,
-                        "height": 240,
-                        "itemsize": 20,
-                        "fontsize": 12,
-                        "vposition": "top",
-                        "hposition": "right"
-                    }
-                }
-            }]
+      },
+      "visualizations": [{
+        "type": "linechart",
+        "config": {
+          "id": "#recruitment-line-chart",
+          "width": 1200,
+          "height": 540,
+          "margin": {
+            "top": 40,
+            "left": 40,
+            "right": 40,
+            "bottom": 40
+          },
+          "ncols": "twelve",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38",
+            "#5DD462",
+            "#82C5E6",
+            "#999EEB",
+            "#7F8C9F",
+            "#727272"
+          ],
+          "pointradius": 5,
+          "opacity": 0.8,
+          "data": [
+            { "value": 3, "group": "diabetic", "date": "2023-04-28"},
+            { "value": 6, "group": "diabetic", "date": "2023-04-29"},
+            { "value": 7, "group": "diabetic", "date": "2023-04-30"},
+            { "value": 12, "group": "diabetic", "date": "2023-05-01"},
+            { "value": 16, "group": "diabetic", "date": "2023-05-02"},
+            { "value": 19, "group": "diabetic", "date": "2023-05-03"},
+            { "value": 23, "group": "diabetic", "date": "2023-05-04"},
+            { "value": 31, "group": "diabetic", "date": "2023-05-05"},
+            { "value": 39, "group": "diabetic", "date": "2023-05-06"},
+            { "value": 41, "group": "diabetic", "date": "2023-05-07"},
+            { "value": 50, "group": "diabetic", "date": "2023-05-08"},
+            { "value": 55, "group": "diabetic", "date": "2023-05-09"},
+            { "value": 59, "group": "diabetic", "date": "2023-05-10"},
+            { "value": 66, "group": "diabetic", "date": "2023-05-11"},
+            { "value": 71, "group": "diabetic", "date": "2023-05-12"},
+            { "value": 13, "group": "normal", "date": "2023-04-28"},
+            { "value": 19, "group": "normal", "date": "2023-04-29"},
+            { "value": 24, "group": "normal", "date": "2023-04-30"},
+            { "value": 32, "group": "normal", "date": "2023-05-01"},
+            { "value": 41, "group": "normal", "date": "2023-05-02"},
+            { "value": 53, "group": "normal", "date": "2023-05-03"},
+            { "value": 60, "group": "normal", "date": "2023-05-04"},
+            { "value": 72, "group": "normal", "date": "2023-05-05"},
+            { "value": 84, "group": "normal", "date": "2023-05-06"},
+            { "value": 91, "group": "normal", "date": "2023-05-07"},
+            { "value": 103, "group": "normal", "date": "2023-05-08"},
+            { "value": 107, "group": "normal", "date": "2023-05-09"},
+            { "value": 118, "group": "normal", "date": "2023-05-10"},
+            { "value": 133, "group": "normal", "date": "2023-05-11"},
+            { "value": 150, "group": "normal", "date": "2023-05-12"},
+            { "value": 5, "group": "prediabetic", "date": "2023-04-28"},
+            { "value": 9, "group": "prediabetic", "date": "2023-04-29"},
+            { "value": 12, "group": "prediabetic", "date": "2023-04-30"},
+            { "value": 14, "group": "prediabetic", "date": "2023-05-01"},
+            { "value": 19, "group": "prediabetic", "date": "2023-05-02"},
+            { "value": 26, "group": "prediabetic", "date": "2023-05-03"},
+            { "value": 31, "group": "prediabetic", "date": "2023-05-04"},
+            { "value": 33, "group": "prediabetic", "date": "2023-05-05"},
+            { "value": 37, "group": "prediabetic", "date": "2023-05-06"},
+            { "value": 45, "group": "prediabetic", "date": "2023-05-07"},
+            { "value": 51, "group": "prediabetic", "date": "2023-05-08"},
+            { "value": 58, "group": "prediabetic", "date": "2023-05-09"},
+            { "value": 66, "group": "prediabetic", "date": "2023-05-10"},
+            { "value": 72, "group": "prediabetic", "date": "2023-05-11"},
+            { "value": 79, "group": "prediabetic", "date": "2023-05-12"}
+          ],
+          "legend": {
+            "width": 240,
+            "height": 240,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "top",
+            "hposition": "left"
+          }
         }
-    }, {
-        "name": "Completion",
-        "id": "completion",
-        "subtitle": "When and where are participants exiting the study?",
-        "module": {
-            "name": "completion",
-            "width": 1280,
-            "height": 720,
-            "simulation": {
+      }]
+    }
+  }, {
+    "name": "Completion",
+    "id": "completion",
+    "subtitle": "When and where are participants exiting the study?",
+    "module": {
+      "name": "completion",
+      "width": 1280,
+      "height": 720,
+      "simulation": {
 
+      },
+      "visualizations": [{
+        "type": "stackedbar",
+        "config": {
+          "id": "#completion-stacked-bar",
+          "width": 1200,
+          "height": 540,
+          "margin": {
+            "top": 40,
+            "left": 40,
+            "right": 40,
+            "bottom": 40
+          },
+          "ncols": "twelve",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38",
+            "#5DD462",
+            "#82C5E6",
+            "#999EEB",
+            "#7F8C9F",
+            "#727272"
+          ],
+          "opacity": 0.8,
+          "data": [{
+              "group": "Screened In",
+              "values": {
+                "healthy": 119,
+                "prediabetic": 30,
+                "diabetic": 81
+              }
             },
-            "visualizations": [{
-                "type": "stackedbar",
-                "config": {
-                    "id": "#completion-stacked-bar",
-                    "width": 1200,
-                    "height": 540,
-                    "margin": {
-                        "top": 40,
-                        "left": 40,
-                        "right": 40,
-                        "bottom": 40
-                    },
-                    "ncols": "twelve",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
-                    ],
-                    "opacity": 0.8,
-                    "data": [
-                        {"group": "Screened In", "healthy": 119, "prediabetic": 30,"diabetic": 81},
-                        {"group": "Screened Out", "healthy": 381, "prediabetic": 144,"diabetic": 201},
-                        {"group": "Did Consent", "healthy": 72, "prediabetic": 21,"diabetic": 69},
-                        {"group": "Did Not Consent", "healthy": 13, "prediabetic": 8,"diabetic": 10},
-                        {"group": "Active", "healthy": 31, "prediabetic": 4,"diabetic": 37},
-                        {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
-                        {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
-                        {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ],
-                    "legend": {
-                        "width": 240,
-                        "height": 240,
-                        "itemsize": 20,
-                        "fontsize": 12,
-                        "vposition": "top",
-                        "hposition": "right"
-                    }
-                }
-            }]
+            {
+              "group": "Screened Out",
+              "values": {
+                "healthy": 381,
+                "prediabetic": 144,
+                "diabetic": 201
+              }
+            },
+            {
+              "group": "Did Consent",
+              "values": {
+                "healthy": 72,
+                "prediabetic": 21,
+                "diabetic": 69
+              }
+            },
+            {
+              "group": "Did Not Consent",
+              "values": {
+                "healthy": 13,
+                "prediabetic": 8,
+                "diabetic": 10
+              }
+            },
+            {
+              "group": "Active",
+              "values": {
+                "healthy": 31,
+                "prediabetic": 4,
+                "diabetic": 37
+              }
+            },
+            {
+              "group": "Inctive",
+              "values": {
+                "healthy": 3,
+                "prediabetic": 2,
+                "diabetic": 7
+              }
+            },
+            {
+              "group": "Completed",
+              "values": {
+                "healthy": 91,
+                "prediabetic": 53,
+                "diabetic": 71
+              }
+            },
+            {
+              "group": "Exited",
+              "values": {
+                "healthy": 18,
+                "prediabetic": 12,
+                "diabetic": 19
+              }
+            }
+          ],
+          "legend": {
+            "width": 240,
+            "height": 240,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "top",
+            "hposition": "right"
+          }
         }
-    }, {
-        "name": "Sites",
-        "id": "sites",
-        "subtitle": "What are the protocol study completion rates for participants at each site?",
-        "module": {
-            "name": "sites",
-            "width": 1280,
-            "height": 720,
-            "simulation": {
+      }]
+    }
+  }, {
+    "name": "Sites",
+    "id": "sites",
+    "subtitle": "What are the protocol study completion rates for participants at each site?",
+    "module": {
+      "name": "sites",
+      "width": 1280,
+      "height": 720,
+      "simulation": {
 
+      },
+      "visualizations": [{
+        "type": "stackedbar",
+        "config": {
+          "id": "#sites-stacked-bar",
+          "width": 1200,
+          "height": 540,
+          "margin": {
+            "top": 40,
+            "left": 40,
+            "right": 40,
+            "bottom": 40
+          },
+          "ncols": "twelve",
+          "palette": [
+            "#FE7E6D",
+            "#C79F38",
+            "#5DD462",
+            "#82C5E6",
+            "#999EEB",
+            "#7F8C9F",
+            "#727272"
+          ],
+          "opacity": 0.8,
+          "data": [{
+              "group": "Screened In",
+              "values": {
+                "healthy": 119,
+                "prediabetic": 30,
+                "diabetic": 81
+              }
             },
-            "visualizations": [{
-                "type": "stackedbar",
-                "config": {
-                    "id": "#sites-stacked-bar",
-                    "width": 1200,
-                    "height": 540,
-                    "margin": {
-                        "top": 40,
-                        "left": 40,
-                        "right": 40,
-                        "bottom": 40
-                    },
-                    "ncols": "twelve",
-                    "palette": [
-                        "#FE7E6D",
-                        "#C79F38",
-                        "#5DD462",
-                        "#82C5E6",
-                        "#999EEB",
-                        "#7F8C9F",
-                        "#727272"
-                    ],
-                    "opacity": 0.8,
-                    "data": [
-                        {"group": "Screened In", "healthy": 119, "prediabetic": 30,"diabetic": 81},
-                        {"group": "Screened Out", "healthy": 381, "prediabetic": 144,"diabetic": 201},
-                        {"group": "Did Consent", "healthy": 72, "prediabetic": 21,"diabetic": 69},
-                        {"group": "Did Not Consent", "healthy": 13, "prediabetic": 8,"diabetic": 10},
-                        {"group": "Active", "healthy": 31, "prediabetic": 4,"diabetic": 37},
-                        {"group": "Inctive", "healthy": 3, "prediabetic": 2,"diabetic": 7},
-                        {"group": "Completed", "healthy": 91, "prediabetic": 53,"diabetic": 71},
-                        {"group": "Exited", "healthy": 18, "prediabetic": 12,"diabetic": 19}
-                    ],
-                    "legend": {
-                        "width": 240,
-                        "height": 240,
-                        "itemsize": 20,
-                        "fontsize": 12,
-                        "vposition": "top",
-                        "hposition": "right"
-                    }
-                }
-            }]
+            {
+              "group": "Screened Out",
+              "values": {
+                "healthy": 381,
+                "prediabetic": 144,
+                "diabetic": 201
+              }
+            },
+            {
+              "group": "Did Consent",
+              "values": {
+                "healthy": 72,
+                "prediabetic": 21,
+                "diabetic": 69
+              }
+            },
+            {
+              "group": "Did Not Consent",
+              "values": {
+                "healthy": 13,
+                "prediabetic": 8,
+                "diabetic": 10
+              }
+            },
+            {
+              "group": "Active",
+              "values": {
+                "healthy": 31,
+                "prediabetic": 4,
+                "diabetic": 37
+              }
+            },
+            {
+              "group": "Inctive",
+              "values": {
+                "healthy": 3,
+                "prediabetic": 2,
+                "diabetic": 7
+              }
+            },
+            {
+              "group": "Completed",
+              "values": {
+                "healthy": 91,
+                "prediabetic": 53,
+                "diabetic": 71
+              }
+            },
+            {
+              "group": "Exited",
+              "values": {
+                "healthy": 18,
+                "prediabetic": 12,
+                "diabetic": 19
+              }
+            }
+          ],
+          "legend": {
+            "width": 240,
+            "height": 240,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "top",
+            "hposition": "right"
+          }
         }
-    }]
+      }]
+    }
+  }]
 
 }
