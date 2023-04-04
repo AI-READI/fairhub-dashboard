@@ -348,8 +348,8 @@
             }
           ],
           "legend": {
-            "width": 240,
-            "height": 240,
+            "width": 40,
+            "height": 40,
             "itemsize": 20,
             "fontsize": 12,
             "vposition": "top",
@@ -393,6 +393,11 @@
           ],
           "pointradius": 5,
           "opacity": 0.8,
+          "accessors": {
+            "x": {"key": "date", "type": "Date"},
+            "y": {"key": "value", "type": "Number"},
+            "color": {"key": "group", "type": "String"}
+          },
           "data": [
             { "value": 3, "group": "diabetic", "date": "2023-04-28"},
             { "value": 6, "group": "diabetic", "date": "2023-04-29"},
@@ -441,8 +446,8 @@
             { "value": 79, "group": "prediabetic", "date": "2023-05-12"}
           ],
           "legend": {
-            "width": 240,
-            "height": 240,
+            "width": 40,
+            "height": 40,
             "itemsize": 20,
             "fontsize": 12,
             "vposition": "top",
@@ -551,8 +556,8 @@
             }
           ],
           "legend": {
-            "width": 240,
-            "height": 240,
+            "width": 40,
+            "height": 40,
             "itemsize": 20,
             "fontsize": 12,
             "vposition": "top",
@@ -661,8 +666,8 @@
             }
           ],
           "legend": {
-            "width": 240,
-            "height": 240,
+            "width": 40,
+            "height": 40,
             "itemsize": 20,
             "fontsize": 12,
             "vposition": "top",

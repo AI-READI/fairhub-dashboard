@@ -3,200 +3,174 @@ Imports
 */
 
 import * as D3 from "D3";
+import Chart from "./chart.js";
 import Legend from "./legend.js";
 
-/*
-Prototype
-*/
+class LineChart extends Chart {
 
-// Overview Visualization Entry Point
-var LineChart = function (config) {
-    return this.__init__(config);
-};
+  // References
+  groups  = null;
+  series  = null;
+  color   = null;
+  x       = null;
+  y       = null;
+  xAxis   = null;
+  yAxis   = null;
+  line    = null;
+  series  = null;
+  points  = null;
 
-// Overview Visualization Methods
-LineChart.prototype = {
+  // Initialization
+  constructor (config) {
+    super(config)
+    this.data         = config.data;
+    this.opacity      = config.opacity;
+    this.ncols        = config.ncols; 
+    this.legend       = config.legend;
+    this.pointradius  = config.pointradius;
+    this.accessors    = config.accessors;
 
-  __init__ : function (config) {
-    var self = this;
+    this.padding = {
+      top: 0, left: 20, bottom: 0, right: 20
+    }
+  }
 
-    self.id           = config.id;
-    self.margin       = config.margin;
-    self.width        = config.width;
-    self.height       = config.height;
-    self.palette      = config.palette;
-    self.opacity      = config.opacity;
-    self.ncols        = config.ncols;
-    self.data         = config.data;
-    self.legend       = config.legend;
-    self.pointradius  = config.pointradius;
-
-    // Ref Declarations
-    self.svg = null;
-    self.groups = null;
-    self.series = null;
-    self.color = null;
-    self.x = null;
-    self.y = null;
-    self.xAxis = null;
-    self.yAxis = null;
-    self.line = null;
-    self.series = null;
-    self.points = null;
-
-    // Computed Refs
-    self.uid          = self._uid();
-    self.inner        = {
-      height: self.height - self.margin.top - self.margin.bottom,
-      width: self.width - self.margin.left - self.margin.right,
-    };
-    self.padding      = {
-      top: 0,
-      left: 20,
-      bottom: 0,
-      right: 20
-    };
-
-
-    return self.update();
-
-  },
-
-  update: function () {
-    var self = this;
+  // Update
+  update () {
 
     /*
     Setup
     */
 
-    self.svg = D3.select(self.id)
+    this.svg = D3.select(this.id)
       .classed("line-chart", true);
 
-    // We need to compute these
-    self.groups = ['normal', 'prediabetic', 'diabetic'];
+    this.data = this.mapData(this.data);
 
-    self.series = self.groups.map(
+    // We need to compute these
+    this.groups = ['normal', 'prediabetic', 'diabetic'];
+
+    this.series = this.groups.map(
       key => ({
         group: key,
-        values: self.data.filter(
-          d => d.group == key
+        values: this.data.filter(
+          d => d[this.accessors.color.key] == key
         ).map(
           d => ({
-            date: new Date(d.date),
-            value: d.value
+            [this.accessors.x.key]: d[this.accessors.x.key],
+            [this.accessors.y.key]: d[this.accessors.y.key]
           })
         )
       })
     );
 
-    // console.log(self.groups);
+    console.log(this.series)
 
-    self.color = D3.scaleOrdinal()
-      .domain(self.groups)
-      .range(self.palette);
+    this.color = D3.scaleOrdinal()
+      .domain(this.groups)
+      .range(this.palette);
 
     /*
     Generate Axes
     */
 
-    self.x = D3.scaleTime()
-      .domain(D3.extent(self.data, d => new Date(d.date)))
-      .range([0, self.inner.width]);
+    this.x = D3.scaleTime()
+      .domain(D3.extent(this.data, d => d[this.accessors.x.key]))
+      .range([0, this.inner.width]);
 
-    self.y = D3.scaleLinear()
-      .domain([0, D3.max(self.data, d => d.value)])
-      .range([self.inner.height, 0]);
+    this.y = D3.scaleLinear()
+      .domain([0, D3.max(this.data, d => d[this.accessors.y.key])])
+      .range([this.inner.height, 0]);
 
-    self.xAxis = self.svg.append("g")
+    this.xAxis = this.svg.append("g")
       .classed("x-axis", true)
-      .attr("id", `x-axis_${self.uid}`)
-      .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
-      .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10));
+      .attr("id", `x-axis_${this.uid}`)
+      .attr("transform", `translate(${this.margin.left}, ${this.inner.height + this.margin.top})`)
+      .call(D3.axisBottom(this.x).tickSizeOuter(5).tickPadding(10));
 
-    self.yAxis = self.svg.append("g")
+    this.yAxis = this.svg.append("g")
       .classed("y-axis", true)
-      .attr("id", `y-axis_${self.uid}`)
-      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
-      .call(D3.axisLeft(self.y));
+      .attr("id", `y-axis_${this.uid}`)
+      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
+      .call(D3.axisLeft(this.y));
 
     /*
     Generate Data Elements
     */
 
-    self.line = D3.line()
-        .x(d => self.x(d.date))
-        .y(d => self.y(d.value));
+    this.line = D3.line()
+        .x(d => this.x(d[this.accessors.x.key]))
+        .y(d => this.y(d[this.accessors.y.key]));
 
-    self.lines = self.svg
+    this.lines = this.svg
       .append("g")
       .classed("series", true)
-      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
       .selectAll(".line")
-      .data(self.series)
+      .data(this.series)
       .join("path")
         .classed("line", true)
         .attr("fill", "none")
-        .attr("stroke", d => self.color(d.group))
+        .attr("stroke", d => this.color(d[this.accessors.color.key]))
         .attr("stroke-width", 2)
-        .attr("d", d => self.line(d.values));
+        .attr("d", d => this.line(d.values));
 
-    self.points = self.svg
+    this.points = this.svg
       .selectAll(".points")
-      .data(self.series)
+      .data(this.series)
       .join("g")
         .classed("points", true)
-        .attr("id", d => `points_${self.uid}_${self._rename(d.group)}`)
-        .attr("fill", d => self.color(d.group))
-        .attr("stroke", d => self.color(d.group))
-        .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+        .attr("id", d => `points_${this.uid}_${this.tokenize(d.group)}`)
+        .attr("fill", d => this.color(d[this.accessors.color.key]))
+        .attr("stroke", d => this.color(d[this.accessors.color.key]))
+        .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
         .selectAll(".point")
           .data(d => d.values)
           .join("circle")
             .classed("point", true)
-            .attr("cx", d => self.x(d.date))
-            .attr("cy", d => self.y(d.value))
-            .attr("r", self.pointradius)
-            .attr("id", d => `point_${self.uid}_${self._rename(d.group)}}`);
+            .attr("cx", d => this.x(d[this.accessors.x.key]))
+            .attr("cy", d => this.y(d[this.accessors.y.key]))
+            .attr("r", this.pointradius)
+            .attr("id", d => `point_${this.uid}_${this.tokenize(d.group)}}`);
 
     /*
     Annotation
     */
 
-    self.annotation = new Legend({
-      uid: self.uid,
-      parent: self.svg,
-      container: self.inner,
-      data: self.series,
-      color: self.color,
-      width: self.legend.width,
-      height: self.legend.height,
-      margin: self.margin,
-      padding: self.padding,
-      itemsize: self.legend.itemsize,
-      fontsize: self.legend.fontsize,
-      vposition: self.legend.vposition,
-      hposition: self.legend.hposition,
-      accessor: "group"
+    this.annotation = new Legend({
+      uid       : this.uid,
+      parent    : this.svg,
+      container : this.inner,
+      data      : this.series,
+      color     : this.color,
+      width     : this.legend.width,
+      height    : this.legend.height,
+      margin    : this.margin,
+      padding   : this.padding,
+      itemsize  : this.legend.itemsize,
+      fontsize  : this.legend.fontsize,
+      vposition : this.legend.vposition,
+      hposition : this.legend.hposition,
+      accessor  : "group"
     });
 
-    return self;
-  },
+    return this;
 
-  debug : function () {
-    var self = this;
-    console.log(self);
-    return self;
-  },
-
-  _uid: function () {
-    return `O-${Math.random().toString(16).slice(2, 8)}`
-  },
-
-  _rename: function (name) {
-    return (typeof(name) === "string") ? name.replace(/\s/g, "-").toLowerCase() : "";
   }
 
-};
+  mapData (data) {
+    let mapped = []
+    data.forEach(row => {
+      mapped.push({
+        [this.accessors.x.key]      : this.asType(this.accessors.x.type, row[this.accessors.x.key]),
+        [this.accessors.y.key]      : this.asType(this.accessors.y.type, row[this.accessors.y.key]),
+        [this.accessors.color.key]  : this.asType(this.accessors.color.type, row[this.accessors.color.key])
+      })
+    });
+    return mapped;
+  }
+
+}
 
 /*
 Exports
