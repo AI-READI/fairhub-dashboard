@@ -6,7 +6,7 @@ Imports
 
   import { configStore } from '@/stores/configs'
   import { shallowRef, ref, reactive, computed } from 'vue'
-  const modules = import.meta.glob('../../modules/visualizations/*.js', {eager: true})
+  const modules = import.meta.glob('../../modules/visualizations/charts/*.js', {eager: true})
 
 /*
 Component
@@ -33,7 +33,7 @@ Component
       for (let i = 0; i < config.module.visualizations.length; i++) {
         let viz = config.module.visualizations[i];
         for (const path in modules) {
-          let name = path.split('/').pop().replace(/\.\w+$/, '')
+          let name = path.split('/').pop().replace(/\.\w+$/, '');
           if (viz.type === name) {
             let visualization = modules[path].default;
             visualizations.push(

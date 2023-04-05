@@ -149,14 +149,13 @@
           ],
           "opacity": 0.8,
           "radius": 50,
-          "data": [{
-              "group": "screened in",
-              "value": 141
-            },
-            {
-              "group": "screened out",
-              "value": 221
-            }
+          "accessors": {
+            "group": {"key": "group", "type": "String"},
+            "value": {"key": "value", "type": "Number"}
+          },
+          "data": [
+            {"group": "screened in", "value": 141},
+            {"group": "screened out", "value": 221}
           ]
         }
       }, {
@@ -178,14 +177,13 @@
           ],
           "opacity": 0.8,
           "radius": 50,
-          "data": [{
-              "group": "consented",
-              "value": 128
-            },
-            {
-              "group": "did not consent",
-              "value": 13
-            }
+          "accessors": {
+            "group": {"key": "group", "type": "String"},
+            "value": {"key": "value", "type": "Number"}
+          },
+          "data": [
+            {"group": "consented", "value": 128},
+            {"group": "did not consent", "value": 13}
           ]
         }
       }, {
@@ -207,14 +205,13 @@
           ],
           "opacity": 0.8,
           "radius": 50,
-          "data": [{
-              "group": "active",
-              "value": 19
-            },
-            {
-              "group": "inactive",
-              "value": 11
-            }
+          "accessors": {
+            "group": {"key": "group", "type": "String"},
+            "value": {"key": "value", "type": "Number"}
+          },
+          "data": [
+            {"group": "active", "value": 19},
+            {"group": "inactive", "value": 11}
           ]
         }
       }, {
@@ -236,14 +233,13 @@
           ],
           "opacity": 0.8,
           "radius": 50,
-          "data": [{
-              "group": "completed",
-              "value": 98
-            },
-            {
-              "group": "exited",
-              "value": 234
-            }
+          "accessors": {
+            "group": {"key": "group", "type": "String"},
+            "value": {"key": "value", "type": "Number"}
+          },
+          "data": [
+            {"group": "completed", "value": 98},
+            {"group": "exited", "value": 234}
           ]
         }
       }]
@@ -282,70 +278,36 @@
             "#727272"
           ],
           "opacity": 0.8,
-          "data": [{
-              "group": "Screened In",
-              "values": {
-                "healthy": 119,
-                "prediabetic": 30,
-                "diabetic": 81
-              }
-            },
-            {
-              "group": "Screened Out",
-              "values": {
-                "healthy": 381,
-                "prediabetic": 144,
-                "diabetic": 201
-              }
-            },
-            {
-              "group": "Did Consent",
-              "values": {
-                "healthy": 72,
-                "prediabetic": 21,
-                "diabetic": 69
-              }
-            },
-            {
-              "group": "Did Not Consent",
-              "values": {
-                "healthy": 13,
-                "prediabetic": 8,
-                "diabetic": 10
-              }
-            },
-            {
-              "group": "Active",
-              "values": {
-                "healthy": 31,
-                "prediabetic": 4,
-                "diabetic": 37
-              }
-            },
-            {
-              "group": "Inctive",
-              "values": {
-                "healthy": 3,
-                "prediabetic": 2,
-                "diabetic": 7
-              }
-            },
-            {
-              "group": "Completed",
-              "values": {
-                "healthy": 91,
-                "prediabetic": 53,
-                "diabetic": 71
-              }
-            },
-            {
-              "group": "Exited",
-              "values": {
-                "healthy": 18,
-                "prediabetic": 12,
-                "diabetic": 19
-              }
-            }
+          "accessors": {
+            "x": {"key": "group", "type": "String"},
+            "y": {"key": "value", "type": "Number"},
+            "color": {"key": "subgroup", "type": "String"}
+          },
+          "data": [
+            {"group": "Screened In", "subgroup": "healthy", "value": 119},
+            {"group": "Screened In", "subgroup": "prediabetic", "value": 30},
+            {"group": "Screened In", "subgroup": "diabetic", "value": 81},
+            {"group": "Screened Out", "subgroup": "healthy", "value": 381},
+            {"group": "Screened Out", "subgroup": "prediabetic", "value": 144},
+            {"group": "Screened Out", "subgroup": "diabetic", "value": 201},
+            {"group": "Did Consent", "subgroup": "healthy", "value": 72},
+            {"group": "Did Consent", "subgroup": "prediabetic", "value": 21},
+            {"group": "Did Consent", "subgroup": "diabetic", "value": 69},
+            {"group": "Did Not Consent", "subgroup": "healthy", "value": 13},
+            {"group": "Did Not Consent", "subgroup": "prediabetic", "value": 8},
+            {"group": "Did Not Consent", "subgroup": "diabetic", "value": 10},
+            {"group": "Active", "subgroup": "healthy", "value": 31},
+            {"group": "Active", "subgroup": "prediabetic", "value": 4},
+            {"group": "Active", "subgroup": "diabetic", "value": 37},
+            {"group": "Inactive", "subgroup": "healthy", "value": 3},
+            {"group": "Inactive", "subgroup": "prediabetic", "value": 2},
+            {"group": "Inactive", "subgroup": "diabetic", "value": 7},
+            {"group": "Completed", "subgroup": "healthy", "value": 91},
+            {"group": "Completed", "subgroup": "prediabetic", "value": 53},
+            {"group": "Completed", "subgroup": "diabetic", "value": 71},
+            {"group": "Exited", "subgroup": "healthy", "value": 18},
+            {"group": "Exited", "subgroup": "prediabetic", "value": 12},
+            {"group": "Exited", "subgroup": "diabetic", "value": 19}
           ],
           "legend": {
             "width": 40,
@@ -370,7 +332,7 @@
 
       },
       "visualizations": [{
-        "type": "linechart",
+        "type": "line",
         "config": {
           "id": "#recruitment-line-chart",
           "width": 1200,
@@ -490,70 +452,36 @@
             "#727272"
           ],
           "opacity": 0.8,
-          "data": [{
-              "group": "Screened In",
-              "values": {
-                "healthy": 119,
-                "prediabetic": 30,
-                "diabetic": 81
-              }
-            },
-            {
-              "group": "Screened Out",
-              "values": {
-                "healthy": 381,
-                "prediabetic": 144,
-                "diabetic": 201
-              }
-            },
-            {
-              "group": "Did Consent",
-              "values": {
-                "healthy": 72,
-                "prediabetic": 21,
-                "diabetic": 69
-              }
-            },
-            {
-              "group": "Did Not Consent",
-              "values": {
-                "healthy": 13,
-                "prediabetic": 8,
-                "diabetic": 10
-              }
-            },
-            {
-              "group": "Active",
-              "values": {
-                "healthy": 31,
-                "prediabetic": 4,
-                "diabetic": 37
-              }
-            },
-            {
-              "group": "Inctive",
-              "values": {
-                "healthy": 3,
-                "prediabetic": 2,
-                "diabetic": 7
-              }
-            },
-            {
-              "group": "Completed",
-              "values": {
-                "healthy": 91,
-                "prediabetic": 53,
-                "diabetic": 71
-              }
-            },
-            {
-              "group": "Exited",
-              "values": {
-                "healthy": 18,
-                "prediabetic": 12,
-                "diabetic": 19
-              }
-            }
+          "accessors": {
+            "x": {"key": "group", "type": "String"},
+            "y": {"key": "value", "type": "Number"},
+            "color": {"key": "subgroup", "type": "String"}
+          },
+          "data": [
+            {"group": "Screened In", "subgroup": "healthy", "value": 119},
+            {"group": "Screened In", "subgroup": "prediabetic", "value": 30},
+            {"group": "Screened In", "subgroup": "diabetic", "value": 81},
+            {"group": "Screened Out", "subgroup": "healthy", "value": 381},
+            {"group": "Screened Out", "subgroup": "prediabetic", "value": 144},
+            {"group": "Screened Out", "subgroup": "diabetic", "value": 201},
+            {"group": "Did Consent", "subgroup": "healthy", "value": 72},
+            {"group": "Did Consent", "subgroup": "prediabetic", "value": 21},
+            {"group": "Did Consent", "subgroup": "diabetic", "value": 69},
+            {"group": "Did Not Consent", "subgroup": "healthy", "value": 13},
+            {"group": "Did Not Consent", "subgroup": "prediabetic", "value": 8},
+            {"group": "Did Not Consent", "subgroup": "diabetic", "value": 10},
+            {"group": "Active", "subgroup": "healthy", "value": 31},
+            {"group": "Active", "subgroup": "prediabetic", "value": 4},
+            {"group": "Active", "subgroup": "diabetic", "value": 37},
+            {"group": "Inactive", "subgroup": "healthy", "value": 3},
+            {"group": "Inactive", "subgroup": "prediabetic", "value": 2},
+            {"group": "Inactive", "subgroup": "diabetic", "value": 7},
+            {"group": "Completed", "subgroup": "healthy", "value": 91},
+            {"group": "Completed", "subgroup": "prediabetic", "value": 53},
+            {"group": "Completed", "subgroup": "diabetic", "value": 71},
+            {"group": "Exited", "subgroup": "healthy", "value": 18},
+            {"group": "Exited", "subgroup": "prediabetic", "value": 12},
+            {"group": "Exited", "subgroup": "diabetic", "value": 19}
           ],
           "legend": {
             "width": 40,
@@ -600,70 +528,36 @@
             "#727272"
           ],
           "opacity": 0.8,
-          "data": [{
-              "group": "Screened In",
-              "values": {
-                "healthy": 119,
-                "prediabetic": 30,
-                "diabetic": 81
-              }
-            },
-            {
-              "group": "Screened Out",
-              "values": {
-                "healthy": 381,
-                "prediabetic": 144,
-                "diabetic": 201
-              }
-            },
-            {
-              "group": "Did Consent",
-              "values": {
-                "healthy": 72,
-                "prediabetic": 21,
-                "diabetic": 69
-              }
-            },
-            {
-              "group": "Did Not Consent",
-              "values": {
-                "healthy": 13,
-                "prediabetic": 8,
-                "diabetic": 10
-              }
-            },
-            {
-              "group": "Active",
-              "values": {
-                "healthy": 31,
-                "prediabetic": 4,
-                "diabetic": 37
-              }
-            },
-            {
-              "group": "Inctive",
-              "values": {
-                "healthy": 3,
-                "prediabetic": 2,
-                "diabetic": 7
-              }
-            },
-            {
-              "group": "Completed",
-              "values": {
-                "healthy": 91,
-                "prediabetic": 53,
-                "diabetic": 71
-              }
-            },
-            {
-              "group": "Exited",
-              "values": {
-                "healthy": 18,
-                "prediabetic": 12,
-                "diabetic": 19
-              }
-            }
+          "accessors": {
+            "x": {"key": "group", "type": "String"},
+            "y": {"key": "value", "type": "Number"},
+            "color": {"key": "subgroup", "type": "String"}
+          },
+          "data": [
+            {"group": "Screened In", "subgroup": "healthy", "value": 119},
+            {"group": "Screened In", "subgroup": "prediabetic", "value": 30},
+            {"group": "Screened In", "subgroup": "diabetic", "value": 81},
+            {"group": "Screened Out", "subgroup": "healthy", "value": 381},
+            {"group": "Screened Out", "subgroup": "prediabetic", "value": 144},
+            {"group": "Screened Out", "subgroup": "diabetic", "value": 201},
+            {"group": "Did Consent", "subgroup": "healthy", "value": 72},
+            {"group": "Did Consent", "subgroup": "prediabetic", "value": 21},
+            {"group": "Did Consent", "subgroup": "diabetic", "value": 69},
+            {"group": "Did Not Consent", "subgroup": "healthy", "value": 13},
+            {"group": "Did Not Consent", "subgroup": "prediabetic", "value": 8},
+            {"group": "Did Not Consent", "subgroup": "diabetic", "value": 10},
+            {"group": "Active", "subgroup": "healthy", "value": 31},
+            {"group": "Active", "subgroup": "prediabetic", "value": 4},
+            {"group": "Active", "subgroup": "diabetic", "value": 37},
+            {"group": "Inactive", "subgroup": "healthy", "value": 3},
+            {"group": "Inactive", "subgroup": "prediabetic", "value": 2},
+            {"group": "Inactive", "subgroup": "diabetic", "value": 7},
+            {"group": "Completed", "subgroup": "healthy", "value": 91},
+            {"group": "Completed", "subgroup": "prediabetic", "value": 53},
+            {"group": "Completed", "subgroup": "diabetic", "value": 71},
+            {"group": "Exited", "subgroup": "healthy", "value": 18},
+            {"group": "Exited", "subgroup": "prediabetic", "value": 12},
+            {"group": "Exited", "subgroup": "diabetic", "value": 19}
           ],
           "legend": {
             "width": 40,

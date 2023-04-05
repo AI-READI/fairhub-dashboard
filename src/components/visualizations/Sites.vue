@@ -6,7 +6,7 @@ Imports
 
   import { configStore } from '@/stores/configs'
   import { shallowRef, ref, reactive, computed } from 'vue'
-  const modules = import.meta.glob('../../modules/visualizations/*.js', {eager: true})
+  const modules = import.meta.glob('../../modules/visualizations/charts/*.js', {eager: true})
 
 /*
 Component

@@ -4,6 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import * as D3Sankey from "d3-sankey";
+import Chart from "../chart.js";
 
 /*
 Defaults

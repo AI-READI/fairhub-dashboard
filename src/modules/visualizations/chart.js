@@ -4,6 +4,10 @@ Imports
 
 import * as D3 from "D3";
 
+/*
+Base Chart Class
+*/
+
 class Chart {
 	id 			= undefined;
 	svg			= undefined;
@@ -25,6 +29,7 @@ class Chart {
 		this.margin		= config.margin;
 		this.palette 	= config.palette;
 		this.data 		= config.data;
+		this.accessors  = config.accessors;
 
 		// Computed References
 		this.inner 		= {
@@ -41,6 +46,10 @@ class Chart {
 
 	#uid () {
 		return `O-${Math.random().toString(16).slice(2, 8)}`;
+	}
+
+	getUniqueKeys (data, accessor) {
+		return data.map(d => d[accessor]).filter((e, i, a) => a.indexOf(e) == i);
 	}
 
 	asString (val) {

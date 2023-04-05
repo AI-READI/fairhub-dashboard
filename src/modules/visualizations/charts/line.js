@@ -3,36 +3,43 @@ Imports
 */
 
 import * as D3 from "D3";
-import Chart from "./chart.js";
-import Legend from "./legend.js";
+import Chart from "../chart.js";
+import Legend from "../legend.js";
+
+/*
+Line Chart Class
+*/
 
 class LineChart extends Chart {
 
   // References
-  groups  = null;
-  series  = null;
-  color   = null;
-  x       = null;
-  y       = null;
-  xAxis   = null;
-  yAxis   = null;
-  line    = null;
-  series  = null;
-  points  = null;
+  groups  = undefined;
+  series  = undefined;
+  color   = undefined;
+  x       = undefined;
+  y       = undefined;
+  xAxis   = undefined;
+  yAxis   = undefined;
+  line    = undefined;
+  series  = undefined;
+  points  = undefined;
 
   // Initialization
   constructor (config) {
-    super(config)
-    this.data         = config.data;
+
+    // Configure Parent
+    super(config);
+
+    // Configure Line Chart
     this.opacity      = config.opacity;
-    this.ncols        = config.ncols; 
     this.legend       = config.legend;
     this.pointradius  = config.pointradius;
-    this.accessors    = config.accessors;
 
+    // Computed References
     this.padding = {
       top: 0, left: 20, bottom: 0, right: 20
     }
+
   }
 
   // Update
@@ -45,10 +52,10 @@ class LineChart extends Chart {
     this.svg = D3.select(this.id)
       .classed("line-chart", true);
 
-    this.data = this.mapData(this.data);
+    this.data = this.#mapData(this.data);
 
     // We need to compute these
-    this.groups = ['normal', 'prediabetic', 'diabetic'];
+    this.groups = super.getUniqueKeys(this.data, this.accessors.color.key);
 
     this.series = this.groups.map(
       key => ({
@@ -63,8 +70,6 @@ class LineChart extends Chart {
         )
       })
     );
-
-    console.log(this.series)
 
     this.color = D3.scaleOrdinal()
       .domain(this.groups)
@@ -107,15 +112,18 @@ class LineChart extends Chart {
       .classed("series", true)
       .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
       .selectAll(".line")
-      .data(this.series)
-      .join("path")
-        .classed("line", true)
-        .attr("fill", "none")
-        .attr("stroke", d => this.color(d[this.accessors.color.key]))
-        .attr("stroke-width", 2)
-        .attr("d", d => this.line(d.values));
+        .data(this.series)
+        .join("path")
+          .classed("line", true)
+          .attr("fill", "none")
+          .attr("stroke", d => this.color(d[this.accessors.color.key]))
+          .attr("stroke-width", 2)
+          .attr("d", d => this.line(d.values));
 
     this.points = this.svg
+      .append("g")
+      .classed("points", true)
+      .attr("transform", `translate(${this.margin.left}, ${this.margin.bottom})`)
       .selectAll(".points")
       .data(this.series)
       .join("g")
@@ -123,7 +131,6 @@ class LineChart extends Chart {
         .attr("id", d => `points_${this.uid}_${this.tokenize(d.group)}`)
         .attr("fill", d => this.color(d[this.accessors.color.key]))
         .attr("stroke", d => this.color(d[this.accessors.color.key]))
-        .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
         .selectAll(".point")
           .data(d => d.values)
           .join("circle")
@@ -151,23 +158,30 @@ class LineChart extends Chart {
       fontsize  : this.legend.fontsize,
       vposition : this.legend.vposition,
       hposition : this.legend.hposition,
-      accessor  : "group"
+      accessor  : this.accessors.color.key
     });
 
     return this;
 
   }
 
-  mapData (data) {
+/*
+Map Data and Set Value Types
+*/
+
+  #mapData (data) {
     let mapped = []
+
     data.forEach(row => {
       mapped.push({
-        [this.accessors.x.key]      : this.asType(this.accessors.x.type, row[this.accessors.x.key]),
-        [this.accessors.y.key]      : this.asType(this.accessors.y.type, row[this.accessors.y.key]),
-        [this.accessors.color.key]  : this.asType(this.accessors.color.type, row[this.accessors.color.key])
+        [this.accessors.x.key]      : super.asType(this.accessors.x.type, row[this.accessors.x.key]),
+        [this.accessors.y.key]      : super.asType(this.accessors.y.type, row[this.accessors.y.key]),
+        [this.accessors.color.key]  : super.asType(this.accessors.color.type, row[this.accessors.color.key])
       })
     });
+
     return mapped;
+
   }
 
 }
