@@ -13,16 +13,18 @@ Line Chart Class
 class LineChart extends Chart {
 
   // References
-  groups  = undefined;
-  series  = undefined;
-  color   = undefined;
-  x       = undefined;
-  y       = undefined;
-  xAxis   = undefined;
-  yAxis   = undefined;
-  line    = undefined;
-  series  = undefined;
-  points  = undefined;
+  mapped      = undefined;
+  groups      = undefined;
+  series      = undefined;
+  color       = undefined;
+  x           = undefined;
+  y           = undefined;
+  xAxis       = undefined;
+  yAxis       = undefined;
+  line        = undefined;
+  series      = undefined;
+  points      = undefined;
+  annotation  = undefined;
 
   // Initialization
   constructor (config) {
@@ -38,7 +40,9 @@ class LineChart extends Chart {
     // Computed References
     this.padding = {
       top: 0, left: 20, bottom: 0, right: 20
-    }
+    };
+
+    return this;
 
   }
 
@@ -49,42 +53,22 @@ class LineChart extends Chart {
     Setup
     */
 
+    // Map Data
+    [this.mapped, this.groups, this.series] = this.#mapData(this.data);
+
     this.svg = D3.select(this.id)
       .classed("line-chart", true);
-
-    this.data = this.#mapData(this.data);
-
-    // We need to compute these
-    this.groups = super.getUniqueKeys(this.data, this.accessors.color.key);
-
-    this.series = this.groups.map(
-      key => ({
-        group: key,
-        values: this.data.filter(
-          d => d[this.accessors.color.key] == key
-        ).map(
-          d => ({
-            [this.accessors.x.key]: d[this.accessors.x.key],
-            [this.accessors.y.key]: d[this.accessors.y.key]
-          })
-        )
-      })
-    );
-
-    this.color = D3.scaleOrdinal()
-      .domain(this.groups)
-      .range(this.palette);
 
     /*
     Generate Axes
     */
 
     this.x = D3.scaleTime()
-      .domain(D3.extent(this.data, d => d[this.accessors.x.key]))
+      .domain(D3.extent(this.mapped, d => d[this.accessors.x.key]))
       .range([0, this.inner.width]);
 
     this.y = D3.scaleLinear()
-      .domain([0, D3.max(this.data, d => d[this.accessors.y.key])])
+      .domain([0, D3.max(this.mapped, d => d[this.accessors.y.key])])
       .range([this.inner.height, 0]);
 
     this.xAxis = this.svg.append("g")
@@ -98,6 +82,10 @@ class LineChart extends Chart {
       .attr("id", `y-axis_${this.uid}`)
       .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
       .call(D3.axisLeft(this.y));
+
+    this.color = D3.scaleOrdinal()
+      .domain(this.groups)
+      .range(this.palette);
 
     /*
     Generate Data Elements
@@ -170,17 +158,33 @@ Map Data and Set Value Types
 */
 
   #mapData (data) {
-    let mapped = []
 
+    let mapped = [];
     data.forEach(row => {
       mapped.push({
         [this.accessors.x.key]      : super.asType(this.accessors.x.type, row[this.accessors.x.key]),
         [this.accessors.y.key]      : super.asType(this.accessors.y.type, row[this.accessors.y.key]),
         [this.accessors.color.key]  : super.asType(this.accessors.color.type, row[this.accessors.color.key])
-      })
+      });
     });
 
-    return mapped;
+    let groups = super.getUniqueKeys(mapped, this.accessors.color.key);
+
+    let series = groups.map(
+      key => ({
+        group: key,
+        values: mapped.filter(
+          d => d[this.accessors.color.key] == key
+        ).map(
+          d => ({
+            [this.accessors.x.key]: d[this.accessors.x.key],
+            [this.accessors.y.key]: d[this.accessors.y.key]
+          })
+        )
+      })
+    );
+
+    return [mapped, groups, series];
 
   }
 

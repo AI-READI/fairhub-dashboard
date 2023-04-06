@@ -13,15 +13,17 @@ Stacked Bar Chart Class
 class StackedBarChart extends Chart {
 
   // References
-  groups    = undefined;
-  subgroups = undefined;
-  stacked   = undefined;
-  color     = undefined;
-  x         = undefined;
-  y         = undefined;
-  xAxis     = undefined;
-  yAxis     = undefined;
-  bars      = undefined;
+  mapped      = undefined;
+  groups      = undefined;
+  subgroups   = undefined;
+  stacked     = undefined;
+  color       = undefined;
+  x           = undefined;
+  y           = undefined;
+  xAxis       = undefined;
+  yAxis       = undefined;
+  bars        = undefined;
+  annotation  = undefined;
 
   constructor (config) {
 
@@ -36,7 +38,9 @@ class StackedBarChart extends Chart {
     // Computed References
     this.padding      = {
       top: 0, left: 20, bottom: 0, right: 20
-    }
+    };
+
+    return this;
 
   }
 
@@ -46,23 +50,10 @@ class StackedBarChart extends Chart {
     Setup
     */
 
+    [this.mapped, this.groups, this.subgroups] = this.#mapData(this.data);
+
     this.svg = D3.select(this.id)
       .classed("stacked-bar-chart", true);
-
-    this.groups = super.getUniqueKeys(this.data, this.accessors.x.key);
-    this.subgroups = super.getUniqueKeys(this.data, this.accessors.color.key);
-    this.data = this.#mapData(this.data);
-
-    this.stacked = D3.stack()
-      .keys(this.subgroups)
-      .value((d, key) => {
-        d.subgroup = key;
-        return d.values[key];
-      })(this.data);
-
-    this.color = D3.scaleOrdinal()
-      .domain(this.groups)
-      .range(this.palette);
 
     /*
     Generate Axes
@@ -85,7 +76,7 @@ class StackedBarChart extends Chart {
       .attr("transform", `translate(${this.margin.left}, ${this.inner.height + this.margin.top})`)
       .call(D3.axisBottom(this.x).tickSizeOuter(5).tickPadding(10))
       .selectAll(".tick")
-        .data(this.data)
+        .data(this.mapped)
         .attr("transform", d => `translate(${this.x(d[this.accessors.x.key])}, 0)`)
         .selectAll("text")
           .attr("id", d => `label_${this.uid}_${this.tokenize(d[this.accessors.x.key])}`)
@@ -103,9 +94,20 @@ class StackedBarChart extends Chart {
         .style("text-anchor", "end")
         .style("text-transform", "capitalize");
 
+    this.color = D3.scaleOrdinal()
+      .domain(this.groups)
+      .range(this.palette);
+
     /*
     Generate Data Elements
     */
+
+    this.stacked = D3.stack()
+      .keys(this.subgroups)
+      .value((d, key) => {
+        d.subgroup = key;
+        return d.values[key];
+      })(this.mapped);
 
     this.bars = this.svg.append("g")
       .classed(`bars`, true)
@@ -151,11 +153,15 @@ class StackedBarChart extends Chart {
       accessor: "key"
     });
 
+    return this;
+
   }
 
   #mapData (data) {
-    let mapped = [];
+
     let groups = super.getUniqueKeys(data, this.accessors.x.key);
+    let subgroups = super.getUniqueKeys(this.data, this.accessors.color.key);
+    let mapped = [];
 
     groups.forEach(group => {
       let stack = {
@@ -164,13 +170,13 @@ class StackedBarChart extends Chart {
       };
       data.forEach(row => {
         if (row[this.accessors.x.key] === group) {
-          stack.values[super.asType(this.accessors.color.type, row[this.accessors.color.key])] = super.asType(this.accessors.y.type, row[this.accessors.y.key])
+          stack.values[super.asType(this.accessors.color.type, row[this.accessors.color.key])] = super.asType(this.accessors.y.type, row[this.accessors.y.key]);
         }
       });
       mapped.push(stack);
     });
 
-    return mapped;
+    return [mapped, groups, subgroups];
 
   }
 

@@ -12,6 +12,7 @@ Doughnut Chart Class
 class DoughnutChart extends Chart {
 
   // References
+  mapped    = undefined;
   groups    = undefined;
   radius    = undefined;
   doughnut  = undefined;
@@ -28,6 +29,8 @@ class DoughnutChart extends Chart {
     // Configure Stacked Bar Chart
     this.opacity      = config.opacity;
 
+    return this.update()
+
   }
 
   update () {
@@ -35,16 +38,7 @@ class DoughnutChart extends Chart {
     this.svg = D3.select(this.id)
       .classed("doughnut-chart", true);
 
-    this.data = this.#mapData(this.data);
-    this.radius       = (Math.min(this.inner.width, this.inner.height) / 2);
-    this.groups       = this.data.map(d => d.group);
-
-    this.doughnut = D3.pie()
-      .value(d => d[this.accessors.value.key])(this.data)
-      .map(d => {
-        d["label"] = d.data[this.accessors.group.key];
-        return d;
-      });
+    [this.mapped, this.groups] = this.#mapData(this.data);
 
     this.color = D3.scaleOrdinal()
       .domain(this.groups)
@@ -53,6 +47,15 @@ class DoughnutChart extends Chart {
     /*
     Generate Data Elements
     */
+
+    this.radius = (Math.min(this.inner.width, this.inner.height) / 2);
+
+    this.doughnut = D3.pie()
+      .value(d => d[this.accessors.value.key])(this.mapped)
+      .map(d => {
+        d["label"] = d.data[this.accessors.group.key];
+        return d;
+      });
 
     this.dataArc = D3.arc()
       .innerRadius(this.radius * 0.5)
@@ -70,11 +73,6 @@ class DoughnutChart extends Chart {
           .attr('fill', d => this.color(d.label))
           .attr("stroke-width", "2px")
           .attr("opacity", this.opacity)
-
-
-      // .append("g")
-      //   .attr("transform", `translate(${this.inner.width / 2}, ${this.inner.height / 2})`);
-
 
     /*
     Generate Text Labels
@@ -114,19 +112,24 @@ class DoughnutChart extends Chart {
           .style("text-transform", "capitalize");
 
     return this;
+
   }
 
   #setLabels (d) {
+
     let x = this.dataArc.centroid(d), // line insertion in the slice
         y = this.labelArc.centroid(d), // line break: we use the other arc generator that has been built only for that
         z = this.labelArc.centroid(d), // Label position = almost the same as posB
         midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
         z[0] = this.radius * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+
     return [x, y, z];
+
   }
 
   #mapData (data) {
 
+    let groups = data.map(d => d.group);
     let mapped = []
 
     data.forEach(row => {
@@ -136,7 +139,7 @@ class DoughnutChart extends Chart {
       })
     });
 
-    return mapped;
+    return [mapped, groups];
 
   }
 

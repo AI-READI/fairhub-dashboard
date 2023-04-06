@@ -16,9 +16,9 @@ class Chart {
 	margin		= undefined;
 	palette		= undefined;
 	data		= undefined;
+	mapped    	= undefined;
 	inner		= undefined;
 	uid			= undefined;
-	annotation	= undefined;
 
 	constructor (config) {
 
@@ -32,6 +32,7 @@ class Chart {
 		this.accessors  = config.accessors;
 
 		// Computed References
+		this.uid 		= this.#uid();
 		this.inner 		= {
 			height			: this.height - this.margin.top - this.margin.bottom,
 			width			: this.width -  this.margin.left - this.margin.right,
@@ -40,7 +41,6 @@ class Chart {
 			bottom			: this.height - this.margin.bottom,
 			right			: this.width - this.margin.right,
 		};
-		this.uid 		= this.#uid();
 
 	}
 

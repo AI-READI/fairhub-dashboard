@@ -14,11 +14,22 @@ Sankey Chart Class
 class SankeyChart extends Chart {
 
   // References
-  #alignMap    = {
-    "left": D3Sankey.sankeyLeft,
-    "right": D3Sankey.sankeyRight,
-    "center": D3Sankey.sankeyCenter,
-    "justify": D3Sankey.sankeyJustify
+  mapped    = undefined;
+  sources   = undefined;
+  targets   = undefined;
+  nodes     = undefined;
+  links     = undefined;
+  color     = undefined;
+  x         = undefined;
+  y         = undefined;
+  xAxis     = undefined;
+  yAxis     = undefined;
+  bars      = undefined;
+  #alignMap = {
+    "left"    : D3Sankey.sankeyLeft,
+    "right"   : D3Sankey.sankeyRight,
+    "center"  : D3Sankey.sankeyCenter,
+    "justify" : D3Sankey.sankeyJustify
   };
 
   constructor (config) {
@@ -32,10 +43,6 @@ class SankeyChart extends Chart {
     this.link         = config.link;
 
     // Computed References
-    this.nodes        = [];
-    this.links        = [];
-    this.targets      = [];
-    this.sources      = [];
     this.nodeAlign    = this.#alignMap[this.node.alignment];
     this.linkMethod   = D3Sankey.sankeyLinkHorizontal();
 
@@ -48,7 +55,7 @@ class SankeyChart extends Chart {
     this.svg = D3.select(this.id)
       .classed("sankey-chart", true);
 
-    this.data = this.#mapData(this.data);
+    [this.mapped, this.sources, this.targets, this.nodes, this.links] = this.#mapData(this.data);
 
     this.graph = D3Sankey.sankey()
       .nodeId(d => d.name)
@@ -57,8 +64,8 @@ class SankeyChart extends Chart {
       .nodePadding(this.node.padding)
       .size([this.width, this.height])
       .extent([[this.margin.left, this.margin.top], [this.width - this.margin.right, this.height - this.margin.bottom]])
-      .nodes(this.data.nodes)
-      .links(this.data.links)(this.data);
+      .nodes(this.mapped.nodes)
+      .links(this.mapped.links)(this.mapped);
 
     // Layout sorting
     this.nodeSort = this.node.sort !== null ? this.graph.nodes.sort((a, b) => D3[this.node.sort](a.value, b.value)) : null;
@@ -161,30 +168,27 @@ class SankeyChart extends Chart {
 
   #mapData (data) {
 
-    let mapped = [];
-
-    // Set Links
+    let links = [];
     data.forEach(row => {
-      this.links.push({
+      links.push({
         target : super.asType(this.accessors.target.type, row[this.accessors.target.key]),
         source : super.asType(this.accessors.source.type, row[this.accessors.source.key]),
         value  : super.asType(this.accessors.value.type, row[this.accessors.value.key])
-      })
+      });
     });
 
-    // Set Nodes
-    this.targets = super.getUniqueKeys(this.links, this.accessors.target.key);
-    this.sources = super.getUniqueKeys(this.links, this.accessors.source.key);
-    this.nodes = Array.from(new Set(this.targets.concat(this.sources)));
+    let sources = super.getUniqueKeys(links, this.accessors.source.key);
+    let targets = super.getUniqueKeys(links, this.accessors.target.key);
+    let nodes = Array.from(new Set(targets.concat(sources)));
 
-    mapped = {
-      nodes: this.nodes.map(
+    let mapped = {
+      nodes: nodes.map(
         node => {return {name: node}}
       ),
-      links: this.links
+      links: links
     };
 
-    return mapped;
+    return [mapped, sources, targets, nodes, links];
 
   }
 
