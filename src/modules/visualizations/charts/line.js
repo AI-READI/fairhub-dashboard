@@ -2,7 +2,7 @@
 Imports
 */
 
-import * as D3 from "D3";
+import * as D3 from "d3";
 import Chart from "../chart.js";
 import Legend from "../legend.js";
 

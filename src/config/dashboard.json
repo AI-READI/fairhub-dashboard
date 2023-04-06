@@ -50,7 +50,6 @@
             "fontsize": 16
           },
           "link": {
-            "minWidth": 80,
             "class": "link",
             "opacity": 0.95,
             "sort": "ascending",
@@ -62,15 +61,26 @@
             "value": {"key": "value", "type": "Number"}
           },
           "data": [
-            {"source": "Screened In", "target": "Consented","value": 128},
-            {"source": "Screened In", "target": "Did Not Consent","value": 13},
-            {"source": "Consented", "target": "Completed","value": 98},
-            {"source": "Consented", "target": "Active","value": 19},
-            {"source": "Consented", "target": "Inactive","value": 5},
-            {"source": "Consented", "target": "Exited","value": 6},
-            {"source": "Did Not Consent", "target": "Inactive","value": 6},
-            {"source": "Did Not Consent", "target": "Exited","value": 7},
-            {"source": "Screened Out", "target": "Exited","value": 221}
+            {"source": "Screened In", "target": "Consented", "value": 128},
+            {"source": "Screened In", "target": "Did Not Consent", "value": 13},
+            {"source": "Consented", "target": "Completed", "value": 98},
+            {"source": "Consented", "target": "Active", "value": 19},
+            {"source": "Consented", "target": "Inactive", "value": 5},
+            {"source": "Consented", "target": "Exited", "value": 6},
+            {"source": "Did Not Consent", "target": "Inactive", "value": 6},
+            {"source": "Did Not Consent", "target": "Exited", "value": 7},
+            {"source": "Screened Out", "target": "Exited", "value": 221}
+          ],
+          "data": [
+            {"source": "Screened In", "target": "Consented", "value": 128},
+            {"source": "Screened In", "target": "Did Not Consent", "value": 13},
+            {"source": "Consented", "target": "Completed", "value": 98},
+            {"source": "Consented", "target": "Active", "value": 19},
+            {"source": "Consented", "target": "Inactive", "value": 5},
+            {"source": "Consented", "target": "Exited", "value": 6},
+            {"source": "Did Not Consent", "target": "Inactive", "value": 6},
+            {"source": "Did Not Consent", "target": "Exited", "value": 7},
+            {"source": "Screened Out", "target": "Exited", "value": 221}
           ]
         }
       }, {

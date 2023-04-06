@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@stdlib/stdlib": "^0.0.96",
     "d3": "^7.8.2",
     "d3-sankey": "^0.12.3",
     "pinia": "^2.0.28",
