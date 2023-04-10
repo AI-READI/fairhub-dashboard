@@ -4,7 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
-import Legend from "../legend.js";
+import Legend from "../utilities/legend.js";
 
 /*
 Line Chart Class
@@ -32,124 +32,130 @@ class LineChart extends Chart {
     // Configure Parent
     super(config);
 
+    let self = this;
+
     // Configure Line Chart
-    this.opacity      = config.opacity;
-    this.legend       = config.legend;
-    this.pointradius  = config.pointradius;
+    self.opacity      = config.opacity;
+    self.legend       = config.legend;
+    self.pointradius  = config.pointradius;
 
     // Computed References
-    this.padding = {
+    self.padding = {
       top: 0, left: 20, bottom: 0, right: 20
     };
 
-    return this;
+    return self;
 
   }
 
   // Update
   update () {
 
+    let self = this;
+
     /*
     Setup
     */
 
     // Map Data
-    [this.mapped, this.groups, this.series] = this.#mapData(this.data);
+    [self.mapped, self.groups, self.series] = self.#mapData(self.data);
 
-    this.svg = D3.select(this.id)
+    self.svg = D3.select(self.id)
       .classed("line-chart", true);
 
     /*
     Generate Axes
     */
 
-    this.x = D3.scaleTime()
-      .domain(D3.extent(this.mapped, d => d[this.accessors.x.key]))
-      .range([0, this.inner.width]);
+    self.x = D3.scaleTime()
+      .domain(D3.extent(self.mapped, d => d[self.accessors.x.key]))
+      .range([0, self.inner.width]);
 
-    this.y = D3.scaleLinear()
-      .domain([0, D3.max(this.mapped, d => d[this.accessors.y.key])])
-      .range([this.inner.height, 0]);
+    self.y = D3.scaleLinear()
+      .domain([0, D3.max(self.mapped, d => d[self.accessors.y.key])])
+      .range([self.inner.height, 0]);
 
-    this.xAxis = this.svg.append("g")
+    self.xAxis = self.svg.append("g")
       .classed("x-axis", true)
-      .attr("id", `x-axis_${this.uid}`)
-      .attr("transform", `translate(${this.margin.left}, ${this.inner.height + this.margin.top})`)
-      .call(D3.axisBottom(this.x).tickSizeOuter(5).tickPadding(10));
+      .attr("id", `x-axis_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
+      .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10));
 
-    this.yAxis = this.svg.append("g")
+    self.yAxis = self.svg.append("g")
       .classed("y-axis", true)
-      .attr("id", `y-axis_${this.uid}`)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
-      .call(D3.axisLeft(this.y));
+      .attr("id", `y-axis_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+      .call(D3.axisLeft(self.y));
 
-    this.color = D3.scaleOrdinal()
-      .domain(this.groups)
-      .range(this.palette);
+    self.color = D3.scaleOrdinal()
+      .domain(self.groups)
+      .range(self.palette);
 
     /*
     Generate Data Elements
     */
 
-    this.line = D3.line()
-        .x(d => this.x(d[this.accessors.x.key]))
-        .y(d => this.y(d[this.accessors.y.key]));
+    self.line = D3.line()
+        .x(d => self.x(d[self.accessors.x.key]))
+        .y(d => self.y(d[self.accessors.y.key]));
 
-    this.lines = this.svg
+    self.lines = self.svg
       .append("g")
-      .classed("series", true)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
+      .classed("lines", true)
+      .attr("id", d =>`lines_${this.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
       .selectAll(".line")
-        .data(this.series)
+        .data(self.series)
         .join("path")
           .classed("line", true)
+          .attr("id", d =>`line_${self.tokenize(d[self.accessors.color.key])}_${this.uid}`)
           .attr("fill", "none")
-          .attr("stroke", d => this.color(d[this.accessors.color.key]))
+          .attr("stroke", d => self.color(d[self.accessors.color.key]))
           .attr("stroke-width", 2)
-          .attr("d", d => this.line(d.values));
+          .attr("d", d => self.line(d.values));
 
-    this.points = this.svg
+    self.points = self.svg
       .append("g")
       .classed("points", true)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.bottom})`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
       .selectAll(".points")
-      .data(this.series)
+      .data(self.series)
       .join("g")
         .classed("points", true)
-        .attr("id", d => `points_${this.uid}_${this.tokenize(d.group)}`)
-        .attr("fill", d => this.color(d[this.accessors.color.key]))
-        .attr("stroke", d => this.color(d[this.accessors.color.key]))
+        .attr("id", d => `points_${self.tokenize(d.group)}_${self.uid}`)
+        .attr("fill", d => self.color(d[self.accessors.color.key]))
+        .attr("stroke", d => self.color(d[self.accessors.color.key]))
         .selectAll(".point")
           .data(d => d.values)
           .join("circle")
             .classed("point", true)
-            .attr("cx", d => this.x(d[this.accessors.x.key]))
-            .attr("cy", d => this.y(d[this.accessors.y.key]))
-            .attr("r", this.pointradius)
-            .attr("id", d => `point_${this.uid}_${this.tokenize(d.group)}}`);
+            .attr("id", d => `point_${self.tokenize(d.group)}_${self.uid}}`)
+            .attr("cx", d => self.x(d[self.accessors.x.key]))
+            .attr("cy", d => self.y(d[self.accessors.y.key]))
+            .attr("r", self.pointradius);
 
     /*
     Annotation
     */
 
-    this.annotation = new Legend({
-      uid       : this.uid,
-      parent    : this.svg,
-      container : this.inner,
-      data      : this.series,
-      color     : this.color,
-      width     : this.legend.width,
-      height    : this.legend.height,
-      margin    : this.margin,
-      padding   : this.padding,
-      itemsize  : this.legend.itemsize,
-      fontsize  : this.legend.fontsize,
-      vposition : this.legend.vposition,
-      hposition : this.legend.hposition,
-      accessor  : this.accessors.color.key
+    self.annotation = new Legend({
+      uid       : self.uid,
+      parent    : self.svg,
+      container : self.inner,
+      data      : self.series,
+      color     : self.color,
+      width     : self.legend.width,
+      height    : self.legend.height,
+      margin    : self.margin,
+      padding   : self.padding,
+      itemsize  : self.legend.itemsize,
+      fontsize  : self.legend.fontsize,
+      vposition : self.legend.vposition,
+      hposition : self.legend.hposition,
+      accessor  : self.accessors.color.key
     });
 
-    return this;
+    return self;
 
   }
 
@@ -159,26 +165,27 @@ Map Data and Set Value Types
 
   #mapData (data) {
 
+    let self = this;
     let mapped = [];
+    let groups = super.getUniqueKeys(data, self.accessors.color.key);
+
     data.forEach(row => {
       mapped.push({
-        [this.accessors.x.key]      : super.asType(this.accessors.x.type, row[this.accessors.x.key]),
-        [this.accessors.y.key]      : super.asType(this.accessors.y.type, row[this.accessors.y.key]),
-        [this.accessors.color.key]  : super.asType(this.accessors.color.type, row[this.accessors.color.key])
+        [self.accessors.x.key]      : super.asType(self.accessors.x.type, row[self.accessors.x.key]),
+        [self.accessors.y.key]      : super.asType(self.accessors.y.type, row[self.accessors.y.key]),
+        [self.accessors.color.key]  : super.asType(self.accessors.color.type, row[self.accessors.color.key])
       });
     });
-
-    let groups = super.getUniqueKeys(mapped, this.accessors.color.key);
 
     let series = groups.map(
       key => ({
         group: key,
         values: mapped.filter(
-          d => d[this.accessors.color.key] == key
+          d => d[self.accessors.color.key] == key
         ).map(
           d => ({
-            [this.accessors.x.key]: d[this.accessors.x.key],
-            [this.accessors.y.key]: d[this.accessors.y.key]
+            [self.accessors.x.key]: d[self.accessors.x.key],
+            [self.accessors.y.key]: d[self.accessors.y.key]
           })
         )
       })

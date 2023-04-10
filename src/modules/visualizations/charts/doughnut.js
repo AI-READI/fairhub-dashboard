@@ -26,102 +26,118 @@ class DoughnutChart extends Chart {
     // Configure Parent
     super(config);
 
-    // Configure Stacked Bar Chart
-    this.opacity      = config.opacity;
+    let self = this;
 
-    return this.update()
+    // Configure Stacked Bar Chart
+    self.opacity      = config.opacity;
+
+    return self.update();
 
   }
 
   update () {
 
-    this.svg = D3.select(this.id)
+    let self = this;
+
+    /*
+    Setup
+    */
+
+    self.svg = D3.select(self.id)
       .classed("doughnut-chart", true);
 
-    [this.mapped, this.groups] = this.#mapData(this.data);
+    [self.mapped, self.groups] = self.#mapData(self.data);
 
-    this.color = D3.scaleOrdinal()
-      .domain(this.groups)
-      .range(this.palette);
+    self.color = D3.scaleOrdinal()
+      .domain(self.groups)
+      .range(self.palette);
 
     /*
     Generate Data Elements
     */
 
-    this.radius = (Math.min(this.inner.width, this.inner.height) / 2);
+    self.radius = (Math.min(self.inner.width, self.inner.height) / 2);
 
-    this.doughnut = D3.pie()
-      .value(d => d[this.accessors.value.key])(this.mapped)
+    self.doughnut = D3.pie()
+      .value(d => d[self.accessors.value.key])(self.mapped)
       .map(d => {
-        d["label"] = d.data[this.accessors.group.key];
+        d["label"] = d.data[self.accessors.color.key];
         return d;
       });
 
-    this.dataArc = D3.arc()
-      .innerRadius(this.radius * 0.5)
-      .outerRadius(this.radius * 0.8);
+    self.dataArc = D3.arc()
+      .innerRadius(self.radius * 0.5)
+      .outerRadius(self.radius * 0.8);
 
-    this.arcs = this.svg
+    self.arcs = self.svg
       .append("g")
       .classed("data-arcs", true)
-      .attr("transform", `translate(${this.inner.width / 2}, ${this.inner.height / 2})`)
+      .attr("id", `data-arcs_${self.uid}`)
+      .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`)
       .selectAll('.data-arc')
-        .data(this.doughnut)
+        .data(self.doughnut)
         .join("path")
           .classed("data-arc", true)
-          .attr("d", this.dataArc)
-          .attr('fill', d => this.color(d.label))
+          .attr("id", d => `data-arc_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
+          .attr("d", self.dataArc)
+          .attr('fill', d => self.color(d.label))
           .attr("stroke-width", "2px")
-          .attr("opacity", this.opacity)
+          .attr("opacity", self.opacity)
 
     /*
     Generate Text Labels
     */
 
-    this.labelArc = D3.arc()
-      .innerRadius(this.radius * 0.85)
-      .outerRadius(this.radius * 0.90);
+    self.labelArc = D3.arc()
+      .innerRadius(self.radius * 0.85)
+      .outerRadius(self.radius * 0.90);
 
-    this.labelLines = this.svg
+    self.labelLines = self.svg
       .append("g")
       .classed("label-lines", true)
-      .attr("transform", `translate(${this.inner.width / 2}, ${this.inner.height / 2})`)
+      .attr("id", `label-lines_${self.uid}`)
+      .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`)
       .selectAll('.label-line')
-        .data(this.doughnut)
+        .data(self.doughnut)
         .enter()
         .append('polyline')
           .classed("label-line", true)
+          .attr("id", d => `label-line_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
           .attr("stroke", "black")
           .attr("fill", "none")
           .attr("stroke-width", 1)
-          .attr('points', d => this.#setLabels(d))
+          .attr('points', d => self.#setLabels(d))
 
-    this.labels = this.svg
+    self.labels = self.svg
       .append("g")
       .classed("labels", true)
-      .attr("transform", `translate(${this.inner.width / 2}, ${this.inner.height / 2})`)
+      .attr("id", d => `labels_${self.uid}`)
+      .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`)
       .selectAll('.label')
-        .data(this.doughnut)
+        .data(self.doughnut)
         .enter()
         .append('text')
+          .text(d => d.data[self.accessors.color.key])
           .classed("label", true)
-          .text(d => d.data[this.accessors.group.key])
-          .attr('transform', d => `translate(${this.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${this.labelArc.centroid(d)[1]})`)
+          .attr("id", d => `label_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
+          .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArc.centroid(d)[1]})`)
           .attr('font-size', "0.6rem")
           .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
           .style("text-transform", "capitalize");
 
-    return this;
+    return self;
 
   }
 
   #setLabels (d) {
 
-    let x = this.dataArc.centroid(d), // line insertion in the slice
-        y = this.labelArc.centroid(d), // line break: we use the other arc generator that has been built only for that
-        z = this.labelArc.centroid(d), // Label position = almost the same as posB
-        midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
-        z[0] = this.radius * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+    let self = this;
+    let x = self.dataArc.centroid(d); // line insertion in the slice
+    let y = self.labelArc.centroid(d); // line break: we use the other arc generator that has been built only for that
+    let z = self.labelArc.centroid(d); // Label position = almost the same as posB
+    let midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
+
+    z[0] = self.radius * 0.9 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
 
     return [x, y, z];
 
@@ -129,13 +145,14 @@ class DoughnutChart extends Chart {
 
   #mapData (data) {
 
-    let groups = data.map(d => d.group);
-    let mapped = []
+    let self = this;
+    let groups = super.getUniqueKeys(data, this.accessors.color.key);
+    let mapped = [];
 
     data.forEach(row => {
       mapped.push({
-        [this.accessors.group.key]  : super.asType(this.accessors.group.type, row[this.accessors.group.key]),
-        [this.accessors.value.key]  : super.asType(this.accessors.value.type, row[this.accessors.value.key])
+        [self.accessors.color.key]: super.asType(self.accessors.color.type, row[self.accessors.color.key]),
+        [self.accessors.value.key]: super.asType(self.accessors.value.type, row[self.accessors.value.key])
       })
     });
 

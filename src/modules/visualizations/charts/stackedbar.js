@@ -4,7 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
-import Legend from "../legend.js";
+import Legend from "../utilities/legend.js";
 
 /*
 Stacked Bar Chart Class
@@ -30,137 +30,144 @@ class StackedBarChart extends Chart {
     // Configure Parent
     super(config);
 
+    let self = this;
+
     // Configure Stacked Bar Chart
-    this.opacity      = config.opacity;
-    this.legend       = config.legend;
-    this.accessors    = config.accessors;
+    self.opacity      = config.opacity;
+    self.legend       = config.legend;
+    self.accessors    = config.accessors;
 
     // Computed References
-    this.padding      = {
+    self.padding      = {
       top: 0, left: 20, bottom: 0, right: 20
     };
 
-    return this;
+    return self;
 
   }
 
   update () {
 
+    let self = this;
+
     /*
     Setup
     */
 
-    [this.mapped, this.groups, this.subgroups] = this.#mapData(this.data);
+    [self.mapped, self.groups, self.subgroups] = self.#mapData(self.data);
 
-    this.svg = D3.select(this.id)
+    self.svg = D3.select(self.id)
       .classed("stacked-bar-chart", true);
 
     /*
     Generate Axes
     */
 
-    this.x = D3.scaleBand()
-      .domain(this.groups)
-      .range([0, this.inner.width])
+    self.x = D3.scaleBand()
+      .domain(self.groups)
+      .range([0, self.inner.width])
       .paddingInner(0.05)
       .paddingOuter(0)
       .align(0);
 
-    this.y = D3.scaleLinear()
+    self.y = D3.scaleLinear()
       .domain([0, 750])
-      .range([this.inner.height, 0]);
+      .range([self.inner.height, 0]);
 
-    this.xAxis = this.svg.append("g")
+    self.xAxis = self.svg.append("g")
       .classed("x-axis", true)
-      .attr("id", `x-axis_${this.uid}`)
-      .attr("transform", `translate(${this.margin.left}, ${this.inner.height + this.margin.top})`)
-      .call(D3.axisBottom(this.x).tickSizeOuter(5).tickPadding(10))
+      .attr("id", `x-axis_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
+      .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10))
       .selectAll(".tick")
-        .data(this.mapped)
-        .attr("transform", d => `translate(${this.x(d[this.accessors.x.key])}, 0)`)
+        .data(self.mapped)
+        .attr("transform", d => `translate(${self.x(d[self.accessors.x.key])}, 0)`)
         .selectAll("text")
-          .attr("id", d => `label_${this.uid}_${this.tokenize(d[this.accessors.x.key])}`)
+          .attr("id", d => `label_${self.uid}_${self.tokenize(d[self.accessors.x.key])}`)
           .classed("label", true)
           .style("text-anchor", "start")
           .style("text-transform", "capitalize");
 
-    this.yAxis = this.svg.append("g")
+    self.yAxis = self.svg.append("g")
       .classed("y-axis", true)
-      .attr("id", `y-axis_${this.uid}`)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`)
-      .call(D3.axisLeft(this.y))
+      .attr("id", `y-axis_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+      .call(D3.axisLeft(self.y))
       .selectAll("text")
         .classed("label", true)
         .style("text-anchor", "end")
         .style("text-transform", "capitalize");
 
-    this.color = D3.scaleOrdinal()
-      .domain(this.groups)
-      .range(this.palette);
+    self.color = D3.scaleOrdinal()
+      .domain(self.groups)
+      .range(self.palette);
 
     /*
     Generate Data Elements
     */
 
-    this.stacked = D3.stack()
-      .keys(this.subgroups)
+    self.stacked = D3.stack()
+      .keys(self.subgroups)
       .value((d, key) => {
         d.subgroup = key;
         return d.values[key];
-      })(this.mapped);
+      })(self.mapped);
 
-    this.bars = this.svg.append("g")
+    console.log(self.stacked);
+
+    self.bars = self.svg.append("g")
       .classed(`bars`, true)
-      .attr("id", `bars_${this.uid}`)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.bottom})`)
+      .attr("id", `bars_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.bottom})`)
       .selectAll(".bar-group")
-      .data(this.stacked)
+      .data(self.stacked)
       .join("g")
         .classed("bar-group", true)
-        .attr("id", d => `bar-group_${this.uid}_${this.tokenize(d.group)}`)
-        .attr("fill", d => this.color(d.key))
+        .attr("id", d => `bar-group_${self.tokenize(d[self.accessors.x.key])}_${self.uid}`)
+        .attr("fill", d => self.color(d.key))
         .selectAll("rect")
         .data(d => d)
         .enter()
           .append("rect")
-          .attr("id", d => `bar_${this.uid}_${this.tokenize(d.data.group)}_${this.tokenize(d.data.subgroup)}`)
+          .attr("id", d => `bar_${self.tokenize(d.data[self.accessors.x.key])}_${self.tokenize(d.data[self.accessors.color.key])}_${self.uid}`)
           .classed("bar", true)
-          .attr("x", d => this.x(d.data.group))
-          .attr("y", d =>  this.y(d[1]))
-          .attr("height", d =>  this.y(d[0]) - this.y(d[1]))
-          .attr("width", this.x.bandwidth())
-          .attr("opacity", this.opacity)
-          .text(d =>  d.data.group);
+          .attr("x", d => self.x(d.data[self.accessors.x.key]))
+          .attr("y", d =>  self.y(d[1]))
+          .attr("height", d =>  self.y(d[0]) - self.y(d[1]))
+          .attr("width", self.x.bandwidth())
+          .attr("opacity", self.opacity)
+          .text(d =>  d.data[self.accessors.x.key]);
 
     /*
     Annotation
     */
 
-    this.annotation = new Legend({
-      uid: this.uid,
-      parent: this.svg,
-      container: this.inner,
-      data: this.stacked,
-      color: this.color,
-      width: this.legend.width,
-      height: this.legend.height,
-      margin: this.margin,
-      padding: this.padding,
-      itemsize: this.legend.itemsize,
-      fontsize: this.legend.fontsize,
-      vposition: this.legend.vposition,
-      hposition: this.legend.hposition,
+    self.annotation = new Legend({
+      uid: self.uid,
+      parent: self.svg,
+      container: self.inner,
+      data: self.stacked,
+      color: self.color,
+      width: self.legend.width,
+      height: self.legend.height,
+      margin: self.margin,
+      padding: self.padding,
+      itemsize: self.legend.itemsize,
+      fontsize: self.legend.fontsize,
+      vposition: self.legend.vposition,
+      hposition: self.legend.hposition,
       accessor: "key"
     });
 
-    return this;
+    return self;
 
   }
 
   #mapData (data) {
 
-    let groups = super.getUniqueKeys(data, this.accessors.x.key);
-    let subgroups = super.getUniqueKeys(this.data, this.accessors.color.key);
+    let self = this;
+    let groups = super.getUniqueKeys(data, self.accessors.x.key);
+    let subgroups = super.getUniqueKeys(self.data, self.accessors.color.key);
     let mapped = [];
 
     groups.forEach(group => {
@@ -169,8 +176,8 @@ class StackedBarChart extends Chart {
         values: {}
       };
       data.forEach(row => {
-        if (row[this.accessors.x.key] === group) {
-          stack.values[super.asType(this.accessors.color.type, row[this.accessors.color.key])] = super.asType(this.accessors.y.type, row[this.accessors.y.key]);
+        if (row[self.accessors.x.key] === group) {
+          stack.values[super.asType(self.accessors.color.type, row[self.accessors.color.key])] = super.asType(self.accessors.y.type, row[self.accessors.y.key]);
         }
       });
       mapped.push(stack);
