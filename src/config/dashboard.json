@@ -758,7 +758,7 @@
           },
           "kernel": {
             "method": "epanechnikov",
-            "smoothing": 7
+            "smoothing": 1
           },
           "palette": [
             "#FE7E6D",

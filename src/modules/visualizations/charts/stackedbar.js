@@ -54,10 +54,12 @@ class StackedBarChart extends Chart {
     Setup
     */
 
-    [self.mapped, self.groups, self.subgroups] = self.#mapData(self.data);
-
+    // Grab SVG Generated From Vue Template
     self.svg = D3.select(self.id)
       .classed("stacked-bar-chart", true);
+
+    // Map Data
+    [self.mapped, self.groups, self.subgroups] = self.#mapData(self.data);
 
     /*
     Generate Axes

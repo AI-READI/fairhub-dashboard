@@ -43,10 +43,16 @@ class DoughnutChart extends Chart {
     Setup
     */
 
+    // Grab SVG Generated From Vue Template
     self.svg = D3.select(self.id)
       .classed("doughnut-chart", true);
 
+    // Map Data
     [self.mapped, self.groups] = self.#mapData(self.data);
+
+    /*
+    Generate Axes
+    */
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)

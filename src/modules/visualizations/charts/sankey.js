@@ -52,11 +52,14 @@ class SankeyChart extends Chart {
 
   update () {
 
+    // Grab SVG Generated From Vue Template
     this.svg = D3.select(this.id)
       .classed("sankey-chart", true);
 
+    // Map Data
     [this.mapped, this.sources, this.targets, this.nodes, this.links] = this.#mapData(this.data);
 
+    // Setup Sankey Graph
     this.graph = D3Sankey.sankey()
       .nodeId(d => d.name)
       .nodeAlign(this.nodeAlign)

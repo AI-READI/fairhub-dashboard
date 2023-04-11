@@ -57,11 +57,12 @@ class LineChart extends Chart {
     Setup
     */
 
-    // Map Data
-    [self.mapped, self.groups, self.series] = self.#mapData(self.data);
-
+    // Grab SVG Generated From Vue Template
     self.svg = D3.select(self.id)
       .classed("line-chart", true);
+
+    // Map Data
+    [self.mapped, self.groups, self.series] = self.#mapData(self.data);
 
     /*
     Generate Axes

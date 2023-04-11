@@ -56,16 +56,18 @@ class RidgelineChart extends Chart {
     Setup
     */
 
-    [self.mapped, self.groups, self.domain] = self.#mapData(self.data);
-
+    // Grab SVG Generated From Vue Template
     self.svg = D3.select(self.id)
       .classed("ridgeline-chart", true);
+
+    // Map Data
+    [self.mapped, self.groups, self.domain] = self.#mapData(self.data);
 
     /*
     Generate Axes
     */
 
-    console.log(self.domain);
+    console.log(self.inner);
 
     self.x = D3.scaleLinear()
       .domain(self.domain)
@@ -78,7 +80,7 @@ class RidgelineChart extends Chart {
       .call(D3.axisBottom(self.x));
 
     self.y = D3.scaleLinear()
-      .domain([0, 0.1])
+      .domain([0, 0.4])
       .range([self.inner.height, 0]);
 
     self.subplot = D3.scaleBand()
@@ -100,28 +102,21 @@ class RidgelineChart extends Chart {
     Generate Data Elements
     */
 
-    self.curve = D3.line(D3.curveBasis)
+    self.curve = D3.line()
+      .curve(D3.curveBasis)
       .x(d => self.x(d[0]))
       .y(d => self.y(d[1]));
-
-    self.kde = new Kernel(self.kernel);
-
-    self.density = [];
-    this.mapped.forEach(group => this.density.push({
-      [self.accessors.color.key]: group[self.accessors.color.key],
-      [self.accessors.x.key]: group[self.accessors.x.key],
-      [self.accessors.y.key]: self.kde.apply(self.x.ticks(20), group[self.accessors.y.key])
-    }));
 
     self.curves = self.svg.append("g")
       .classed("curves", true)
       .attr("id", `curves_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
       .selectAll(".curve")
       .data(self.density)
       .join("path")
         .classed("curve", true)
         .attr("id", d => `curve_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
-        .attr("transform", d => `translate(${self.margin.left}, ${self.subplot(d[self.accessors.color.key]) - self.inner.height})`)
+        .attr("transform", d => `translate(0, ${self.subplot(d[self.accessors.color.key])})`)
         .attr("fill", d => self.color(d[self.accessors.color.key]))
         .attr("stroke", "#000000")
         .attr("opacity", self.opacity)
