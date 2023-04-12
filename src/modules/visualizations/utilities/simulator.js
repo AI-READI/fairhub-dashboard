@@ -4,28 +4,33 @@ Imports
 
 import * as D3 from "d3";
 
+
 /*
-Data Simulator Prototype
+Simulator Class
 */
 
-// Data Simulator Entry Point
-var DataSimulator = function (config) {
-	return this.__init__(config);
-};
+class Simulator {
 
-// Data Simulator Methods
-DataSimulator.prototype = {
+	// References
+	caches = undefined;
 
-	__init__ : function (config) {
-		var self = this;
+	constructor (config) {
+
+		let self = this;
+
+		// self.cache = config.cache;
+
+		// Configure Simulator
+		// self.caches = recapStore().caches;
+		// console.log(self.caches);
 
 		return self;
-	}
 
+	}
 }
 
 /*
 Exports
 */
 
-export default DataSimulator;
+export default Simulator;

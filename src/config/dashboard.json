@@ -745,20 +745,16 @@
 
       },
       "visualizations": [{
-        "type": "ridgeline",
+        "type": "stackedbar",
         "config": {
-          "id": "#completion-ridgeline",
+          "id": "#completion-stacked-bar",
           "width": 1200,
           "height": 540,
           "margin": {
             "top": 40,
-            "left": 60,
+            "left": 40,
             "right": 40,
             "bottom": 40
-          },
-          "kernel": {
-            "method": "epanechnikov",
-            "smoothing": 1
           },
           "palette": [
             "#FE7E6D",
@@ -772,242 +768,137 @@
           "opacity": 0.8,
           "accessors": {
             "x": {
-              "key": "week",
-              "type": "Number"
+              "key": "group",
+              "type": "String"
             },
             "y": {
               "key": "value",
               "type": "Number"
             },
             "color": {
-              "key": "group",
+              "key": "subgroup",
               "type": "String"
             }
           },
           "data": [{
-              "value": 3,
-              "group": "diabetic",
-              "week": 1
+              "group": "Screened In",
+              "subgroup": "healthy",
+              "value": 119
             },
             {
-              "value": 6,
-              "group": "diabetic",
-              "week": 2
+              "group": "Screened In",
+              "subgroup": "prediabetic",
+              "value": 30
             },
             {
-              "value": 7,
-              "group": "diabetic",
-              "week": 3
+              "group": "Screened In",
+              "subgroup": "diabetic",
+              "value": 81
             },
             {
-              "value": 5,
-              "group": "diabetic",
-              "week": 4
+              "group": "Screened Out",
+              "subgroup": "healthy",
+              "value": 381
             },
             {
-              "value": 12,
-              "group": "diabetic",
-              "week": 5
+              "group": "Screened Out",
+              "subgroup": "prediabetic",
+              "value": 144
             },
             {
-              "value": 3,
-              "group": "diabetic",
-              "week": 6
+              "group": "Screened Out",
+              "subgroup": "diabetic",
+              "value": 201
             },
             {
-              "value": 3,
-              "group": "diabetic",
-              "week": 7
+              "group": "Did Consent",
+              "subgroup": "healthy",
+              "value": 72
             },
             {
-              "value": 2,
-              "group": "diabetic",
-              "week": 8
+              "group": "Did Consent",
+              "subgroup": "prediabetic",
+              "value": 21
             },
             {
-              "value": 19,
-              "group": "diabetic",
-              "week": 9
+              "group": "Did Consent",
+              "subgroup": "diabetic",
+              "value": 69
             },
             {
-              "value": 5,
-              "group": "diabetic",
-              "week": 10
+              "group": "Did Not Consent",
+              "subgroup": "healthy",
+              "value": 13
             },
             {
-              "value": 7,
-              "group": "diabetic",
-              "week": 11
+              "group": "Did Not Consent",
+              "subgroup": "prediabetic",
+              "value": 8
             },
             {
-              "value": 1,
-              "group": "diabetic",
-              "week": 12
+              "group": "Did Not Consent",
+              "subgroup": "diabetic",
+              "value": 10
             },
             {
-              "value": 0,
-              "group": "diabetic",
-              "week": 13
+              "group": "Active",
+              "subgroup": "healthy",
+              "value": 31
             },
             {
-              "value": 3,
-              "group": "diabetic",
-              "week": 14
+              "group": "Active",
+              "subgroup": "prediabetic",
+              "value": 4
             },
             {
-              "value": 4,
-              "group": "diabetic",
-              "week": 15
+              "group": "Active",
+              "subgroup": "diabetic",
+              "value": 37
             },
             {
-              "value": 0,
-              "group": "normal",
-              "week": 1
+              "group": "Inactive",
+              "subgroup": "healthy",
+              "value": 3
             },
             {
-              "value": 1,
-              "group": "normal",
-              "week": 2
+              "group": "Inactive",
+              "subgroup": "prediabetic",
+              "value": 2
             },
             {
-              "value": 0,
-              "group": "normal",
-              "week": 3
+              "group": "Inactive",
+              "subgroup": "diabetic",
+              "value": 7
             },
             {
-              "value": 7,
-              "group": "normal",
-              "week": 4
+              "group": "Completed",
+              "subgroup": "healthy",
+              "value": 91
             },
             {
-              "value": 12,
-              "group": "normal",
-              "week": 5
+              "group": "Completed",
+              "subgroup": "prediabetic",
+              "value": 53
             },
             {
-              "value": 18,
-              "group": "normal",
-              "week": 6
+              "group": "Completed",
+              "subgroup": "diabetic",
+              "value": 71
             },
             {
-              "value": 15,
-              "group": "normal",
-              "week": 7
+              "group": "Exited",
+              "subgroup": "healthy",
+              "value": 18
             },
             {
-              "value": 16,
-              "group": "normal",
-              "week": 8
+              "group": "Exited",
+              "subgroup": "prediabetic",
+              "value": 12
             },
             {
-              "value": 12,
-              "group": "normal",
-              "week": 9
-            },
-            {
-              "value": 19,
-              "group": "normal",
-              "week": 10
-            },
-            {
-              "value": 14,
-              "group": "normal",
-              "week": 11
-            },
-            {
-              "value": 11,
-              "group": "normal",
-              "week": 12
-            },
-            {
-              "value": 9,
-              "group": "normal",
-              "week": 13
-            },
-            {
-              "value": 12,
-              "group": "normal",
-              "week": 14
-            },
-            {
-              "value": 4,
-              "group": "normal",
-              "week": 15
-            },
-            {
-              "value": 0,
-              "group": "prediabetic",
-              "week": 1
-            },
-            {
-              "value": 1,
-              "group": "prediabetic",
-              "week": 2
-            },
-            {
-              "value": 3,
-              "group": "prediabetic",
-              "week": 3
-            },
-            {
-              "value": 8,
-              "group": "prediabetic",
-              "week": 4
-            },
-            {
-              "value": 4,
-              "group": "prediabetic",
-              "week": 5
-            },
-            {
-              "value": 2,
-              "group": "prediabetic",
-              "week": 6
-            },
-            {
-              "value": 4,
-              "group": "prediabetic",
-              "week": 7
-            },
-            {
-              "value": 17,
-              "group": "prediabetic",
-              "week": 8
-            },
-            {
-              "value": 21,
-              "group": "prediabetic",
-              "week": 9
-            },
-            {
-              "value": 15,
-              "group": "prediabetic",
-              "week": 10
-            },
-            {
-              "value": 19,
-              "group": "prediabetic",
-              "week": 11
-            },
-            {
-              "value": 8,
-              "group": "prediabetic",
-              "week": 12
-            },
-            {
-              "value": 7,
-              "group": "prediabetic",
-              "week": 13
-            },
-            {
-              "value": 3,
-              "group": "prediabetic",
-              "week": 14
-            },
-            {
-              "value": 2,
-              "group": "prediabetic",
-              "week": 15
+              "group": "Exited",
+              "subgroup": "diabetic",
+              "value": 19
             }
           ],
           "legend": {
@@ -1016,7 +907,7 @@
             "itemsize": 20,
             "fontsize": 12,
             "vposition": "top",
-            "hposition": "left"
+            "hposition": "right"
           }
         }
       }]

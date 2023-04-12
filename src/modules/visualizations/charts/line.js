@@ -5,6 +5,10 @@ Imports
 import * as D3 from "d3";
 import Chart from "../chart.js";
 import Legend from "../utilities/legend.js";
+import Simulator from "../utilities/simulator.js";
+
+const simulator = new Simulator();
+console.log(simulator);
 
 /*
 Line Chart Class

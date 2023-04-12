@@ -5,7 +5,7 @@ Imports
 import * as D3 from "d3";
 
 /*
-Kernel Functions
+Kernel Class
 */
 
 class Kernel {
@@ -27,14 +27,23 @@ class Kernel {
   }
 
   /*
-  Kernels
+  Kernel Aliases
+  */
+
+  epanechnikov (x, y, smoothing) {
+    let self = this;
+    return self.#epanechnikov_kernel (x, y, smoothing);
+  }
+
+  /*
+  Kernel Methods
   */
 
   // Epanechnikov Kernel
-  epanechnikov_kernel (x, y, smoothing) {
+  #epanechnikov_kernel (x, y, smoothing) {
     let self = this;
     let v = x - y;
-    return Math.abs(v /= smoothing) <= 1 ? 0.75 * (1 - v * v) / smoothing : 0;
+    return Math.abs(v /= smoothing) <= 1 ? 1 * (1 - v * v) / smoothing : 0;
   }
 
   /*
@@ -56,22 +65,6 @@ class Kernel {
       return K;
     }
   }
-
-  // call (method) {
-  //   let self = this;
-  //   let name = `${self.method}_kernel`
-  //   let kernel = self[name];
-  //   return function (X, Y) {
-  //     let K = [];
-  //     X.forEach((x, i) => {
-  //       K.push([
-  //         x,
-  //         D3.mean(Y, function (y) { return kernel(X[i], y, self.smoothing); })
-  //       ]);
-  //     });
-  //     return K;
-  //   }
-  // }
 
   list (log = true) {
     let self = this;

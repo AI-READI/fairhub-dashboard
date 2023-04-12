@@ -5,8 +5,9 @@ Imports
 */
 
   import { configStore } from '@/stores/configs'
+  import { redcapStore } from '@/stores/redcap'
   import { shallowRef, ref, reactive, computed } from 'vue'
-  const modules = import.meta.glob('../../modules/visualizations/charts/*.js', {eager: true})
+  const modules = import.meta.glob('../../modules/visualizations/charts/*.js', {eager: true});
 
 /*
 Component
@@ -18,9 +19,24 @@ Component
     visualizations: [],
     data () {
 
-      let dashboard = configStore().configs.dashboard;
       let config = null;
       let visualizations = [];
+      const dashboard = configStore().configs.dashboard;
+      const redcap = redcapStore();
+
+      // REDCap Data
+      const getScreening = computed(() => {
+        return redcap.getScreening;
+      });
+      const getEnrolled = computed(() => {
+        return redcap.getEnrolled;
+      });
+      const screening = computed(() => {
+        return redcap.caches.screening;
+      });
+      const enrolled = computed(() => {
+        return redcap.caches.enrolled;
+      });
 
       // Set Config
       for (let i = 0; i < dashboard.components.length; i++) {
@@ -46,7 +62,7 @@ Component
       }
       this.$options.visualizations = visualizations;
       return {
-        config, visualizations
+        config, visualizations, screening, enrolled
       }
     },
     beforeCreate () {
@@ -59,10 +75,15 @@ Component
       // console.log("Recruitment beforeMounted:", this.$options.visualizations);
     },
     mounted () {
+      const redcap = redcapStore();
+
       console.log("Recruitment mounted:", this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
+      // Get REDCap Data
+      redcap.fetchScreening();
+      redcap.fetchEnrolled();
     },
     updated () {
       console.log("Recruitment updated:", this.$options.visualizations);

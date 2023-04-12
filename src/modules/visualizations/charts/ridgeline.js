@@ -99,6 +99,19 @@ class RidgelineChart extends Chart {
       .range(self.palette);
 
     /*
+    Kernel Density Estimation
+    */
+
+    self.kde = new Kernel(self.kernel);
+
+    self.density = [];
+    this.mapped.forEach(group => this.density.push({
+      [self.accessors.color.key]: group[self.accessors.color.key],
+      [self.accessors.x.key]: group[self.accessors.x.key],
+      [self.accessors.y.key]: self.kde.apply(self.x.ticks(40), group[self.accessors.y.key])
+    }));
+
+    /*
     Generate Data Elements
     */
 
@@ -110,13 +123,13 @@ class RidgelineChart extends Chart {
     self.curves = self.svg.append("g")
       .classed("curves", true)
       .attr("id", `curves_${self.uid}`)
-      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+      .attr("transform", `translate(${self.margin.left}, 0)`)
       .selectAll(".curve")
       .data(self.density)
       .join("path")
         .classed("curve", true)
         .attr("id", d => `curve_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
-        .attr("transform", d => `translate(0, ${self.subplot(d[self.accessors.color.key])})`)
+        .attr("transform", d => `translate(${self.margin.left}, ${self.subplot(d[self.accessors.color.key]) - self.inner.height})`)
         .attr("fill", d => self.color(d[self.accessors.color.key]))
         .attr("stroke", "#000000")
         .attr("opacity", self.opacity)
