@@ -13,4 +13,26 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+
+    }
+  }
 });
+
+
+// import vue from "@vitejs/plugin-vue";
+// import { defineConfig } from "vite";
+// export default defineConfig({
+//   server: {
+//     proxy: {
+//       "/api": {
+//         target: "https://apiservice.com",
+//         changeOrigin: true,
+//         secure: false,
+//         rewrite: (path) => path.replace(/^\/api/, ""),
+//       },
+//     },
+//   },
+//   plugins: [vue()],
+// });
