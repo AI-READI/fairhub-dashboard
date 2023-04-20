@@ -52,7 +52,7 @@ class Kernel {
 
   call (method) {
     let self = this;
-    let name = `${self.method}_kernel`
+    let name = `#${self.method}_kernel`
     let kernel = self[name];
     return function (X, Y) {
       let K = [];
