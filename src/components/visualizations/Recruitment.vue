@@ -25,17 +25,11 @@ Component
       const redcap = redcapStore();
 
       // REDCap Data
-      const getScreening = computed(() => {
-        return redcap.getScreening;
+      const getPilot = computed(() => {
+        return redcap.getPilot;
       });
-      const getEnrolled = computed(() => {
-        return redcap.getEnrolled;
-      });
-      const screening = computed(() => {
-        return redcap.caches.screening;
-      });
-      const enrolled = computed(() => {
-        return redcap.caches.enrolled;
+      const pilot = computed(() => {
+        return redcap.caches.pilot;
       });
 
       // Set Config
@@ -62,7 +56,7 @@ Component
       }
       this.$options.visualizations = visualizations;
       return {
-        config, visualizations, screening, enrolled
+        config, visualizations, pilot
       }
     },
     beforeCreate () {
@@ -82,8 +76,7 @@ Component
         this.$options.visualizations[i].update();
       }
       // Get REDCap Data
-      redcap.fetchScreening();
-      redcap.fetchEnrolled();
+      redcap.fetchPilot();
     },
     updated () {
       console.log("Recruitment updated:", this.$options.visualizations);
@@ -103,11 +96,20 @@ Component
   <div :id="config.id">
     <div v-for="visualization in visualizations" class="visualization-container">
       <svg
-        :id="visualization.id.replace('#','')"
+        :id="`${visualization.id.replace('#','')}_visualization`"
+        :class="'visualization-element'"
         :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
         preserveAspectRatio="xMinYMid meet"
         xmlns="http://www.w3.org/2000/svg"
       />
+      <div
+        :id="`${visualization.id.replace('#','')}_interface`"
+        class="interface"
+      >
+        <div v-if="visualization.tooltip" :id="`${visualization.id.replace('#','')}_tooltip`"></div>
+        <div v-if="visualization.legend" :id="`${visualization.id.replace('#','')}_legend`"></div>
+        <div v-if="visualization.filters" :id="`${visualization.id.replace('#','')}_filters`"></div>
+      </div>
     </div>
   </div>
 </template>

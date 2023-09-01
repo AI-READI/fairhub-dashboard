@@ -13,8 +13,8 @@ Sankey Chart Class
 
 class SankeyChart extends Chart {
 
-  // References
-  mapped    = undefined;
+  // Referencesapped
+  mapping   = undefined;
   sources   = undefined;
   targets   = undefined;
   nodes     = undefined;
@@ -53,11 +53,11 @@ class SankeyChart extends Chart {
   update () {
 
     // Grab SVG Generated From Vue Template
-    this.svg = D3.select(this.id)
+    this.svg = D3.select(`${self.id}_visualization`)
       .classed("sankey-chart", true);
 
     // Map Data
-    [this.mapped, this.sources, this.targets, this.nodes, this.links] = this.#mapData(this.data);
+    [this.mapping, this.sources, this.targets, this.nodes, this.links] = this.#mapData(this.data);
 
     // Setup Sankey Graph
     this.graph = D3Sankey.sankey()
@@ -67,8 +67,8 @@ class SankeyChart extends Chart {
       .nodePadding(this.node.padding)
       .size([this.width, this.height])
       .extent([[this.margin.left, this.margin.top], [this.width - this.margin.right, this.height - this.margin.bottom]])
-      .nodes(this.mapped.nodes)
-      .links(this.mapped.links)(this.mapped);
+      .nodes(this.mapping.nodes)
+      .links(this.mapping.links)(this.mapping);
 
     // Layout sorting
     this.nodeSort = this.node.sort !== null ? this.graph.nodes.sort((a, b) => D3[this.node.sort](a.value, b.value)) : null;
@@ -185,14 +185,14 @@ class SankeyChart extends Chart {
     let targets = super.getUniqueKeys(links, this.accessors.target.key);
     let nodes = Array.from(new Set(targets.concat(sources)));
 
-    let mapped = {
+    let mapping = {
       nodes: nodes.map(
         node => {return {name: node}}
       ),
       links: links
     };
 
-    return [mapped, sources, targets, nodes, links];
+    return [mapping, sources, targets, nodes, links];
 
   }
 

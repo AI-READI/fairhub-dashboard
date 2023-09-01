@@ -80,10 +80,12 @@ Component
   <h2>{{ config.name }}</h2>
   <h3>{{ config.subtitle }}</h3>
   <div :id="config.id">
-    <div v-for="visualization in visualizations" class="container">
+    <div v-for="visualization in visualizations" class="visualization-container">
+      <h5 class="visualization-title">{{ visualization.title }}</h5>
       <svg
-        :id="visualization.id.replace('#','')"
-        :viewBox="`0 0 ${visualization.width + visualization.margin.left + visualization.margin.right} ${visualization.height + visualization.margin.top + visualization.margin.bottom}`"
+        :id="`${visualization.id.replace('#','')}_visualization`"
+        :class="'visualization-element'"
+        :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
         preserveAspectRatio="xMinYMid meet"
         xmlns="http://www.w3.org/2000/svg"
       />

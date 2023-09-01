@@ -4,8 +4,8 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
+import Legend from "../interfaces/legend.js";
 import Kernel from "../utilities/kernel.js";
-import Legend from "../utilities/legend.js";
 
 /*
 Ridgeline Chart Class
@@ -14,7 +14,7 @@ Ridgeline Chart Class
 class RidgelineChart extends Chart {
 
   // References
-  mapped      = undefined;
+  mapping     = undefined;
   groups      = undefined;
   density     = undefined;
   k           = undefined;
@@ -57,11 +57,11 @@ class RidgelineChart extends Chart {
     */
 
     // Grab SVG Generated From Vue Template
-    self.svg = D3.select(self.id)
+    self.svg = D3.select(`${self.id}_visualization`)
       .classed("ridgeline-chart", true);
 
     // Map Data
-    [self.mapped, self.groups, self.domain] = self.#mapData(self.data);
+    [self.mapping, self.groups, self.domain] = self.#mapData(self.data);
 
     /*
     Generate Axes
@@ -105,7 +105,7 @@ class RidgelineChart extends Chart {
     self.kde = new Kernel(self.kernel);
 
     self.density = [];
-    this.mapped.forEach(group => this.density.push({
+    this.mapping.forEach(group => this.density.push({
       [self.accessors.color.key]: group[self.accessors.color.key],
       [self.accessors.x.key]: group[self.accessors.x.key],
       [self.accessors.y.key]: self.kde.apply(self.x.ticks(40), group[self.accessors.y.key])
@@ -167,7 +167,7 @@ class RidgelineChart extends Chart {
     let groups = super.getUniqueKeys(data, self.accessors.color.key);
     let values = new Set();
     let domain = [];
-    let mapped = [];
+    let mapping = [];
 
     groups.forEach(group => {
       let subplot = {
@@ -182,12 +182,12 @@ class RidgelineChart extends Chart {
           values.add(super.asType(self.accessors.x.type, row[self.accessors.x.key]))
         }
       });
-      mapped.push(subplot);
+      mapping.push(subplot);
     });
 
     domain = [Math.min(...values), Math.max(...values)]
 
-    return [mapped, groups, domain];
+    return [mapping, groups, domain];
 
   }
 

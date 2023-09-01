@@ -62,7 +62,7 @@ class Kernel {
           D3.mean(Y, y => kernel(x, y, self.smoothing))
         ]);
       });
-      return K;
+      return K;4
     }
   }
 

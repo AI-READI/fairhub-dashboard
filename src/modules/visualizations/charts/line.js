@@ -4,7 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
-import Legend from "../utilities/legend.js";
+import Legend from "../interfaces/legend.js";
 import Simulator from "../utilities/simulator.js";
 
 const simulator = new Simulator();
@@ -17,8 +17,7 @@ Line Chart Class
 class LineChart extends Chart {
 
   // References
-  mapped      = undefined;
-  groups      = undefined;
+  mapping     = undefined;
   series      = undefined;
   color       = undefined;
   x           = undefined;
@@ -62,28 +61,28 @@ class LineChart extends Chart {
     */
 
     // Grab SVG Generated From Vue Template
-    self.svg = D3.select(self.id)
+    self.svg = D3.select(`${self.id}_visualization`)
       .classed("line-chart", true);
 
     // Map Data
-    [self.mapped, self.groups, self.series] = self.#mapData(self.data);
+    [self.mapping, self.groups, self.series] = self.#mapData(self.data);
 
     /*
     Generate Axes
     */
 
     self.x = D3.scaleTime()
-      .domain(D3.extent(self.mapped, d => d[self.accessors.x.key]))
-      .range([0, self.inner.width]);
+      .domain(D3.extent(self.mapping, d => d[self.accessors.x.key]))
+      .range([0, self.dataframe.width]);
 
     self.y = D3.scaleLinear()
-      .domain([0, D3.max(self.mapped, d => d[self.accessors.y.key])])
-      .range([self.inner.height, 0]);
+      .domain([0, D3.max(self.mapping, d => d[self.accessors.y.key])])
+      .range([self.dataframe.height, 0]);
 
     self.xAxis = self.svg.append("g")
       .classed("x-axis", true)
       .attr("id", `x-axis_${self.uid}`)
-      .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
+      .attr("transform", `translate(${self.margin.left}, ${self.axisframe.height + self.margin.top})`)
       .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10));
 
     self.yAxis = self.svg.append("g")
@@ -146,7 +145,7 @@ class LineChart extends Chart {
     self.annotation = new Legend({
       uid       : self.uid,
       parent    : self.svg,
-      container : self.inner,
+      container : self.viewframe,
       data      : self.series,
       color     : self.color,
       width     : self.legend.width,
@@ -171,11 +170,11 @@ Map Data and Set Value Types
   #mapData (data) {
 
     let self = this;
-    let mapped = [];
+    let mapping = [];
     let groups = super.getUniqueKeys(data, self.accessors.color.key);
 
     data.forEach(row => {
-      mapped.push({
+      mapping.push({
         [self.accessors.x.key]      : super.asType(self.accessors.x.type, row[self.accessors.x.key]),
         [self.accessors.y.key]      : super.asType(self.accessors.y.type, row[self.accessors.y.key]),
         [self.accessors.color.key]  : super.asType(self.accessors.color.type, row[self.accessors.color.key])
@@ -185,7 +184,7 @@ Map Data and Set Value Types
     let series = groups.map(
       key => ({
         group: key,
-        values: mapped.filter(
+        values: mapping.filter(
           d => d[self.accessors.color.key] == key
         ).map(
           d => ({
@@ -196,7 +195,7 @@ Map Data and Set Value Types
       })
     );
 
-    return [mapped, groups, series];
+    return [mapping, groups, series];
 
   }
 

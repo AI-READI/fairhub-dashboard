@@ -4,23 +4,27 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
+import Legend from "../interfaces/legend.js";
+import Simulator from "../utilities/simulator.js";
+
+const simulator = new Simulator();
 
 /*
-Doughnut Chart Class
+Progress Chart Class
 */
 
-class DoughnutChart extends Chart {
+class ProgressChart extends Chart {
 
   // References
-  mapping   = undefined;
-  groups    = undefined;
-  radius    = undefined;
-  doughnut  = undefined;
-  color     = undefined;
-  dataArc   = undefined;
-  labelArc  = undefined;
-  arcs      = undefined;
+  mapping     = undefined;
+  groups      = undefined;
+  progress    = undefined;
+  color       = undefined;
+  x           = undefined;
+  xAxis       = undefined;
+  annotation  = undefined;
 
+  // Initialization
   constructor (config) {
 
     // Configure Parent
@@ -28,13 +32,19 @@ class DoughnutChart extends Chart {
 
     let self = this;
 
-    // Configure Stacked Bar Chart
+    // Configure Line Chart
     self.opacity      = config.opacity;
 
-    return self.update();
+    // Computed References
+    self.padding = {
+      top: 0, left: 20, bottom: 0, right: 20
+    };
+
+    return self;
 
   }
 
+  // Update
   update () {
 
     let self = this;
@@ -45,7 +55,7 @@ class DoughnutChart extends Chart {
 
     // Grab SVG Generated From Vue Template
     self.svg = D3.select(`${self.id}_visualization`)
-      .classed("doughnut-chart", true);
+      .classed("progress-chart", true);
 
     // Map Data
     [self.mapping, self.groups] = self.#mapData(self.data);
@@ -53,6 +63,16 @@ class DoughnutChart extends Chart {
     /*
     Generate Axes
     */
+
+    self.x = D3.scaleLinear()
+      .domain(D3.extent(self.mapping, d => d[self.accessors.value.key]))
+      .range([0, self.inner.width]);
+
+    self.xAxis = self.svg.append("g")
+      .classed("x-axis", true)
+      .attr("id", `x-axis_${self.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.inner.height + self.margin.top})`)
+      .call(D3.axisBottom(self.x).tickSizeOuter(5).tickPadding(10));
 
     self.color = D3.scaleOrdinal()
       .domain(self.groups)
@@ -62,49 +82,32 @@ class DoughnutChart extends Chart {
     Generate Data Elements
     */
 
-    self.radius = (Math.min(self.dataframe.width, self.dataframe.height) / 2);
+    self.line = D3.line()
+        .x(d => self.x(d[self.accessors.x.key]))
+        .y(d => self.y(d[self.accessors.y.key]));
 
-    self.doughnut = D3.pie()
-      .value(d => d[self.accessors.value.key])(self.mapping)
-      .map(d => {
-        d["label"] = d.data[self.accessors.color.key];
-        return d;
-      });
-
-    self.dataArc = D3.arc()
-      .innerRadius(self.radius * 0.5)
-      .outerRadius(self.radius * 0.8);
-
-    self.arcs = self.svg
+    self.progress = self.svg
       .append("g")
-      .classed("data-arcs", true)
-      .attr("id", `data-arcs_${self.uid}`)
-      .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
-      .selectAll('.data-arc')
-        .data(self.doughnut)
+      .classed("progress", true)
+      .attr("id", d =>`progress_${this.uid}`)
+      .attr("transform", `translate(${self.margin.left}, ${self.margin.top})`)
+      .selectAll(".progress-bar")
+        .data(self.series)
         .join("path")
-          .classed("data-arc", true)
-          .attr("id", d => `data-arc_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
-          .attr("d", self.dataArc)
-          .attr('fill', d => self.color(d.label))
-          .attr("stroke-width", "2px")
-          .attr("opacity", self.opacity)
-
-    /*
-    Generate Text Labels
-    */
-
-    self.labelArc = D3.arc()
-      .innerRadius(self.radius * 0.85)
-      .outerRadius(self.radius * 0.90);
+          .classed("line", true)
+          .attr("id", d =>`line_${self.tokenize(d[self.accessors.color.key])}_${this.uid}`)
+          .attr("fill", "none")
+          .attr("stroke", d => self.color(d[self.accessors.color.key]))
+          .attr("stroke-width", 2)
+          .attr("d", d => self.line(d.values));
 
     self.labelLines = self.svg
       .append("g")
       .classed("label-lines", true)
       .attr("id", `label-lines_${self.uid}`)
-      .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
+      // .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`)
       .selectAll('.label-line')
-        .data(self.doughnut)
+        .data(self.progress)
         .enter()
         .append('polyline')
           .classed("label-line", true)
@@ -118,17 +121,17 @@ class DoughnutChart extends Chart {
       .append("g")
       .classed("labels", true)
       .attr("id", d => `labels_${self.uid}`)
-      .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
+      // .attr("transform", `translate(${self.inner.width / 2}, ${self.inner.height / 2})`)
       .selectAll('.label')
-        .data(self.doughnut)
+        .data(self.progress)
         .enter()
         .append('text')
           .text(d => d.data[self.accessors.color.key])
           .classed("label", true)
           .attr("id", d => `label_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
-          .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArc.centroid(d)[1]})`)
+          // .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArc.centroid(d)[1]})`)
           .attr('font-size', "0.6rem")
-          .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
+          // .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
           .style("text-transform", "capitalize");
 
     return self;
@@ -148,6 +151,10 @@ class DoughnutChart extends Chart {
     return [x, y, z];
 
   }
+
+/*
+Map Data and Set Value Types
+*/
 
   #mapData (data) {
 
@@ -172,4 +179,4 @@ class DoughnutChart extends Chart {
 Exports
 */
 
-export default DoughnutChart;
+export default ProgressChart;
