@@ -19,22 +19,16 @@ class Filters extends Interface {
       let self = this;
 
       // Configure Chart Filters
-      self.uid        = config.uid;
-      self.parent     = config.parent;
+      self.default    = config.default;
       self.container  = config.container;
-      self.data       = config.data;
       self.color      = config.color;
-      self.opacity    = config.opacity;
-      self.width      = config.width;
-      self.height     = config.height;
-      self.margin     = config.margin;
-      self.padding    = config.padding;
       self.itemsize   = config.itemsize;
       self.fontsize   = config.fontsize;
-      self.accessor   = config.accessor;
       self.vposition  = config.vposition;
       self.hposition  = config.hposition;
-      self.prefix     = config.prefix;
+      self.accessors  = config.accessors;
+      self.options    = config.options;
+      self.parent     = config.parent;
 
       // Computed Refs
       self.position   = {
@@ -47,61 +41,104 @@ class Filters extends Interface {
           horizontal  : (self.container.height - self.width) / 2
         }
       };
-      self.id = `${self.id}_filters`;
 
-      return self.update();
+      self.defaultdata = self.options.map(d => ({label: d, value: d}));
 
-    }
+      self.filters = D3.select(`${self.getID}_filters`)
+        .classed("interface-element filters", true)
+        .attr("id", `${self.setID}_filters`)
 
-    update () {
+      self.filterbank = self.filters
+        .append("select")
+          .classed("filterbank interactable", true);
 
-      let self = this;
-
-      /*
-      Generate Filters
-      */
-
-      self.filters = self.parent.append("div")
-        .classed("filters", true)
-        .attr("width", self.width)
-        .attr("height", self.height)
-          .append("select")
-          .classed("filters-items", true);
-
-      self.options = self.filters
-        .selectAll(".filter-item")
-        .data(self.data)
-        .enter()
+      self.items = self.filterbank
+        .selectAll(".filter")
+          .data(self.defaultdata)
+          .enter()
           .append("option")
-          .classed("filter-item", true)
-          .attr("id", d => `filter-item_${self.uid}_${d[self.accessor]}`)
-          .style("cursor", "pointer");
+            .classed("filter", true)
+            .attr("id", d => `${self.setID}_filter_${d.label}`);
 
-      // Filters Events
-      self.options.on("mouseup", (e, d) => self.#mouseUpOptions(e, d));
-      self.filters.on("mouseup", (e, d) => self.#mouseUpFilters(e, d));
+      self.options = self.items
+        .append("span")
+          .classed("filter-value", true)
+          .text(d => d.label);
+
+      self.filterbank.property("value", self.default);
+
+      self.filters.on("change", (e, d) => self.#changeOption(e, d));
 
       return self;
 
     }
 
-    #mouseUpFilters (e, d) {
+    /*
+    Generate Filters
+    */
+
+    update (event, data) {
+
       let self = this;
-      console.log(e);
-      D3.select(`#${self.prefix}_${self.tokenize(d.key)}_${self.uid}`)
-        .transition()
-        .duration(self.transitionduration)
-        .attr("opacity", 1.0);
+
+      self.clear();
+
+      self.data = [
+        {label: self.accessors.group.name, value: data.data[self.accessors.group.key]},
+        {label: self.accessors.color.name, value: data[self.accessors.color.key]},
+        {label: self.accessors.value.name, value: data[self.accessors.value.key]},
+        {label: "All", value: "All"}
+      ];
+
+      self.filters = D3.select(`${self.getID}_filters`)
+        .classed("interface-element filters", true)
+        .attr("id", `${self.setID}_filters`);
+
+      self.filterbank = self.filters
+        .append("select")
+          .classed("filterbank interactable", true);
+
+      self.items = self.filterbank
+        .selectAll(".filter")
+          .data(self.defaultdata)
+          .enter()
+          .append("option")
+            .classed("filter", true)
+            .attr("id", d => `${self.setID}_filter_${d.label}`);
+
+      self.options = self.items
+        .append("span")
+          .classed("filter-value", true)
+          .text(d => d.label);
+
+      self.filters.on("change", (e, d) => self.#changeOption(e, d));
+
       return self;
+
     }
 
-    #mouseUpOptions (e, d) {
+    clear (event, data) {
+
       let self = this;
-      console.log(e);
-      D3.select(`#${self.prefix}_${self.tokenize(d.key)}_${self.uid}`)
-        .transition()
-        .duration(self.transitionduration)
-        .attr("opacity", self.opacity);
+
+      self.options.remove();
+      self.items.remove();
+      self.filterbank.remove();
+
+      return self;
+
+    }
+
+    /*
+    Event Handlers
+    */
+
+    #changeOption (e) {
+      let self = this;
+      let filter = self.filterbank.property("value");
+
+      self.parent.update(filter);
+
       return self;
     }
 

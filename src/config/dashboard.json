@@ -2236,9 +2236,27 @@
           },
           "padding": {
             "top": 0,
-            "left": 200,
-            "right": 0,
+            "left": 0,
+            "right": 200,
             "bottom": 0
+          },
+          "transitions": {
+            "opacity": {
+              "from": 0.8,
+              "to": 1.0
+            }
+          },
+          "animations": {
+            "opacity": {
+              "delay": 0,
+              "duration": 200,
+              "easing": "expOut"
+            },
+            "translate": {
+              "delay": 0,
+              "duration": 600,
+              "easing": "expOut"
+            }
           },
           "legend": {
             "width": 120,
@@ -2249,7 +2267,7 @@
             "hposition": "left",
             "padding": {
               "top": 0,
-              "left": 200,
+              "left": 0,
               "right": 0,
               "bottom": 0
             }
@@ -2268,7 +2286,20 @@
               "bottom": 0
             }
           },
-          "filters": {},
+          "filters": {
+            "width": 720,
+            "height": 140,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "bottom",
+            "hposition": "left",
+            "padding": {
+              "top": 0,
+              "left": 320,
+              "right": 0,
+              "bottom": 0
+            }
+          },
           "palette": [
             "#5DD462",
             "#FE7E6D",
@@ -2278,8 +2309,7 @@
             "#7F8C9F",
             "#727272"
           ],
-          "opacity": 0.8,
-          "ordering": "reverse",
+          "ordering": "descending",
           "accessors": {
             "group": {
               "name": "Survey",
@@ -2780,17 +2810,63 @@
             "right": 0,
             "bottom": 0
           },
+          "transitions": {
+            "opacity": {
+              "from": 0.8,
+              "to": 1.0
+            }
+          },
+          "animations": {
+            "opacity": {
+              "delay": 0,
+              "duration": 200,
+              "easing": "expOut"
+            },
+            "translate": {
+              "delay": 0,
+              "duration": 600,
+              "easing": "expOut"
+            }
+          },
           "legend": {
-            "width": 40,
-            "height": 40,
+            "width": 120,
+            "height": 140,
             "itemsize": 20,
             "fontsize": 12,
-            "vposition": "top",
+            "vposition": "bottom",
             "hposition": "left",
             "padding": {
               "top": 0,
-              "left": 20,
-              "right": 20,
+              "left": 0,
+              "right": 0,
+              "bottom": 0
+            }
+          },
+          "tooltip": {
+            "width": 720,
+            "height": 140,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "bottom",
+            "hposition": "left",
+            "padding": {
+              "top": 0,
+              "left": 320,
+              "right": 0,
+              "bottom": 0
+            }
+          },
+          "filters": {
+            "width": 720,
+            "height": 140,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "bottom",
+            "hposition": "left",
+            "padding": {
+              "top": 0,
+              "left": 320,
+              "right": 0,
               "bottom": 0
             }
           },
@@ -3068,7 +3144,7 @@
           "id": "#completion_stacked-bar",
           "rotate": false,
           "width": 1080,
-          "height": 620,
+          "height": 520,
           "position": {
             "top": 0,
             "left": 0,
@@ -3083,9 +3159,27 @@
           },
           "padding": {
             "top": 0,
-            "left": 200,
-            "right": 0,
-            "bottom": 180
+            "left": 0,
+            "right": 80,
+            "bottom": 20
+          },
+          "transitions": {
+            "opacity": {
+              "from": 0.8,
+              "to": 1.0
+            }
+          },
+          "animations": {
+            "opacity": {
+              "delay": 0,
+              "duration": 200,
+              "easing": "expOut"
+            },
+            "translate": {
+              "delay": 0,
+              "duration": 600,
+              "easing": "expOut"
+            }
           },
           "legend": {
             "width": 120,
@@ -3096,12 +3190,26 @@
             "hposition": "left",
             "padding": {
               "top": 0,
-              "left": 200,
+              "left": 0,
               "right": 0,
               "bottom": 0
             }
           },
           "tooltip": {
+            "width": 720,
+            "height": 140,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "bottom",
+            "hposition": "left",
+            "padding": {
+              "top": 0,
+              "left": 320,
+              "right": 0,
+              "bottom": 0
+            }
+          },
+          "filters": {
             "width": 720,
             "height": 140,
             "itemsize": 20,
@@ -3284,7 +3392,7 @@
           "id": "#sites_stacked-bar",
           "rotate": true,
           "width": 1080,
-          "height": 620,
+          "height": 520,
           "position": {
             "top": 0,
             "left": 0,
@@ -3299,9 +3407,27 @@
           },
           "padding": {
             "top": 0,
-            "left": 200,
-            "right": 0,
-            "bottom": 180
+            "left": 0,
+            "right": 80,
+            "bottom": 0
+          },
+          "transitions": {
+            "opacity": {
+              "from": 0.8,
+              "to": 1.0
+            }
+          },
+          "animations": {
+            "opacity": {
+              "delay": 0,
+              "duration": 200,
+              "easing": "expOut"
+            },
+            "translate": {
+              "delay": 0,
+              "duration": 600,
+              "easing": "expOut"
+            }
           },
           "legend": {
             "width": 120,
@@ -3312,12 +3438,26 @@
             "hposition": "left",
             "padding": {
               "top": 0,
-              "left": 200,
+              "left": 0,
               "right": 0,
               "bottom": 0
             }
           },
           "tooltip": {
+            "width": 720,
+            "height": 140,
+            "itemsize": 20,
+            "fontsize": 12,
+            "vposition": "bottom",
+            "hposition": "left",
+            "padding": {
+              "top": 0,
+              "left": 320,
+              "right": 0,
+              "bottom": 0
+            }
+          },
+          "filters": {
             "width": 720,
             "height": 140,
             "itemsize": 20,

@@ -4,6 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import Interface from "../interface.js";
+import Easing from "../interfaces/easing.js";
 
 /*
 Chart Legend Class
@@ -19,16 +20,11 @@ class Legend extends Interface {
       let self = this;
 
       // Configure Chart Legend
-      self.uid        = config.uid;
-      self.parent     = config.parent;
+      self.getPrefix  = config.getPrefix;
       self.container  = config.container;
-      self.data       = config.data;
       self.color      = config.color;
-      self.opacity    = config.opacity;
-      self.width      = config.width;
-      self.height     = config.height;
-      self.margin     = config.margin;
-      self.padding    = config.padding;
+      self.transitions= config.transitions;
+      self.animations = config.animations;
       self.itemsize   = config.itemsize;
       self.fontsize   = config.fontsize;
       self.accessor   = config.accessor;
@@ -47,13 +43,47 @@ class Legend extends Interface {
           horizontal  : (self.container.height - self.width) / 2
         }
       };
-      self.id = `${self.id}_legend`;
 
-      return self.update();
+      self.legend = D3.select(`${self.getID}_legend`)
+        .classed("interface-element legend", true)
+        .attr("id", `${self.setID}_legend`)
+        .style("margin-left", `${self.margin.left}px`)
+        .append("ul")
+          .classed("legend-items", true);
+
+      self.items = self.legend
+        .selectAll(".legend-item")
+          .data(self.data)
+          .enter()
+            .append("li")
+            .classed("legend-item interactable", true);
+
+      self.colors = self.items
+        .append("div")
+          .classed("legend-color", true)
+          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d[self.accessor])}`)
+          .attr("top", self.position[self.hposition])
+          .attr("left", (d, i) => self.position[self.vposition] + (i * (self.itemsize + 7)) - 5)
+          .style("width", `${self.itemsize}px`)
+          .style("height", `${self.itemsize}px`)
+          .style("background-color", d => self.color(d[self.accessor]));
+
+      self.labels = self.items
+        .append("span")
+            .classed("legend-label", true)
+            .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d[self.accessor])}`)
+            .style("text-transform", "capitalize")
+            .text(d => d[self.accessor]);
+
+      // Legend Events
+      self.items.on("mouseover", (e, d) => self.#mouseOverLegend(e, d));
+      self.items.on("mouseout", (e, d) => self.#mouseOutLegend(e, d));
+
+      return
 
     }
 
-    update () {
+    update (data) {
 
       let self = this;
 
@@ -61,13 +91,15 @@ class Legend extends Interface {
       Generate Legend
       */
 
-      self.legend = D3.select(`${self.id}`)
+      self.clear();
+
+      self.data = data;
+
+      self.legend = D3.select(`${self.getID}_legend`)
         .classed("interface-element legend", true)
-        .attr("top", self.position[self.hposition])
-        .attr("left", self.position[self.vposition])
-        .attr("width", self.width)
-        .attr("height", self.height)
-        .append("div")
+        .attr("id", `${self.setID}_legend`)
+        .style("margin-left", `${self.margin.left}px`)
+        .append("ul")
           .classed("legend-items", true);
 
       self.items = self.legend
@@ -75,51 +107,62 @@ class Legend extends Interface {
           .data(self.data)
           .enter()
             .append("div")
-            .classed("legend-item", true);
+            .classed("legend-item interactable", true);
 
       self.colors = self.items
-          .append("div")
-            .classed("legend-color", true)
-            .attr("id", d => `legend-color_${self.uid}_${d[self.accessor]}`)
-            .attr("top", self.position[self.hposition])
-            .attr("left", (d, i) => self.position[self.vposition] + (i * (self.itemsize + 7)) - 5)
-            .style("width", `${self.itemsize}px`)
-            .style("height", `${self.itemsize}px`)
-            .style("margin-right", "8px")
-            .style("background-color", d => self.color(d[self.accessor]))
-            .style("cursor", "pointer");
+        .append("div")
+          .classed("legend-color", true)
+          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d[self.accessor])}`)
+          .attr("top", self.position[self.hposition])
+          .attr("left", (d, i) => self.position[self.vposition] + (i * (self.itemsize + 7)) - 5)
+          .style("width", `${self.itemsize}px`)
+          .style("height", `${self.itemsize}px`)
+          .style("background-color", d => self.color(d[self.accessor]));
 
       self.labels = self.items
         .append("div")
             .classed("legend-label", true)
-            .attr("id", d => `legend-label_${self.uid}_${d[self.accessor]}`)
-            .style("text-transform", "capitalize")
-            .style("cursor", "pointer")
+            .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d[self.accessor])}`)
             .text(d => d[self.accessor]);
 
-      // Legend Events
-      self.items.on("mouseover", (e, d) => self.#mouseOverLegend(e, d));
-      self.items.on("mouseout", (e, d) => self.#mouseOutLegend(e, d));
+      self.clear();
 
       return self;
 
     }
 
+    clear () {
+      let self = this;
+
+      self.labels.remove();
+      self.colors.remove();
+      self.items.remove();
+      self.legend.remove();
+
+      return self;
+    }
+
     #mouseOverLegend (e, d) {
       let self = this;
-      D3.select(`#${self.prefix}_${self.tokenize(d.key)}_${self.uid}`)
+
+      D3.select(`${self.getPrefix}_${self.tokenize(d.key)}`)
         .transition()
-        .duration(self.transitionduration)
-        .attr("opacity", 1.0);
+        .ease(Easing[self.animations.opacity.easing])
+        .duration(self.animations.opacity.duration)
+        .attr("opacity", self.transitions.opacity.to);
+
       return self;
     }
 
     #mouseOutLegend (e, d) {
       let self = this;
-      D3.select(`#${self.prefix}_${self.tokenize(d.key)}_${self.uid}`)
+
+      D3.select(`${self.getPrefix}_${self.tokenize(d.key)}`)
         .transition()
-        .duration(self.transitionduration)
-        .attr("opacity", self.opacity);
+        .ease(Easing[self.animations.opacity.easing])
+        .duration(self.animations.opacity.duration)
+        .attr("opacity", self.transitions.opacity.from);
+
       return self;
     }
 

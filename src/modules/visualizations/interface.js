@@ -9,38 +9,40 @@ Base Interface Class
 */
 
 class Interface {
-    id          = undefined;
-    svg         = undefined;
+    uid         = undefined;
+    setID       = undefined;
+    getID       = undefined;
     width       = undefined;
     height      = undefined;
     margin      = undefined;
     padding     = undefined;
-    palette     = undefined;
     data        = undefined;
-    mapping     = undefined;
-    maxValue    = undefined;
-    minValue    = undefined;
-    groups      = undefined;
-    inner       = undefined;
-    uid         = undefined;
 
     constructor (config) {
 
         // Configurable Parameters
-        this.id          = config.id;
+        this.uid         = config.uid;
+        this.setID       = config.setID;
+        this.getID       = config.getID;
         this.width       = config.width;
         this.height      = config.height;
         this.position    = config.position;
         this.margin      = config.margin;
         this.padding     = config.padding;
-        this.palette     = config.palette;
         this.data        = config.data;
-        this.title       = config.title;
 
     }
 
     #uid () {
         return `O-${Math.random().toString(16).slice(2, 8)}`;
+    }
+
+    #setID () {
+        return `${this.id.replace("#", "")}_${this.uid}`;
+    }
+
+    #getID () {
+        return `${this.id}_${this.uid}`;
     }
 
     getUniqueKeys (data, accessor) {

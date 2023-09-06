@@ -19,15 +19,9 @@ class Tooltip extends Interface {
       let self = this;
 
       // Configure Chart Tooltip
-      self.uid        = config.uid;
-      self.parent     = config.parent;
       self.container  = config.container;
       self.data       = config.data;
       self.color      = config.color;
-      self.width      = config.width;
-      self.height     = config.height;
-      self.margin     = config.margin;
-      self.padding    = config.padding;
       self.itemsize   = config.itemsize;
       self.fontsize   = config.fontsize;
       self.vposition  = config.vposition;
@@ -45,7 +39,6 @@ class Tooltip extends Interface {
           horizontal  : (self.container.height - self.width) / 2
         }
       };
-      self.id = `${self.id}_tooltip`;
 
       self.defaultdata = [
           {label: self.accessors.group.name, value: "-"},
@@ -53,11 +46,9 @@ class Tooltip extends Interface {
           {label: self.accessors.value.name, value: "-"}
       ];
 
-      self.tooltip = D3.select(self.id)
+      self.tooltip = D3.select(`${self.getID}_tooltip`)
         .classed("interface-element tooltip", true)
-        .attr("id", `${self.uid}_tooltip`)
-        .attr("width", self.width)
-        .attr("height", self.height)
+        .attr("id", `${self.setID}_tooltip`)
         .append("div")
           .classed("tooltip-items", true);
 
@@ -66,22 +57,18 @@ class Tooltip extends Interface {
           .data(self.defaultdata)
           .enter()
           .append("div")
-            .classed("tooltip-item", true);
+            .classed("tooltip-item", true)
+            .attr("id", d => `${self.setID}_tooltip-item_${d[self.accessor]}`);
 
       self.labels = self.items
         .append("span")
           .classed("tooltip-label", true)
-          .attr("id", d => `tooltip-label_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .style("margin-right", "8px")
           .text(d => `${d.label}: `);
 
       self.values = self.items
         .append("span")
           .classed("tooltip-value", true)
-          .attr("id", d => `tooltip-value_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .text(d => `${d.value}`);
+          .text(d => d.value);
 
       return self;
 
@@ -95,7 +82,7 @@ class Tooltip extends Interface {
 
       let self = this;
 
-      self.items.remove();
+      self.clear();
 
       self.data = [
         {label: self.accessors.group.name, value: data.data[self.accessors.group.key]},
@@ -103,27 +90,63 @@ class Tooltip extends Interface {
         {label: self.accessors.value.name, value: data[self.accessors.value.key]}
       ];
 
+      self.tooltip = D3.select(`${self.getID}_tooltip`)
+        .classed("interface-element tooltip", true)
+        .attr("id", `${self.setID}_tooltip`)
+        .append("div")
+          .classed("tooltip-items", true);
+
       self.items = self.tooltip
         .selectAll(".tooltip-item")
           .data(self.data)
           .enter()
           .append("div")
-            .classed("tooltip-item", true);
+            .classed("tooltip-item", true)
+            .attr("id", d => `${self.setID}_tooltip-item_${d[self.accessor]}`);
 
       self.labels = self.items
         .append("span")
           .classed("tooltip-label", true)
-          .attr("id", d => `tooltip-label_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .style("margin-right", "8px")
           .text(d => `${d.label}: `);
 
       self.values = self.items
         .append("span")
           .classed("tooltip-value", true)
-          .attr("id", d => `tooltip-value_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .text(d => `${d.value}`);
+          .text(d => d.value);
+
+      return self;
+
+    }
+
+    clean () {
+
+      let self = this;
+
+      self.clear();
+
+      self.tooltip = D3.select(`${self.getID}_tooltip`)
+        .classed("interface-element tooltip", true)
+        .attr("id", `${self.setID}_tooltip`)
+        .append("div")
+          .classed("tooltip-items", true);
+
+      self.items = self.tooltip
+        .selectAll(".tooltip-item")
+          .data(self.defaultdata)
+          .enter()
+          .append("div")
+            .classed("tooltip-item", true)
+            .attr("id", d => `${self.setID}_tooltip-item_${d[self.accessor]}`);
+
+      self.labels = self.items
+        .append("span")
+          .classed("tooltip-label", true)
+          .text(d => `${d.label}: `);
+
+      self.values = self.items
+        .append("span")
+          .classed("tooltip-value", true)
+          .text(d => d.value);
 
       return self;
 
@@ -133,29 +156,10 @@ class Tooltip extends Interface {
 
       let self = this;
 
+      self.values.remove();
+      self.labels.remove();
       self.items.remove();
-
-      self.items = self.tooltip
-        .selectAll(".tooltip-item")
-          .data(self.defaultdata)
-          .enter()
-          .append("div")
-            .classed("tooltip-item", true);
-
-      self.labels = self.items
-        .append("span")
-          .classed("tooltip-label", true)
-          .attr("id", d => `tooltip-label_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .style("margin-right", "8px")
-          .text(d => `${d.label}: `);
-
-      self.values = self.items
-        .append("span")
-          .classed("tooltip-value", true)
-          .attr("id", d => `tooltip-value_${self.uid}_${d[self.accessor]}`)
-          .style("text-transform", "capitalize")
-          .text(d => `${d.value}`);
+      self.tooltip.remove();
 
       return self;
 

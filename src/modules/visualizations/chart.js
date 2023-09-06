@@ -3,6 +3,7 @@ Imports
 */
 
 import * as D3 from "d3";
+import * as Easing from "d3-ease";
 
 /*
 Base Chart Class
@@ -18,11 +19,6 @@ class Chart {
     palette     = undefined;
     data        = undefined;
     mapping     = undefined;
-    maxValue    = undefined;
-    minValue    = undefined;
-    groups      = undefined;
-    inner       = undefined;
-    uid         = undefined;
 
     constructor (config) {
 
@@ -36,10 +32,12 @@ class Chart {
         this.palette     = config.palette;
         this.data        = config.data;
         this.accessors   = config.accessors;
-        this.title       = config.title;
 
         // Computed References
         this.uid         = this.#uid();
+        this.setID       = this.#setID();
+        this.getID       = this.#getID();
+
         this.mapping     = {
             data           : [],
             values         : [],
@@ -73,11 +71,18 @@ class Chart {
             right          : this.axisframe.right - this.padding.right,
         };
 
-
     }
 
     #uid () {
         return `O-${Math.random().toString(16).slice(2, 8)}`;
+    }
+
+    #setID () {
+        return `${this.id.replace("#", "")}_${this.uid}`;
+    }
+
+    #getID () {
+        return `${this.id}_${this.uid}`;
     }
 
     getUniqueKeys (data, accessor) {
@@ -101,6 +106,8 @@ class Chart {
     }
 
     tokenize (token) {
+        // console.log(token, typeof token);
+        // return token.replace(/\s/g, "-").toLowerCase();
         return (typeof(token) === "string") ? token.replace(/\s/g, "-").toLowerCase() : `${Math.random().toString(16).slice(2, 6)}`.toLowerCase();
     }
 

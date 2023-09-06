@@ -82,7 +82,7 @@ body {
     font-family: Inter;
     font-style: normal;
     font-weight: 100 900;
-    src: url(/fonts/inter-var-latin.woff2) format("woff2")
+    src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2) format("woff2")
 }
 
 h1 {

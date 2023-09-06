@@ -82,19 +82,19 @@ Component
   <div :id="config.id">
     <div v-for="visualization in visualizations" class="visualization-container">
       <svg
-        :id="`${visualization.id.replace('#','')}_visualization`"
+        :id="`${visualization.setID}_visualization`"
         class="visualization-element"
         :viewBox="`0 0 ${visualization.width} ${visualization.height}`"
         preserveAspectRatio="xMinYMid meet"
         xmlns="http://www.w3.org/2000/svg"
       />
       <div
-        :id="`${visualization.id.replace('#','')}_interface`"
+        :id="`${visualization.setID}_interface`"
         class="interface"
       >
-        <div v-if="visualization.tooltip" :id="`${visualization.id.replace('#','')}_tooltip`"></div>
-        <div v-if="visualization.legend" :id="`${visualization.id.replace('#','')}_legend`"></div>
-        <div v-if="visualization.filters" :id="`${visualization.id.replace('#','')}_filters`"></div>
+        <div v-if="visualization.legend" :id="`${visualization.setID}_legend`"></div>
+        <div v-if="visualization.filters" :id="`${visualization.setID}_filters`"></div>
+        <div v-if="visualization.tooltip" :id="`${visualization.setID}_tooltip`"></div>
       </div>
     </div>
   </div>
