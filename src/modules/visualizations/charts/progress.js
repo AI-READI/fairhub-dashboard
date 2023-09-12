@@ -5,24 +5,15 @@ Imports
 import * as D3 from "d3";
 import Chart from "../chart.js";
 import Legend from "../interfaces/legend.js";
-import Simulator from "../utilities/simulator.js";
-
-const simulator = new Simulator();
+import Tooltip from "../interfaces/tooltip.js";
+import Filters from "../interfaces/filters.js";
+import Easing from "../animations/easing.js";
 
 /*
 Progress Chart Class
 */
 
 class ProgressChart extends Chart {
-
-  // References
-  mapping     = undefined;
-  groups      = undefined;
-  progress    = undefined;
-  color       = undefined;
-  x           = undefined;
-  xAxis       = undefined;
-  annotation  = undefined;
 
   // Initialization
   constructor (config) {

@@ -15,2194 +15,68 @@
       "name": "overview",
       "width": 1280,
       "height": 720,
-      "simulation": {
-
-      },
       "visualizations": [{
-          "type": "sankey",
-          "config": {
-            "id": "#overview_sankey",
-            "width": 1200,
-            "height": 420,
-            "position": {
+        "type": "doughnut",
+        "config": {
+          "id": "#overview_preconsent",
+          "width": 320,
+          "height": 160,
+          "position": {
             "top": 0,
             "left": 0,
             "right": 0,
             "bottom": 0
           },
           "margin": {
-              "top": 40,
-              "left": 40,
-              "right": 40,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#FE7E6D",
-              "#C79F38",
-              "#5DD462",
-              "#82C5E6",
-              "#999EEB",
-              "#7F8C9F",
-              "#727272"
-            ],
-            "node": {
-              "width": 240,
-              "padding": 60,
-              "class": "node",
-              "alignment": "left",
-              "opacity": 1,
-              "sort": "descending",
-              "fontsize": 16
-            },
-            "link": {
-              "class": "link",
-              "opacity": 0.95,
-              "sort": "ascending",
-              "fontsize": 12
-            },
-            "accessors": {
-              "source": {
-                "name": "Waypoint",
-                "key": "source",
-                "type": "String"
-              },
-              "target": {
-                "name": "Waypoint",
-                "key": "target",
-                "type": "String"
-              },
-              "value": {
-                "name": "Count (n)",
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "data": [{
-                "source": "Screened In",
-                "target": "Consented",
-                "value": 128
-              },
-              {
-                "source": "Screened In",
-                "target": "Did Not Consent",
-                "value": 13
-              },
-              {
-                "source": "Consented",
-                "target": "Completed",
-                "value": 98
-              },
-              {
-                "source": "Consented",
-                "target": "Active",
-                "value": 19
-              },
-              {
-                "source": "Consented",
-                "target": "Inactive",
-                "value": 5
-              },
-              {
-                "source": "Consented",
-                "target": "Exited",
-                "value": 6
-              },
-              {
-                "source": "Did Not Consent",
-                "target": "Inactive",
-                "value": 6
-              },
-              {
-                "source": "Did Not Consent",
-                "target": "Exited",
-                "value": 7
-              },
-              {
-                "source": "Screened Out",
-                "target": "Exited",
-                "value": 221
-              }
-            ]
-          }
-        }, {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_preconsent",
-            "width": 320,
-            "height": 160,
-            "position": {
             "top": 0,
             "left": 0,
             "right": 0,
             "bottom": 0
           },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Preconsent Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 105
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 0
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_consent",
-            "width": 320,
-            "height": 160,
-            "position": {
+          "padding": {
             "top": 0,
             "left": 0,
             "right": 0,
             "bottom": 0
           },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Consent Survey Complete",
-            "data": [{
+          "palette": [
+            "#5DD462",
+            "#82C5E6"
+          ],
+          "radius": 50,
+          "accessors": {
+            "group": {
               "name": "Status",
-              "group": "Complete",
-              "value": 105
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 0
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_screening",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
+              "key": "group",
+              "type": "String"
+            },
+            "color": {
+              "name": "Color",
+              "key": "group",
+              "type": "String"
+            },
+            "value": {
+              "name": "Count (N)",
+              "key": "value",
+              "type": "Number"
+            }
           },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Screening Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 104
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 1
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_recruitment",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Recruitment Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 104
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 1
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_demographics",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Demographics Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 88
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 17
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_health",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Health Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 87
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 18
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_substance-use",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Substance Use Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_cesd10",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Cesd10 Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_paid5-dm",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Paid5 Dm Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_diabetes",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Diabetes Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_dietary",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Dietary Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 85
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 20
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_opthalmic",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Ophthalmic Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 84
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 21
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_px-sdoh",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Px Sdoh Combined Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 83
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 22
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_px-food-insecurity",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Px Food Insecurity Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 83
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 22
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_px-neighbordhood-environment",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Px Neighborhood Environment Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 83
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 22
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_px-racial-ethnic-discrimination",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Px Racial Ethnic Discrimination Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 81
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 24
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_recruitment-survey-management",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Recruitment Survey Management Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 49
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 56
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_study-enrollment",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Study Enrollment Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 42
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 63
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_staff-consent-attestation",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Staff Consent Attestation Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 33
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 71
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_physical-assessment",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Physical Assessment Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 21
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 83
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_driving-record",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Driving Record Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 20
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 85
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_monofilament",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Monofilament Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 20
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 84
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_meds-assessment",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Meds Assessment Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_bcva",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Bcva Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 85
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_photopic-mars",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Photopic Mars Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 85
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_mesopic-mars",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Mesopic Mars Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 85
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_ecg",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Ecg Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 19
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 84
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 2
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_moca",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Moca Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 18
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_retinal-imaging",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Retinal Imaging Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 18
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 86
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_lab-results",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Lab Results Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 17
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 88
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_device-distribution",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Device Distribution Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 15
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 90
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_faq-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Faq Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 13
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 92
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_decline-participation-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Decline Participation Survey Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 8
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 97
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_device-return-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Device Return Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 5
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 100
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_specimen-management-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Specimen Management Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 4
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 101
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_disposition-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Disposition Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 4
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 100
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 1
-            }]
-          }
-        },
-        {
-          "type": "doughnut",
-          "config": {
-            "id": "#overview_data-management-complete",
-            "width": 320,
-            "height": 160,
-            "position": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
-          "margin": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "padding": {
-              "top": 0,
-              "left": 0,
-              "right": 0,
-              "bottom": 0
-            },
-            "palette": [
-              "#5DD462",
-              "#82C5E6"
-            ],
-            "opacity": 0.8,
-            "radius": 50,
-            "accessors": {
-              "color": {
-                "key": "group",
-                "type": "String"
-              },
-              "value": {
-                "key": "value",
-                "type": "Number"
-              }
-            },
-            "title": "Data Management Complete",
-            "data": [{
-              "name": "Status",
-              "group": "Complete",
-              "value": 4
-            }, {
-              "name": "Status",
-              "group": "Incomplete",
-              "value": 101
-            }, {
-              "name": "Status",
-              "group": "Unverified",
-              "value": 0
-            }]
-          }
+          "title": "Preconsent Survey Complete",
+          "data": [{
+            "name": "Status",
+            "group": "Complete",
+            "value": 105
+          }, {
+            "name": "Status",
+            "group": "Incomplete",
+            "value": 0
+          }, {
+            "name": "Status",
+            "group": "Unverified",
+            "value": 0
+          }]
         }
-      ]
+      }]
     }
   }, {
     "name": "Demographics",
@@ -2212,9 +86,6 @@
       "name": "demographics",
       "width": 1280,
       "height": 720,
-      "simulation": {
-
-      },
       "visualizations": [{
         "type": "stackedbar",
         "config": {
@@ -2244,6 +115,10 @@
             "opacity": {
               "from": 0.8,
               "to": 1.0
+            },
+            "translate": {
+              "from": "left",
+              "to": "left"
             }
           },
           "animations": {
@@ -2316,15 +191,20 @@
               "key": "group",
               "type": "String"
             },
-            "value": {
-              "name": "Count (n)",
-              "key": "value",
-              "type": "Number"
+            "subgroup": {
+              "name": "Status",
+              "key": "subgroup",
+              "type": "String"
             },
             "color": {
               "name": "Status",
               "key": "subgroup",
               "type": "String"
+            },
+            "value": {
+              "name": "Count (n)",
+              "key": "value",
+              "type": "Number"
             }
           },
           "data": [{
@@ -2783,9 +663,6 @@
       "name": "recruitment",
       "width": 1280,
       "height": 720,
-      "simulation": {
-
-      },
       "visualizations": [{
         "type": "line",
         "config": {
@@ -2812,8 +689,8 @@
           },
           "transitions": {
             "opacity": {
-              "from": 0.8,
-              "to": 1.0
+              "from": 1.0,
+              "to": 0.7
             }
           },
           "animations": {
@@ -2879,249 +756,255 @@
             "#7F8C9F",
             "#727272"
           ],
-          "pointradius": 5,
-          "opacity": 0.8,
+          "linewidth": 4,
+          "pointradius": 8,
           "accessors": {
             "x": {
               "name": "Date",
-              "key": "date",
-              "type": "Date"
+              "key": "x",
+              "type": "Date",
+              "format": "%Y-%m-%d"
             },
             "y": {
-              "name": "Value",
-              "key": "value",
+              "name": "Count (n)",
+              "key": "y",
               "type": "Number"
             },
+            "subgroup": {
+              "name": "Phenotype",
+              "key": "subgroup",
+              "type": "String"
+            },
             "color": {
-              "name": "Status",
-              "key": "group",
+              "name": "Phenotype",
+              "key": "subgroup",
               "type": "String"
             }
           },
           "data": [{
-              "value": 3,
-              "group": "diabetic",
-              "date": "2023-04-28"
+              "subgroup": "Diabetic",
+              "x": "2023-04-28",
+              "y": 3
             },
             {
-              "value": 6,
-              "group": "diabetic",
-              "date": "2023-04-29"
+              "subgroup": "Diabetic",
+              "x": "2023-04-29",
+              "y": 6
             },
             {
-              "value": 7,
-              "group": "diabetic",
-              "date": "2023-04-30"
+              "subgroup": "Diabetic",
+              "x": "2023-04-30",
+              "y": 7
             },
             {
-              "value": 12,
-              "group": "diabetic",
-              "date": "2023-05-01"
+              "subgroup": "Diabetic",
+              "x": "2023-05-01",
+              "y": 12
             },
             {
-              "value": 16,
-              "group": "diabetic",
-              "date": "2023-05-02"
+              "subgroup": "Diabetic",
+              "x": "2023-05-02",
+              "y": 16
             },
             {
-              "value": 19,
-              "group": "diabetic",
-              "date": "2023-05-03"
+              "subgroup": "Diabetic",
+              "x": "2023-05-03",
+              "y": 19
             },
             {
-              "value": 23,
-              "group": "diabetic",
-              "date": "2023-05-04"
+              "subgroup": "Diabetic",
+              "x": "2023-05-04",
+              "y": 23
             },
             {
-              "value": 31,
-              "group": "diabetic",
-              "date": "2023-05-05"
+              "subgroup": "Diabetic",
+              "x": "2023-05-05",
+              "y": 31
             },
             {
-              "value": 39,
-              "group": "diabetic",
-              "date": "2023-05-06"
+              "subgroup": "Diabetic",
+              "x": "2023-05-06",
+              "y": 39
             },
             {
-              "value": 41,
-              "group": "diabetic",
-              "date": "2023-05-07"
+              "subgroup": "Diabetic",
+              "x": "2023-05-07",
+              "y": 41
             },
             {
-              "value": 50,
-              "group": "diabetic",
-              "date": "2023-05-08"
+              "subgroup": "Diabetic",
+              "x": "2023-05-08",
+              "y": 50
             },
             {
-              "value": 55,
-              "group": "diabetic",
-              "date": "2023-05-09"
+              "subgroup": "Diabetic",
+              "x": "2023-05-09",
+              "y": 55
             },
             {
-              "value": 59,
-              "group": "diabetic",
-              "date": "2023-05-10"
+              "subgroup": "Diabetic",
+              "x": "2023-05-10",
+              "y": 59
             },
             {
-              "value": 66,
-              "group": "diabetic",
-              "date": "2023-05-11"
+              "subgroup": "Diabetic",
+              "x": "2023-05-11",
+              "y": 66
             },
             {
-              "value": 71,
-              "group": "diabetic",
-              "date": "2023-05-12"
+              "subgroup": "Diabetic",
+              "x": "2023-05-12",
+              "y": 71
             },
             {
-              "value": 13,
-              "group": "normal",
-              "date": "2023-04-28"
+              "subgroup": "Normal",
+              "x": "2023-04-28",
+              "y": 13
             },
             {
-              "value": 19,
-              "group": "normal",
-              "date": "2023-04-29"
+              "subgroup": "Normal",
+              "x": "2023-04-29",
+              "y": 19
             },
             {
-              "value": 24,
-              "group": "normal",
-              "date": "2023-04-30"
+              "subgroup": "Normal",
+              "x": "2023-04-30",
+              "y": 24
             },
             {
-              "value": 32,
-              "group": "normal",
-              "date": "2023-05-01"
+              "subgroup": "Normal",
+              "x": "2023-05-01",
+              "y": 32
             },
             {
-              "value": 41,
-              "group": "normal",
-              "date": "2023-05-02"
+              "subgroup": "Normal",
+              "x": "2023-05-02",
+              "y": 41
             },
             {
-              "value": 53,
-              "group": "normal",
-              "date": "2023-05-03"
+              "subgroup": "Normal",
+              "x": "2023-05-03",
+              "y": 53
             },
             {
-              "value": 60,
-              "group": "normal",
-              "date": "2023-05-04"
+              "subgroup": "Normal",
+              "x": "2023-05-04",
+              "y": 60
             },
             {
-              "value": 72,
-              "group": "normal",
-              "date": "2023-05-05"
+              "subgroup": "Normal",
+              "x": "2023-05-05",
+              "y": 72
             },
             {
-              "value": 84,
-              "group": "normal",
-              "date": "2023-05-06"
+              "subgroup": "Normal",
+              "x": "2023-05-06",
+              "y": 84
             },
             {
-              "value": 91,
-              "group": "normal",
-              "date": "2023-05-07"
+              "subgroup": "Normal",
+              "x": "2023-05-07",
+              "y": 91
             },
             {
-              "value": 103,
-              "group": "normal",
-              "date": "2023-05-08"
+              "subgroup": "Normal",
+              "x": "2023-05-08",
+              "y": 103
             },
             {
-              "value": 107,
-              "group": "normal",
-              "date": "2023-05-09"
+              "subgroup": "Normal",
+              "x": "2023-05-09",
+              "y": 107
             },
             {
-              "value": 118,
-              "group": "normal",
-              "date": "2023-05-10"
+              "subgroup": "Normal",
+              "x": "2023-05-10",
+              "y": 118
             },
             {
-              "value": 133,
-              "group": "normal",
-              "date": "2023-05-11"
+              "subgroup": "Normal",
+              "x": "2023-05-11",
+              "y": 133
             },
             {
-              "value": 150,
-              "group": "normal",
-              "date": "2023-05-12"
+              "subgroup": "Normal",
+              "x": "2023-05-12",
+              "y": 150
             },
             {
-              "value": 5,
-              "group": "prediabetic",
-              "date": "2023-04-28"
+              "subgroup": "Prediabetic",
+              "x": "2023-04-28",
+              "y": 5
             },
             {
-              "value": 9,
-              "group": "prediabetic",
-              "date": "2023-04-29"
+              "subgroup": "Prediabetic",
+              "x": "2023-04-29",
+              "y": 9
             },
             {
-              "value": 12,
-              "group": "prediabetic",
-              "date": "2023-04-30"
+              "subgroup": "Prediabetic",
+              "x": "2023-04-30",
+              "y": 12
             },
             {
-              "value": 14,
-              "group": "prediabetic",
-              "date": "2023-05-01"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-01",
+              "y": 14
             },
             {
-              "value": 19,
-              "group": "prediabetic",
-              "date": "2023-05-02"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-02",
+              "y": 19
             },
             {
-              "value": 26,
-              "group": "prediabetic",
-              "date": "2023-05-03"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-03",
+              "y": 26
             },
             {
-              "value": 31,
-              "group": "prediabetic",
-              "date": "2023-05-04"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-04",
+              "y": 31
             },
             {
-              "value": 33,
-              "group": "prediabetic",
-              "date": "2023-05-05"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-05",
+              "y": 33
             },
             {
-              "value": 37,
-              "group": "prediabetic",
-              "date": "2023-05-06"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-06",
+              "y": 37
             },
             {
-              "value": 45,
-              "group": "prediabetic",
-              "date": "2023-05-07"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-07",
+              "y": 45
             },
             {
-              "value": 51,
-              "group": "prediabetic",
-              "date": "2023-05-08"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-08",
+              "y": 51
             },
             {
-              "value": 58,
-              "group": "prediabetic",
-              "date": "2023-05-09"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-09",
+              "y": 58
             },
             {
-              "value": 66,
-              "group": "prediabetic",
-              "date": "2023-05-10"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-10",
+              "y": 66
             },
             {
-              "value": 72,
-              "group": "prediabetic",
-              "date": "2023-05-11"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-11",
+              "y": 72
             },
             {
-              "value": 79,
-              "group": "prediabetic",
-              "date": "2023-05-12"
+              "subgroup": "Prediabetic",
+              "x": "2023-05-12",
+              "y": 79
             }
           ]
         }
@@ -3135,9 +1018,6 @@
       "name": "completion",
       "width": 1280,
       "height": 720,
-      "simulation": {
-
-      },
       "visualizations": [{
         "type": "stackedbar",
         "config": {
@@ -3232,12 +1112,16 @@
             "#7F8C9F",
             "#727272"
           ],
-          "opacity": 0.8,
           "ordering": "appearance",
           "accessors": {
             "group": {
               "name": "Waypoint",
               "key": "group",
+              "type": "String"
+            },
+            "subgroup": {
+              "name": "Phenotype",
+              "key": "subgroup",
               "type": "String"
             },
             "value": {
@@ -3253,122 +1137,122 @@
           },
           "data": [{
               "group": "Screened In",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 119
             },
             {
               "group": "Screened In",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 30
             },
             {
               "group": "Screened In",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 81
             },
             {
               "group": "Screened Out",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 381
             },
             {
               "group": "Screened Out",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 144
             },
             {
               "group": "Screened Out",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 201
             },
             {
               "group": "Did Consent",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 72
             },
             {
               "group": "Did Consent",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 21
             },
             {
               "group": "Did Consent",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 69
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 13
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 8
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 10
             },
             {
               "group": "Active",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 31
             },
             {
               "group": "Active",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 4
             },
             {
               "group": "Active",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 37
             },
             {
               "group": "Inactive",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 3
             },
             {
               "group": "Inactive",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 2
             },
             {
               "group": "Inactive",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 7
             },
             {
               "group": "Completed",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 91
             },
             {
               "group": "Completed",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 53
             },
             {
               "group": "Completed",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 71
             },
             {
               "group": "Exited",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 18
             },
             {
               "group": "Exited",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 12
             },
             {
               "group": "Exited",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 19
             }
           ]
@@ -3383,9 +1267,6 @@
       "name": "sites",
       "width": 1280,
       "height": 720,
-      "simulation": {
-
-      },
       "visualizations": [{
         "type": "stackedbar",
         "config": {
@@ -3480,12 +1361,16 @@
             "#7F8C9F",
             "#727272"
           ],
-          "opacity": 0.8,
           "ordering": "appearance",
           "accessors": {
             "group": {
               "name": "Waypoint",
               "key": "group",
+              "type": "String"
+            },
+            "subgroup": {
+              "name": "Phenotype",
+              "key": "subgroup",
               "type": "String"
             },
             "value": {
@@ -3501,122 +1386,122 @@
           },
           "data": [{
               "group": "Screened In",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 119
             },
             {
               "group": "Screened In",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 30
             },
             {
               "group": "Screened In",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 81
             },
             {
               "group": "Screened Out",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 381
             },
             {
               "group": "Screened Out",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 144
             },
             {
               "group": "Screened Out",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 201
             },
             {
               "group": "Did Consent",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 72
             },
             {
               "group": "Did Consent",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 21
             },
             {
               "group": "Did Consent",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 69
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 13
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 8
             },
             {
               "group": "Did Not Consent",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 10
             },
             {
               "group": "Active",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 31
             },
             {
               "group": "Active",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 4
             },
             {
               "group": "Active",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 37
             },
             {
               "group": "Inactive",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 3
             },
             {
               "group": "Inactive",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 2
             },
             {
               "group": "Inactive",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 7
             },
             {
               "group": "Completed",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 91
             },
             {
               "group": "Completed",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 53
             },
             {
               "group": "Completed",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 71
             },
             {
               "group": "Exited",
-              "subgroup": "healthy",
+              "subgroup": "Healthy",
               "value": 18
             },
             {
               "group": "Exited",
-              "subgroup": "prediabetic",
+              "subgroup": "Prediabetic",
               "value": 12
             },
             {
               "group": "Exited",
-              "subgroup": "diabetic",
+              "subgroup": "Diabetic",
               "value": 19
             }
           ]

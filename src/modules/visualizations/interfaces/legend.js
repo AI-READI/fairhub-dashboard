@@ -4,7 +4,7 @@ Imports
 
 import * as D3 from "d3";
 import Interface from "../interface.js";
-import Easing from "../interfaces/easing.js";
+import Easing from "../animations/easing.js";
 
 /*
 Chart Legend Class
@@ -20,17 +20,15 @@ class Legend extends Interface {
       let self = this;
 
       // Configure Chart Legend
-      self.getPrefix  = config.getPrefix;
-      self.container  = config.container;
-      self.color      = config.color;
-      self.transitions= config.transitions;
-      self.animations = config.animations;
-      self.itemsize   = config.itemsize;
-      self.fontsize   = config.fontsize;
-      self.accessor   = config.accessor;
-      self.vposition  = config.vposition;
-      self.hposition  = config.hposition;
-      self.prefix     = config.prefix;
+      self.getPrefix    = config.getPrefix;
+      self.accessors    = config.accessors;
+      self.container    = config.container;
+      self.transitions  = config.transitions;
+      self.animations   = config.animations;
+      self.itemsize     = config.itemsize;
+      self.fontsize     = config.fontsize;
+      self.vposition    = config.vposition;
+      self.hposition    = config.hposition;
 
       // Computed Refs
       self.position   = {
@@ -61,19 +59,19 @@ class Legend extends Interface {
       self.colors = self.items
         .append("div")
           .classed("legend-color", true)
-          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d[self.accessor])}`)
+          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d.subgroup)}`)
           .attr("top", self.position[self.hposition])
           .attr("left", (d, i) => self.position[self.vposition] + (i * (self.itemsize + 7)) - 5)
           .style("width", `${self.itemsize}px`)
           .style("height", `${self.itemsize}px`)
-          .style("background-color", d => self.color(d[self.accessor]));
+          .style("background-color", d => d.color);
 
       self.labels = self.items
         .append("span")
             .classed("legend-label", true)
-            .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d[self.accessor])}`)
+            .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d.subgroup)}`)
             .style("text-transform", "capitalize")
-            .text(d => d[self.accessor]);
+            .text(d => d.subgroup);
 
       // Legend Events
       self.items.on("mouseover", (e, d) => self.#mouseOverLegend(e, d));
@@ -112,18 +110,18 @@ class Legend extends Interface {
       self.colors = self.items
         .append("div")
           .classed("legend-color", true)
-          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d[self.accessor])}`)
+          .attr("id", d => `${self.setID}_legend-color_${self.tokenize(d.subgroup)}`)
           .attr("top", self.position[self.hposition])
           .attr("left", (d, i) => self.position[self.vposition] + (i * (self.itemsize + 7)) - 5)
           .style("width", `${self.itemsize}px`)
           .style("height", `${self.itemsize}px`)
-          .style("background-color", d => self.color(d[self.accessor]));
+          .style("background-color", d => d.color);
 
       self.labels = self.items
         .append("div")
-            .classed("legend-label", true)
-            .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d[self.accessor])}`)
-            .text(d => d[self.accessor]);
+          .classed("legend-label", true)
+          .attr("id", d => `${self.setID}_legend-label_${self.tokenize(d.subgroup)}`)
+          .text(d => d.subgroup);
 
       self.clear();
 
@@ -145,7 +143,7 @@ class Legend extends Interface {
     #mouseOverLegend (e, d) {
       let self = this;
 
-      D3.select(`${self.getPrefix}_${self.tokenize(d.key)}`)
+      D3.select(`${self.getPrefix}_${self.tokenize(d.subgroup)}`)
         .transition()
         .ease(Easing[self.animations.opacity.easing])
         .duration(self.animations.opacity.duration)
@@ -157,7 +155,7 @@ class Legend extends Interface {
     #mouseOutLegend (e, d) {
       let self = this;
 
-      D3.select(`${self.getPrefix}_${self.tokenize(d.key)}`)
+      D3.select(`${self.getPrefix}_${self.tokenize(d.subgroup)}`)
         .transition()
         .ease(Easing[self.animations.opacity.easing])
         .duration(self.animations.opacity.duration)

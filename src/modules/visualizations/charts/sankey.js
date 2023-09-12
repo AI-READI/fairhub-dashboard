@@ -3,8 +3,12 @@ Imports
 */
 
 import * as D3 from "d3";
-import * as D3Sankey from "d3-sankey";
+import * as Sankey from "d3-sankey";
 import Chart from "../chart.js";
+import Legend from "../interfaces/legend.js";
+import Tooltip from "../interfaces/tooltip.js";
+import Filters from "../interfaces/filters.js";
+import Easing from "../animations/easing.js";
 
 
 /*
@@ -12,25 +16,6 @@ Sankey Chart Class
 */
 
 class SankeyChart extends Chart {
-
-  // Referencesapped
-  mapping   = undefined;
-  sources   = undefined;
-  targets   = undefined;
-  nodes     = undefined;
-  links     = undefined;
-  color     = undefined;
-  x         = undefined;
-  y         = undefined;
-  xAxis     = undefined;
-  yAxis     = undefined;
-  bars      = undefined;
-  #alignMap = {
-    "left"    : D3Sankey.sankeyLeft,
-    "right"   : D3Sankey.sankeyRight,
-    "center"  : D3Sankey.sankeyCenter,
-    "justify" : D3Sankey.sankeyJustify
-  };
 
   constructor (config) {
 
@@ -43,8 +28,13 @@ class SankeyChart extends Chart {
     this.link         = config.link;
 
     // Computed References
-    this.nodeAlign    = this.#alignMap[this.node.alignment];
-    this.linkMethod   = D3Sankey.sankeyLinkHorizontal();
+    this.linkMethod   = Sankey.sankeyLinkHorizontal();
+    this.nodeAlign    = {
+      "left"    : Sankey.sankeyLeft,
+      "right"   : Sankey.sankeyRight,
+      "center"  : Sankey.sankeyCenter,
+      "justify" : Sankey.sankeyJustify
+    }[this.node.alignment];
 
     return this;
 
@@ -60,7 +50,7 @@ class SankeyChart extends Chart {
     [this.mapping, this.sources, this.targets, this.nodes, this.links] = this.#mapData(this.data);
 
     // Setup Sankey Graph
-    this.graph = D3Sankey.sankey()
+    this.graph = Sankey.sankey()
       .nodeId(d => d.name)
       .nodeAlign(this.nodeAlign)
       .nodeWidth(this.node.width)
@@ -78,7 +68,9 @@ class SankeyChart extends Chart {
     Define Gradients
     */
 
-    this.color = D3.scaleOrdinal(this.palette);
+    this.colorscale = D3.scaleOrdinal()
+      .domain(this.nodes)
+      .range(this.palette);
 
     this.gradients = this.svg.append("defs")
         .classed("gradient-defs", true)
@@ -172,18 +164,24 @@ class SankeyChart extends Chart {
 
   #mapData (data) {
 
-    let links = [];
-    data.forEach(row => {
-      links.push({
-        target : super.asType(this.accessors.target.type, row[this.accessors.target.key]),
-        source : super.asType(this.accessors.source.type, row[this.accessors.source.key]),
-        value  : super.asType(this.accessors.value.type, row[this.accessors.value.key])
-      });
-    });
+    let self = this;
 
-    let sources = super.getUniqueKeys(links, this.accessors.source.key);
-    let targets = super.getUniqueKeys(links, this.accessors.target.key);
-    let nodes = Array.from(new Set(targets.concat(sources)));
+    let links = [];
+    let nodes = [];
+    let sources = [];
+    let targets = [];
+
+    // Remap Values from Accessor Keys to Fixed Keys
+    links = data.map(datum => { return {
+      target: datum[self.accessors.target.key],
+      source: datum[self.accessors.source.key],
+      value: datum[self.accessors.value.key],
+      color: self.colorscale(datum[self.accessors.color.key]),
+    }});
+
+    source.push(...super.getUniqueValuesByKey(links, "source"));
+    targets.push(...super.getUniqueValuesByKey(links, "target"));
+    nodes.push(...Array.from(new Set(targets.concat(sources))));
 
     let mapping = {
       nodes: nodes.map(

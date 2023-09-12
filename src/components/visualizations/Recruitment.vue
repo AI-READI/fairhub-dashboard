@@ -19,18 +19,9 @@ Component
     visualizations: [],
     data () {
 
+      let dashboard = configStore().configs.dashboard;
       let config = null;
       let visualizations = [];
-      const dashboard = configStore().configs.dashboard;
-      const redcap = redcapStore();
-
-      // REDCap Data
-      const getPilot = computed(() => {
-        return redcap.getPilot;
-      });
-      const pilot = computed(() => {
-        return redcap.caches.pilot;
-      });
 
       // Set Config
       for (let i = 0; i < dashboard.components.length; i++) {
@@ -56,7 +47,7 @@ Component
       }
       this.$options.visualizations = visualizations;
       return {
-        config, visualizations, pilot
+        config, visualizations
       }
     },
     beforeCreate () {
@@ -69,17 +60,13 @@ Component
       // console.log("Recruitment beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      const redcap = redcapStore();
-
-      console.log("Recruitment mounted:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
-      // Get REDCap Data
-      redcap.fetchPilot();
     },
     updated () {
-      console.log("Recruitment updated:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }

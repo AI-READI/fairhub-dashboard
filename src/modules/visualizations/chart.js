@@ -3,118 +3,109 @@ Imports
 */
 
 import * as D3 from "d3";
-import * as Easing from "d3-ease";
 
 /*
 Base Chart Class
 */
 
 class Chart {
-    id          = undefined;
-    svg         = undefined;
-    width       = undefined;
-    height      = undefined;
-    margin      = undefined;
-    padding     = undefined;
-    palette     = undefined;
-    data        = undefined;
-    mapping     = undefined;
+  id          = undefined;
+  svg         = undefined;
+  width       = undefined;
+  height      = undefined;
+  margin      = undefined;
+  padding     = undefined;
+  palette     = undefined;
+  data        = undefined;
+  mapping     = undefined;
 
-    constructor (config) {
+  constructor (config) {
 
-        // Configurable Parameters
-        this.id          = config.id;
-        this.width       = config.width;
-        this.height      = config.height;
-        this.position    = config.position;
-        this.margin      = config.margin;
-        this.padding     = config.padding;
-        this.palette     = config.palette;
-        this.data        = config.data;
-        this.accessors   = config.accessors;
+    let self = this;
 
-        // Computed References
-        this.uid         = this.#uid();
-        this.setID       = this.#setID();
-        this.getID       = this.#getID();
+      // Configurable Parameters
+      self.id          = config.id;
+      self.width       = config.width;
+      self.height      = config.height;
+      self.position    = config.position;
+      self.margin      = config.margin;
+      self.padding     = config.padding;
+      self.palette     = config.palette;
+      self.data        = config.data;
+      self.accessors   = config.accessors;
 
-        this.mapping     = {
-            data           : [],
-            values         : [],
-            groups         : [],
-            subgroups      : [],
+      // Computed References
+      self.uid         = self.#uid();
+      self.setID       = self.#setID();
+      self.getID       = self.#getID();
 
-        };
+      self.viewframe       = {
+          height         : self.height,
+          width          : self.width,
+          top            : self.position.top,
+          left           : self.position.left,
+          bottom         : self.height - self.position.bottom,
+          right          : self.width - self.position.right,
+      };
+      self.axisframe   = {
+          height         : self.viewframe.height - self.margin.top - self.margin.bottom,
+          width          : self.viewframe.width - self.margin.left - self.margin.right,
+          top            : self.viewframe.top + self.margin.top,
+          left           : self.viewframe.left + self.margin.left,
+          bottom         : self.viewframe.bottom - self.margin.bottom,
+          right          : self.viewframe.right - self.margin.right,
+      };
+      self.dataframe   = {
+          height         : self.axisframe.height - self.padding.top - self.padding.bottom,
+          width          : self.axisframe.width - self.padding.left - self.padding.right,
+          top            : self.axisframe.top + self.padding.top,
+          left           : self.axisframe.left + self.padding.left,
+          bottom         : self.axisframe.bottom - self.padding.bottom,
+          right          : self.axisframe.right - self.padding.right,
+      };
 
-        this.viewframe       = {
-            height         : this.height,
-            width          : this.width,
-            top            : this.position.top,
-            left           : this.position.left,
-            bottom         : this.height - this.position.bottom,
-            right          : this.width - this.position.right,
-        };
-        this.axisframe   = {
-            height         : this.viewframe.height - this.margin.top - this.margin.bottom,
-            width          : this.viewframe.width - this.margin.left - this.margin.right,
-            top            : this.viewframe.top + this.margin.top,
-            left           : this.viewframe.left + this.margin.left,
-            bottom         : this.viewframe.bottom - this.margin.bottom,
-            right          : this.viewframe.right - this.margin.right,
-        };
-        this.dataframe   = {
-            height         : this.axisframe.height - this.padding.top - this.padding.bottom,
-            width          : this.axisframe.width - this.padding.left - this.padding.right,
-            top            : this.axisframe.top + this.padding.top,
-            left           : this.axisframe.left + this.padding.left,
-            bottom         : this.axisframe.bottom - this.padding.bottom,
-            right          : this.axisframe.right - this.padding.right,
-        };
+      return self;
 
-    }
+  }
 
-    #uid () {
-        return `O-${Math.random().toString(16).slice(2, 8)}`;
-    }
+  /*
+  ID Methods
+  */
 
-    #setID () {
-        return `${this.id.replace("#", "")}_${this.uid}`;
-    }
+  #uid () {
+    return `O-${Math.random().toString(16).slice(2, 8)}`;
+  }
 
-    #getID () {
-        return `${this.id}_${this.uid}`;
-    }
+  #setID () {
+    let self = this;
 
-    getUniqueKeys (data, accessor) {
-        return data.map(d => d[accessor]).filter((e, i, a) => a.indexOf(e) == i);
-    }
+    return `${self.id.replace("#", "")}_${self.uid}`;
+  }
 
-    asString (val) {
-        return String(val);
-    }
+  #getID () {
+    let self = this;
 
-    asNumber (val) {
-        return Number(val);
-    }
+    return `${self.id}_${self.uid}`;
+  }
 
-    asDate (val) {
-        return new Date(val);
-    }
+  getUniqueValuesByKey (data, key) {
+    return [...new Set(data.map(d => d[key]))];
+  }
+  getUniqueValues (data) {
+    return [...new Set(array)];
+  }
 
-    asType (type, val) {
-        return this[`as${type}`](val);
-    }
+  /*
+  Utility Methods
+  */
 
-    tokenize (token) {
-        // console.log(token, typeof token);
-        // return token.replace(/\s/g, "-").toLowerCase();
-        return (typeof(token) === "string") ? token.replace(/\s/g, "-").toLowerCase() : `${Math.random().toString(16).slice(2, 6)}`.toLowerCase();
-    }
+  tokenize (token) {
+    return (typeof(token) === "string") ? token.replace(/\s/g, "-").toLowerCase() : `${Math.random().toString(16).slice(2, 6)}`.toLowerCase();
+  }
 
-    debug () {
-        console.info(this);
-        return this;
-    }
+  debug () {
+    console.info(self);
+  }
 
 }
 

@@ -4,6 +4,10 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
+import Legend from "../interfaces/legend.js";
+import Tooltip from "../interfaces/tooltip.js";
+import Filters from "../interfaces/filters.js";
+import Easing from "../animations/easing.js";
 
 /*
 Doughnut Chart Class
@@ -11,25 +15,12 @@ Doughnut Chart Class
 
 class DoughnutChart extends Chart {
 
-  // References
-  mapping   = undefined;
-  groups    = undefined;
-  radius    = undefined;
-  doughnut  = undefined;
-  color     = undefined;
-  dataArc   = undefined;
-  labelArc  = undefined;
-  arcs      = undefined;
-
   constructor (config) {
 
     // Configure Parent
     super(config);
 
     let self = this;
-
-    // Configure Stacked Bar Chart
-    self.opacity      = config.opacity;
 
     return self.update();
 
@@ -43,12 +34,21 @@ class DoughnutChart extends Chart {
     Setup
     */
 
+
+    // Unique Groups
+    self.groups = super.getUniqueValuesByKey(self.data, self.accessors.group.key);
+
+    // Color Scale
+    self.colorscale = D3.scaleOrdinal()
+      .domain(self.groups)
+      .range(self.palette);
+
+    // Map Data
+    self.mapping = self.#mapData(self.data);
+
     // Grab SVG Generated From Vue Template
     self.svg = D3.select(`${self.id}_visualization`)
       .classed("doughnut-chart", true);
-
-    // Map Data
-    [self.mapping, self.groups] = self.#mapData(self.data);
 
     /*
     Generate Axes
@@ -65,7 +65,7 @@ class DoughnutChart extends Chart {
     self.radius = (Math.min(self.dataframe.width, self.dataframe.height) / 2);
 
     self.doughnut = D3.pie()
-      .value(d => d[self.accessors.value.key])(self.mapping)
+      .value(d => d.value)(self.mapping.data)
       .map(d => {
         d["label"] = d.data[self.accessors.color.key];
         return d;
@@ -78,13 +78,13 @@ class DoughnutChart extends Chart {
     self.arcs = self.svg
       .append("g")
       .classed("data-arcs", true)
-      .attr("id", `data-arcs_${self.uid}`)
+      .attr("id", `${self.setID}_data-arcs`)
       .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
       .selectAll('.data-arc')
         .data(self.doughnut)
         .join("path")
           .classed("data-arc", true)
-          .attr("id", d => `data-arc_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
+          .attr("id", d => `${self.setID}_data-arc_${self.tokenize(d.group)}`)
           .attr("d", self.dataArc)
           .attr('fill', d => self.color(d.label))
           .attr("stroke-width", "2px")
@@ -101,14 +101,14 @@ class DoughnutChart extends Chart {
     self.labelLines = self.svg
       .append("g")
       .classed("label-lines", true)
-      .attr("id", `label-lines_${self.uid}`)
+      .attr("id", `${self.setID}_label-lines`)
       .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
       .selectAll('.label-line')
         .data(self.doughnut)
         .enter()
         .append('polyline')
           .classed("label-line", true)
-          .attr("id", d => `label-line_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
+          .attr("id", d => `${self.setID}_label-line_${self.tokenize(d.group)}`)
           .attr("stroke", "black")
           .attr("fill", "none")
           .attr("stroke-width", 1)
@@ -117,7 +117,7 @@ class DoughnutChart extends Chart {
     self.labels = self.svg
       .append("g")
       .classed("labels", true)
-      .attr("id", d => `labels_${self.uid}`)
+      .attr("id", d => `${self.setID}_labels`)
       .attr("transform", `translate(${self.dataframe.width / 2}, ${self.dataframe.height / 2})`)
       .selectAll('.label')
         .data(self.doughnut)
@@ -125,7 +125,7 @@ class DoughnutChart extends Chart {
         .append('text')
           .text(d => d.data[self.accessors.color.key])
           .classed("label", true)
-          .attr("id", d => `label_${self.tokenize(d[self.accessors.color.key])}_${self.uid}`)
+          .attr("id", d => `${self.setID}_label_${self.tokenize(d.group)}`)
           .attr('transform', d => `translate(${self.radius * 0.95 * ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 1 : -1)}, ${self.labelArc.centroid(d)[1]})`)
           .attr('font-size', "0.6rem")
           .style('text-anchor', d => ((d.startAngle + (d.endAngle - d.startAngle) / 2) < Math.PI ? 'start' : 'end'))
@@ -152,17 +152,41 @@ class DoughnutChart extends Chart {
   #mapData (data) {
 
     let self = this;
-    let groups = super.getUniqueKeys(data, this.accessors.color.key);
-    let mapping = [];
+    let groups = [];
+    let colors = [];
+    let legend = [];
 
-    data.forEach(row => {
-      mapping.push({
-        [self.accessors.color.key]: super.asType(self.accessors.color.type, row[self.accessors.color.key]),
-        [self.accessors.value.key]: super.asType(self.accessors.value.type, row[self.accessors.value.key])
-      })
+    // Get Unique Groups
+    groups.push(...super.getUniqueValuesByKey(data, this.accessors.color.key));
+
+    // Remap Values from Accessor Keys to Fixed Keys
+    data = data.map(datum => {
+      return {
+        group: datum[self.accessors.group.key],
+        value: datum[self.accessors.value.key],
+        color: self.colorscale(datum[self.accessors.color.value])
+      }
     });
 
-    return [mapping, groups];
+    // Get Unique Colors
+    colors.push(...super.getUniqueValuesByKey(data, "color"));
+
+    // Generate Legend
+    legend.push(...D3.zip(self.groups, colors)
+      .map(([group, color]) => {
+        return {
+          group: group,
+          color: color
+        }
+      })
+    );
+
+    return {
+      data: data,
+      groups: groups,
+      colors: colors,
+      legend: legend
+    }
 
   }
 

@@ -59,13 +59,13 @@ Component
       // console.log("Completion beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      console.log("Completion mounted:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
     },
     updated () {
-      console.log("Completion updated:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }

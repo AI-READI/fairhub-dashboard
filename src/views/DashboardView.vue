@@ -5,7 +5,7 @@ Imports
 */
 
   import { configStore } from '@/stores/configs'
-  import Dashboard from "../components/Dashboard.vue";
+  import Dashboard from "@/components/Dashboard.vue";
 
 /*
 Component

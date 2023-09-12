@@ -85,10 +85,13 @@ class Filters extends Interface {
 
       self.data = [
         {label: self.accessors.group.name, value: data.data[self.accessors.group.key]},
+        {label: self.accessors.subgroup.name, value: data[self.accessors.subgroup.key]},
         {label: self.accessors.color.name, value: data[self.accessors.color.key]},
         {label: self.accessors.value.name, value: data[self.accessors.value.key]},
         {label: "All", value: "All"}
       ];
+
+      console.log(self.data);
 
       self.filters = D3.select(`${self.getID}_filters`)
         .classed("interface-element filters", true)

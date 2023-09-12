@@ -28,6 +28,7 @@ Component
           config = dashboard.components[i];
         }
       }
+      config.modulename = this.$options.name;
 
       // Init Visualizations
       for (let i = 0; i < config.module.visualizations.length; i++) {
@@ -59,13 +60,13 @@ Component
       // console.log("Sites beforeMounted:", this.$options.visualizations);
     },
     mounted () {
-      console.log("Sites mounted:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }
     },
     updated () {
-      console.log("Sites updated:", this.$options.visualizations);
+      console.log(`${this.$options.name} module mounted:`, this.$options.visualizations);
       for (let i = 0; i < this.$options.visualizations.length; i++) {
         this.$options.visualizations[i].update();
       }

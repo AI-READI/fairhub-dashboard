@@ -150,20 +150,31 @@ Interaction Elements
 }
 
 /*
+Visualization Background
+*/
+
+.visualization-background {
+  position: absolute;
+}
+
+/*
 Visualization Elements
 */
+
 .visualization-container {
 
 }
-.visualization-container text {
+.visualization-container text, .visualization-container span {
   text-transform: capitalize;
 }
 .visualization-container .visualization-element {
 
 }
-.visualization-container .visualization-element .data-element {
-  background-image: url("https://www.transparenttextures.com/patterns/hoffman.png");
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+.visualization-container .visualization-element .data-elements {
+
+}
+.visualization-container .visualization-element .data-elements .data-element {
+
 }
 .visualization-container .visualization-element .x-axis {
 
@@ -274,6 +285,7 @@ Visualization Interface – Legend
   align-items: flex-start;
   text-anchor: left;
   vertical-align: top;
+  font-weight: bold;
 }
 
 /*

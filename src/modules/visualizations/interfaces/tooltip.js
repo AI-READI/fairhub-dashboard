@@ -27,6 +27,7 @@ class Tooltip extends Interface {
       self.vposition  = config.vposition;
       self.hposition  = config.hposition;
       self.accessors  = config.accessors;
+      self.defaultdata= config.defaultdata;
 
       // Computed Refs
       self.position   = {
@@ -40,11 +41,7 @@ class Tooltip extends Interface {
         }
       };
 
-      self.defaultdata = [
-          {label: self.accessors.group.name, value: "-"},
-          {label: self.accessors.color.name, value: "-"},
-          {label: self.accessors.value.name, value: "-"}
-      ];
+      self.defaultdata = self.accessors.map(accessor => {return {label: accessor.name, value: "-"}});
 
       self.tooltip = D3.select(`${self.getID}_tooltip`)
         .classed("interface-element tooltip", true)
@@ -83,13 +80,7 @@ class Tooltip extends Interface {
       let self = this;
 
       self.clear();
-
-      self.data = [
-        {label: self.accessors.group.name, value: data.data[self.accessors.group.key]},
-        {label: self.accessors.color.name, value: data[self.accessors.color.key]},
-        {label: self.accessors.value.name, value: data[self.accessors.value.key]}
-      ];
-
+      self.data = self.accessors.map(accessor => {return {label: accessor.name, value: data[accessor.key]}});
       self.tooltip = D3.select(`${self.getID}_tooltip`)
         .classed("interface-element tooltip", true)
         .attr("id", `${self.setID}_tooltip`)

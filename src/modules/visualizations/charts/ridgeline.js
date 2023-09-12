@@ -4,27 +4,17 @@ Imports
 
 import * as D3 from "d3";
 import Chart from "../chart.js";
-import Legend from "../interfaces/legend.js";
 import Kernel from "../utilities/kernel.js";
+import Legend from "../interfaces/legend.js";
+import Tooltip from "../interfaces/tooltip.js";
+import Filters from "../interfaces/filters.js";
+import Easing from "../animations/easing.js";
 
 /*
 Ridgeline Chart Class
 */
 
 class RidgelineChart extends Chart {
-
-  // References
-  mapping     = undefined;
-  groups      = undefined;
-  density     = undefined;
-  k           = undefined;
-  color       = undefined;
-  x           = undefined;
-  y           = undefined;
-  xAxis       = undefined;
-  yAxis       = undefined;
-  kde         = undefined;
-  annotation  = undefined;
 
   constructor (config) {
 
